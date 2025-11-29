@@ -1245,7 +1245,8 @@
                     <span id="activeTimers">0</span>
                 </div>
             </div>
-            <div class="user-profile-btn" onclick="showAuthPage()">
+            <!-- تغییر: آیکون کاربر به پروفایل می‌رود -->
+            <div class="user-profile-btn" onclick="showSection('profile')">
                 <i class="fas fa-user"></i>
             </div>
         </header>
@@ -1395,7 +1396,6 @@
         const SUPABASE_URL = 'https://plqdzjvrmssqddmgowbn.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBscWR6anZybXNzcWRkbWdvd2JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQzNTI2NDUsImV4cCI6MjA3OTkyODY0NX0.PnfyxjvZYyEXOkEVWBR6jOhLJ_tu1aUwQIvFwhcZoDA';
         
-        // ایجاد کلاینت Supabase
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
         let currentUser = null;
@@ -1415,30 +1415,6 @@
                     duration: 30,
                     cooldown: 5,
                     reward: 1000,
-                    isActive: false,
-                    isOnCooldown: false,
-                    timeLeft: 0,
-                    progress: 0
-                },
-                {
-                    id: 2,
-                    name: 'چکش الماسی',
-                    icon: 'fas fa-gem',
-                    duration: 60,
-                    cooldown: 10,
-                    reward: 2500,
-                    isActive: false,
-                    isOnCooldown: false,
-                    timeLeft: 0,
-                    progress: 0
-                },
-                {
-                    id: 3,
-                    name: 'چکش افسانه‌ای',
-                    icon: 'fas fa-crown',
-                    duration: 120,
-                    cooldown: 20,
-                    reward: 6000,
                     isActive: false,
                     isOnCooldown: false,
                     timeLeft: 0,
@@ -1488,7 +1464,18 @@
                     .select()
                     .single();
                 
-                if (error) throw error;
+                if (error) {
+                    console.error('Supabase Error:', error);
+                    if (error.code === '23505') {
+                        showMessage('این ایمیل قبلاً ثبت شده است', 'error');
+                    } else if (error.code === '42501') {
+                        showMessage('خطای دسترسی. لطفاً RLS را تنظیم کنید.', 'error');
+                    } else {
+                        showMessage('خطا در ثبت نام: ' + error.message, 'error');
+                    }
+                    setLoading(button, false);
+                    return;
+                }
                 
                 showMessage('ثبت نام با موفقیت انجام شد!', 'success');
                 setTimeout(() => {
@@ -1901,6 +1888,7 @@
             document.getElementById('hammersSection').style.display = 'block';
             
             showSection('hammers');
+            showAuthPage();
         }
 
         function initGame() {
@@ -1978,4 +1966,4 @@
         createGoldParticles();
     </script>
 </body>
-</html>
+                </html>
