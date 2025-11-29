@@ -1423,9 +1423,9 @@
             ]
         };
 
-        // ==================== سیستم ثبت نام و ورود ====================
+        // ==================== سیستم ثبت نام و ورود با AUTH واقعی ====================
         
-        // ثبت نام کاربر
+        // ثبت نام کاربر با Supabase Auth
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -1436,52 +1436,51 @@
             setLoading(button, true);
             
             try {
-                // چک کردن وجود کاربر
-                const { data: existingUser, error: checkError } = await supabase
-                    .from('users')
-                    .select('*')
-                    .eq('email', email)
-                    .single();
+                // ثبت نام با Supabase Auth
+                const { data: authData, error: authError } = await supabase.auth.signUp({
+                    email: email,
+                    password: password
+                });
                 
-                if (existingUser) {
-                    showMessage('این ایمیل قبلاً ثبت شده است', 'error');
-                    setLoading(button, false);
-                    return;
-                }
-                
-                // ایجاد کاربر جدید
-                const { data: user, error } = await supabase
-                    .from('users')
-                    .insert([
-                        { 
-                            email: email, 
-                            password: password,
-                            balance: 0,
-                            level: 1,
-                            total_mined: 0
-                        }
-                    ])
-                    .select()
-                    .single();
-                
-                if (error) {
-                    console.error('Supabase Error:', error);
-                    if (error.code === '23505') {
+                if (authError) {
+                    if (authError.message.includes('already registered')) {
                         showMessage('این ایمیل قبلاً ثبت شده است', 'error');
-                    } else if (error.code === '42501') {
-                        showMessage('خطای دسترسی. لطفاً RLS را تنظیم کنید.', 'error');
                     } else {
-                        showMessage('خطا در ثبت نام: ' + error.message, 'error');
+                        showMessage('خطا در ثبت نام: ' + authError.message, 'error');
                     }
                     setLoading(button, false);
                     return;
                 }
                 
+                // ایجاد پروفایل کاربر در جدول users
+                const { error: profileError } = await supabase
+                    .from('users')
+                    .insert([
+                        {
+                            id: authData.user.id,
+                            email: email,
+                            balance: 0,
+                            level: 1,
+                            total_mined: 0
+                        }
+                    ]);
+                
+                if (profileError) {
+                    console.error('Error creating profile:', profileError);
+                    // حتی اگر پروفایل ساخته نشد، بازهم کاربر ثبت نام شده
+                }
+                
                 showMessage('ثبت نام با موفقیت انجام شد!', 'success');
-                setTimeout(() => {
-                    hideAuthPage();
-                    showGame(user);
-                }, 2000);
+                
+                // لاگین خودکار بعد از ثبت نام
+                const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+                
+                if (!loginError) {
+                    await loadUserProfile(loginData.user.id);
+                }
                 
             } catch (error) {
                 console.error('Registration error:', error);
@@ -1491,7 +1490,7 @@
             setLoading(button, false);
         });
 
-        // ورود کاربر
+        // ورود کاربر با Supabase Auth
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -1502,21 +1501,18 @@
             setLoading(button, true);
             
             try {
-                const { data: user, error } = await supabase
-                    .from('users')
-                    .select('*')
-                    .eq('email', email)
-                    .eq('password', password)
-                    .single();
+                const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
                 
-                if (error || !user) {
+                if (authError) {
                     showMessage('ایمیل یا رمز عبور اشتباه است', 'error');
                     setLoading(button, false);
                     return;
                 }
                 
-                hideAuthPage();
-                showGame(user);
+                await loadUserProfile(authData.user.id);
                 
             } catch (error) {
                 console.error('Login error:', error);
@@ -1526,8 +1522,45 @@
             setLoading(button, false);
         });
 
+        // بارگذاری پروفایل کاربر از جدول users
+        async function loadUserProfile(userId) {
+            try {
+                const { data: user, error } = await supabase
+                    .from('users')
+                    .select('*')
+                    .eq('id', userId)
+                    .single();
+                
+                if (error) {
+                    console.error('Error loading profile:', error);
+                    // اگر پروفایل وجود ندارد، ایجاد کن
+                    const { data: newUser } = await supabase
+                        .from('users')
+                        .insert([
+                            {
+                                id: userId,
+                                email: (await supabase.auth.getUser()).data.user.email,
+                                balance: 0,
+                                level: 1,
+                                total_mined: 0
+                            }
+                        ])
+                        .select()
+                        .single();
+                    
+                    hideAuthPage();
+                    showGame(newUser);
+                } else {
+                    hideAuthPage();
+                    showGame(user);
+                }
+            } catch (error) {
+                console.error('Profile load error:', error);
+            }
+        }
+
         // آپدیت اطلاعات کاربر
-        async function updateUserBalance(email, newBalance, newTotalMined) {
+        async function updateUserBalance(userId, newBalance, newTotalMined) {
             try {
                 const { data: user, error } = await supabase
                     .from('users')
@@ -1536,7 +1569,7 @@
                         total_mined: newTotalMined,
                         updated_at: new Date()
                     })
-                    .eq('email', email)
+                    .eq('id', userId)
                     .select()
                     .single();
                 
@@ -1545,6 +1578,17 @@
             } catch (error) {
                 console.error('Update error:', error);
                 return null;
+            }
+        }
+
+        // بررسی وضعیت لاگین کاربر هنگام لود صفحه
+        async function checkAuthState() {
+            const { data: { session } } = await supabase.auth.getSession();
+            
+            if (session) {
+                await loadUserProfile(session.user.id);
+            } else {
+                document.getElementById('guestMessage').style.display = 'block';
             }
         }
 
@@ -1598,7 +1642,7 @@
                         const newBalance = gameState.rockBalance + hammer.reward;
                         const newTotalMined = (currentUser.total_mined || 0) + hammer.reward;
                         
-                        updateUserBalance(currentUser.email, newBalance, newTotalMined)
+                        updateUserBalance(currentUser.id, newBalance, newTotalMined)
                             .then(updatedUser => {
                                 if (updatedUser) {
                                     currentUser = updatedUser;
@@ -1879,7 +1923,8 @@
             }
         }
 
-        function logout() {
+        async function logout() {
+            await supabase.auth.signOut();
             currentUser = null;
             document.querySelector('.user-profile-btn').innerHTML = '<i class="fas fa-user"></i>';
             document.getElementById('guestMessage').style.display = 'block';
@@ -1964,6 +2009,7 @@
         // شروع اولیه
         showTab('register');
         createGoldParticles();
+        checkAuthState();
     </script>
 </body>
-                </html>
+                        </html>
