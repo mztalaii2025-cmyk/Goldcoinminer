@@ -1572,7 +1572,7 @@
         function showGamePage() {
             document.getElementById('gamePage').style.display = 'block';
             
-            // اگر کاربر لاگین نکرده باشد، صفحه احراز هویت را نشان بده
+            // اگر کاربر از قبل لاگین کرده باشد، اطلاعاتش را بارگذاری کن
             checkAuthState();
             
             // شروع بازی
@@ -1744,8 +1744,7 @@
             if (session) {
                 await loadUserProfile(session.user.id);
             } else {
-                // کاربر لاگین نکرده - صفحه احراز هویت را نشان بده
-                document.getElementById('authPage').style.display = 'flex';
+                // کاربر لاگین نکرده - فقط پیام مهمان را نشان بده
                 document.getElementById('guestMessage').style.display = 'block';
             }
         }
@@ -2091,7 +2090,6 @@
             document.getElementById('hammersSection').style.display = 'block';
             
             showSection('hammers');
-            showAuthPage();
         }
 
         function initGame() {
@@ -2171,4 +2169,4 @@
         });
     </script>
 </body>
-                </html>
+    </html>
