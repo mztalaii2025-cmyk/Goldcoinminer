@@ -594,7 +594,7 @@
             75% { transform: translateY(-15px) rotate(270deg) scale(1.2); opacity: 0.9; }
         }
         
-        /* بخش چکش‌ها - ارتفاع کوچک‌تر */
+        /* بخش استخراج */
         .hammers-section {
             background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(18, 18, 18, 0.9) 100%);
             border-radius: 18px;
@@ -746,6 +746,359 @@
             cursor: not-allowed;
             transform: none !important;
             box-shadow: none !important;
+        }
+        
+        /* بخش سطح‌بندی */
+        .levels-section {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(18, 18, 18, 0.9) 100%);
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.12);
+            display: none;
+        }
+
+        .levels-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .levels-title {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .levels-subtitle {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .current-level-info {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .current-level-text {
+            font-size: 1rem;
+            color: var(--gold);
+            margin-bottom: 5px;
+        }
+
+        .current-level-value {
+            font-size: 2.5rem;
+            color: var(--gold);
+            font-weight: 800;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            margin-bottom: 15px;
+        }
+
+        .level-progress {
+            margin-top: 15px;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .level-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid var(--glass-border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+        }
+
+        .level-card.current {
+            border-color: var(--gold);
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            transform: scale(1.02);
+        }
+
+        .level-card.unlocked {
+            border-color: var(--success);
+            background: rgba(0, 200, 81, 0.05);
+        }
+
+        .level-card.locked {
+            border-color: var(--gray);
+            background: rgba(140, 140, 140, 0.05);
+            opacity: 0.7;
+        }
+
+        .level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .level-name {
+            font-size: 1.3rem;
+            color: var(--gold);
+            font-weight: 800;
+        }
+
+        .level-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .badge-current {
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--gold);
+        }
+
+        .badge-unlocked {
+            background: rgba(0, 200, 81, 0.2);
+            color: var(--success);
+        }
+
+        .badge-locked {
+            background: rgba(140, 140, 140, 0.2);
+            color: var(--gray);
+        }
+
+        .level-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--gold);
+        }
+
+        .level-stats {
+            margin-bottom: 20px;
+        }
+
+        .level-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .stat-value {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .level-price {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--gold);
+            margin: 25px 0;
+            font-weight: 800;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .level-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .level-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .level-btn.primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--black);
+        }
+
+        .level-btn.primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .level-btn.primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .level-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            border: 1px solid var(--glass-border);
+        }
+
+        .level-up-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,215,0,0.3) 0%, transparent 70%);
+            animation: levelUpPulse 1s ease-out;
+            border-radius: 15px;
+            z-index: 2;
+        }
+
+        @keyframes levelUpPulse {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+
+        /* بخش پروفایل */
+        .profile-section {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(18, 18, 18, 0.9) 100%);
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.12);
+            display: none;
+            min-height: auto;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--black);
+            flex-shrink: 0;
+        }
+        
+        .profile-info h3 {
+            color: var(--gold);
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+        
+        .profile-info p {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+        
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .profile-stat {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+        }
+        
+        .profile-stat-value {
+            font-size: 1.2rem;
+            color: var(--gold);
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        
+        .profile-stat-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+        
+        .profile-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .profile-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+        
+        .btn-logout {
+            background: rgba(255, 68, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .btn-logout:hover {
+            background: rgba(255, 68, 68, 0.3);
         }
         
         /* تأیید چند مرحله‌ای */
@@ -931,103 +1284,6 @@
             transform: none;
         }
         
-        /* صفحه پروفایل - جمع و جور شده */
-        .profile-section {
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(18, 18, 18, 0.9) 100%);
-            border-radius: 18px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border: 2px solid var(--glass-border);
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.12);
-            display: none;
-            min-height: auto;
-        }
-        
-        .profile-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .profile-avatar {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: var(--black);
-            flex-shrink: 0;
-        }
-        
-        .profile-info h3 {
-            color: var(--gold);
-            margin-bottom: 4px;
-            font-size: 0.9rem;
-            word-break: break-all;
-        }
-        
-        .profile-info p {
-            color: var(--gray);
-            font-size: 0.8rem;
-        }
-        
-        .profile-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .profile-stat {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid var(--glass-border);
-            text-align: center;
-        }
-        
-        .profile-stat-value {
-            font-size: 1.2rem;
-            color: var(--gold);
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-        
-        .profile-stat-label {
-            font-size: 0.75rem;
-            color: var(--gray);
-        }
-        
-        .profile-actions {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .profile-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.85rem;
-        }
-        
-        .btn-logout {
-            background: rgba(255, 68, 68, 0.2);
-            color: var(--danger);
-            border: 1px solid var(--danger);
-        }
-        
-        .btn-logout:hover {
-            background: rgba(255, 68, 68, 0.3);
-        }
-        
         /* نویگیشن پایین - درست شده */
         .bottom-nav {
             position: fixed;
@@ -1165,6 +1421,10 @@
             }
             
             .hammers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .levels-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -1409,7 +1669,7 @@
                         <div class="profile-stat-label">موجودی طلا</div>
                     </div>
                     <div class="profile-stat">
-                        <div class="profile-stat-value" id="profileLevel">1</div>
+                        <div class="profile-stat-value" id="profileLevel">0</div>
                         <div class="profile-stat-label">سطح</div>
                     </div>
                     <div class="profile-stat">
@@ -1425,13 +1685,13 @@
                 </div>
             </section>
             
-            <!-- بخش چکش‌ها -->
+            <!-- بخش استخراج -->
             <section class="hammers-section" id="hammersSection">
-                <h3 class="section-title">چکش‌های استخراج</h3>
+                <h3 class="section-title">ابزارهای استخراج</h3>
                 
                 <!-- پیام لاگین برای کاربران مهمان -->
                 <div class="login-message" id="guestMessage">
-                    <p>برای استفاده از چکش‌ها باید وارد حساب کاربری خود شوید</p>
+                    <p>برای استفاده از ابزارهای استخراج باید وارد حساب کاربری خود شوید</p>
                     <button class="login-btn" onclick="showAuthPage()">
                         <i class="fas fa-sign-in-alt"></i> ورود / ثبت نام
                     </button>
@@ -1439,6 +1699,30 @@
                 
                 <div class="hammers-grid" id="hammersContainer">
                     <!-- چکش توسط جاوااسکریپت اضافه خواهد شد -->
+                </div>
+            </section>
+            
+            <!-- بخش سطح‌ها -->
+            <section class="levels-section" id="levelsSection">
+                <div class="levels-header">
+                    <h2 class="levels-title">سیستم سطح‌بندی</h2>
+                    <p class="levels-subtitle">سطح خود را ارتقا دهید و پاداش‌های بیشتر دریافت کنید</p>
+                </div>
+                
+                <div class="current-level-info">
+                    <div class="current-level-text">سطح فعلی شما</div>
+                    <div class="current-level-value" id="currentLevelDisplay">0</div>
+                    <div class="level-progress">
+                        <div class="progress-text">پیشرفت به سطح بعدی</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="levelProgressFill"></div>
+                        </div>
+                        <div class="progress-text" id="levelProgressText">0/10000 طلا</div>
+                    </div>
+                </div>
+                
+                <div class="levels-grid" id="levelsGrid">
+                    <!-- سطح‌ها توسط JavaScript ساخته می‌شوند -->
                 </div>
             </section>
         </div>
@@ -1492,19 +1776,15 @@
         <nav class="bottom-nav">
             <div class="nav-item active" onclick="showSection('hammers')">
                 <i class="fas fa-hammer"></i>
-                <span>چکش</span>
+                <span>استخراج</span>
+            </div>
+            <div class="nav-item" onclick="showSection('levels')">
+                <i class="fas fa-chart-line"></i>
+                <span>سطح</span>
             </div>
             <div class="nav-item" onclick="showSection('profile')">
                 <i class="fas fa-user"></i>
                 <span>پروفایل</span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-store"></i>
-                <span>فروشگاه</span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-trophy"></i>
-                <span>لیدربرد</span>
             </div>
         </nav>
     </div>
@@ -1540,6 +1820,58 @@
                 }
             ]
         };
+
+        // ==================== سیستم سطح‌بندی ====================
+        const levels = [
+            {
+                id: 0,
+                name: 'معدن‌چی تازه‌کار',
+                icon: 'fas fa-gem',
+                price: 0,
+                rewardMultiplier: 1.0,  // 0% افزایش
+                description: 'شروع سفر طلایی'
+            },
+            {
+                id: 1,
+                name: 'معدن‌چی حرفه‌ای',
+                icon: 'fas fa-crown',
+                price: 10000,           // 10,000 سکه
+                rewardMultiplier: 1.2,  // 20% افزایش
+                description: '۲۰٪ افزایش پاداش'
+            },
+            {
+                id: 2,
+                name: 'استاد معدن‌چی',
+                icon: 'fas fa-shield-alt',
+                price: 25000,           // 25,000 سکه
+                rewardMultiplier: 1.3,  // 30% افزایش
+                description: '۳۰٪ افزایش پاداش'
+            },
+            {
+                id: 3,
+                name: 'سلطان طلا',
+                icon: 'fas fa-gem',
+                price: 50000,           // 50,000 سکه
+                rewardMultiplier: 1.5,  // 50% افزایش
+                description: '۵۰٪ افزایش پاداش'
+            },
+            {
+                id: 4,
+                name: 'افسانه معدن',
+                icon: 'fas fa-dragon',
+                price: 100000,          // 100,000 سکه
+                rewardMultiplier: 1.75, // 75% افزایش
+                description: '۷۵٪ افزایش پاداش'
+            },
+            {
+                id: 5,
+                name: 'اسطوره طلا',
+                icon: 'fas fa-trophy',
+                price: 250000,          // 250,000 سکه
+                rewardMultiplier: 2.2,  // 120% افزایش
+                description: '۱۲۰٪ افزایش پاداش'
+            }
+        ];
 
         // ==================== سیستم لودینگ ====================
         function startLoading() {
@@ -1616,7 +1948,7 @@
                             id: authData.user.id,
                             email: email,
                             balance: 0,
-                            level: 1,
+                            level: 0,  // سطح ۰ شروع
                             total_mined: 0
                         }
                     ]);
@@ -1697,7 +2029,7 @@
                                 id: userId,
                                 email: (await supabase.auth.getUser()).data.user.email,
                                 balance: 0,
-                                level: 1,
+                                level: 0,  // سطح ۰ شروع
                                 total_mined: 0
                             }
                         ])
@@ -1716,15 +2048,21 @@
         }
 
         // آپدیت اطلاعات کاربر
-        async function updateUserBalance(userId, newBalance, newTotalMined) {
+        async function updateUserBalance(userId, newBalance, newTotalMined, newLevel = null) {
             try {
+                const updates = { 
+                    balance: newBalance,
+                    total_mined: newTotalMined,
+                    updated_at: new Date()
+                };
+                
+                if (newLevel !== null) {
+                    updates.level = newLevel;
+                }
+                
                 const { data: user, error } = await supabase
                     .from('users')
-                    .update({ 
-                        balance: newBalance,
-                        total_mined: newTotalMined,
-                        updated_at: new Date()
-                    })
+                    .update(updates)
                     .eq('id', userId)
                     .select()
                     .single();
@@ -1766,7 +2104,7 @@
             updateUI();
             updateProfile();
             
-            // نمایش بخش چکش‌ها
+            // نمایش بخش استخراج
             showSection('hammers');
         }
 
@@ -1791,9 +2129,14 @@
                     updateMountainVisual();
                     
                     if (hammer.timeLeft === 0) {
+                        // محاسبه پاداش با در نظر گرفتن سطح
+                        const multiplier = getRewardMultiplier();
+                        const baseReward = hammer.reward;
+                        const actualReward = Math.round(baseReward * multiplier);
+                        
                         // پایان استخراج - آپدیت دیتابیس
-                        const newBalance = gameState.rockBalance + hammer.reward;
-                        const newTotalMined = (currentUser.total_mined || 0) + hammer.reward;
+                        const newBalance = gameState.rockBalance + actualReward;
+                        const newTotalMined = (currentUser.total_mined || 0) + actualReward;
                         
                         updateUserBalance(currentUser.id, newBalance, newTotalMined)
                             .then(updatedUser => {
@@ -1802,10 +2145,11 @@
                                     gameState.rockBalance = newBalance;
                                     updateUI();
                                     updateProfile();
+                                    updateLevelsDisplay(); // آپدیت پیشرفت سطح
                                 }
                             });
                         
-                        startVerification(hammer.reward);
+                        startVerification(actualReward);
                         
                         hammer.isActive = false;
                         hammer.isOnCooldown = true;
@@ -1825,7 +2169,7 @@
             renderHammers();
         }
 
-        // ==================== سیستم چکش‌ها ====================
+        // ==================== سیستم استخراج ====================
         
         function renderHammers() {
             const hammersContainer = document.getElementById('hammersContainer');
@@ -1877,7 +2221,7 @@
                         <i class="${hammer.icon}"></i>
                     </div>
                     <div class="hammer-stats">
-                        <div>پاداش: <span class="hammer-power">${hammer.reward} GOLD</span></div>
+                        <div>پاداش: <span class="hammer-power">${Math.round(hammer.reward * getRewardMultiplier())} GOLD</span></div>
                         <div>مدت: ${hammer.duration}ثانیه</div>
                     </div>
                     <div class="hammer-timer">
@@ -1908,6 +2252,217 @@
                 hammer.timeLeft = hammer.duration;
                 hammer.progress = 0;
             }
+        }
+
+        // ==================== سیستم سطح‌بندی ====================
+        
+        // نمایش بخش سطح‌ها
+        function showLevelsSection() {
+            hideAllSections();
+            document.getElementById('levelsSection').style.display = 'block';
+            updateLevelsDisplay();
+            
+            // آپدیت نویگیشن
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.querySelector('i').classList.contains('fa-chart-line')) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // آپدیت نمایش سطح‌ها
+        function updateLevelsDisplay() {
+            if (!currentUser) return;
+            
+            const currentLevel = currentUser.level || 0;
+            
+            // آپدیت اطلاعات سطح فعلی
+            document.getElementById('currentLevelDisplay').textContent = currentLevel;
+            document.getElementById('profileLevel').textContent = currentLevel;
+            
+            // آپدیت پیشرفت
+            updateLevelProgress();
+            
+            // رندر کارت‌های سطح
+            renderLevelCards();
+        }
+
+        // آپدیت نوار پیشرفت
+        function updateLevelProgress() {
+            const currentLevel = currentUser.level || 0;
+            const currentBalance = gameState.rockBalance;
+            
+            if (currentLevel < levels.length - 1) {
+                const nextLevel = levels[currentLevel + 1];
+                const progress = Math.min((currentBalance / nextLevel.price) * 100, 100);
+                
+                document.getElementById('levelProgressFill').style.width = `${progress}%`;
+                document.getElementById('levelProgressText').textContent = 
+                    `${currentBalance.toLocaleString()}/${nextLevel.price.toLocaleString()} طلا`;
+            } else {
+                document.getElementById('levelProgressFill').style.width = '100%';
+                document.getElementById('levelProgressText').textContent = 'حداکثر سطح!';
+            }
+        }
+
+        // رندر کارت‌های سطح
+        function renderLevelCards() {
+            const levelsGrid = document.getElementById('levelsGrid');
+            levelsGrid.innerHTML = '';
+            
+            const currentLevel = currentUser.level || 0;
+            const currentBalance = gameState.rockBalance;
+            
+            levels.forEach(level => {
+                const levelCard = document.createElement('div');
+                levelCard.className = 'level-card';
+                
+                let status = 'locked';
+                let badgeText = 'قفل شده';
+                
+                if (level.id === currentLevel) {
+                    status = 'current';
+                    badgeText = 'فعلی';
+                } else if (level.id < currentLevel) {
+                    status = 'unlocked';
+                    badgeText = 'خریداری شده';
+                } else if (level.id === currentLevel + 1 && currentBalance >= level.price) {
+                    status = 'unlocked';
+                    badgeText = 'قابل خرید';
+                }
+                
+                levelCard.classList.add(status);
+                
+                const canPurchase = level.id === currentLevel + 1 && currentBalance >= level.price;
+                
+                levelCard.innerHTML = `
+                    <div class="level-header">
+                        <div class="level-name">${level.name}</div>
+                        <div class="level-badge badge-${status}">${badgeText}</div>
+                    </div>
+                    
+                    <div class="level-icon">
+                        <i class="${level.icon}"></i>
+                    </div>
+                    
+                    <div class="level-stats">
+                        <div class="level-stat">
+                            <span class="stat-label">افزایش پاداش:</span>
+                            <span class="stat-value">+${((level.rewardMultiplier - 1) * 100).toFixed(0)}٪</span>
+                        </div>
+                        <div class="level-stat">
+                            <span class="stat-label">ضریب درآمد:</span>
+                            <span class="stat-value">${level.rewardMultiplier}x</span>
+                        </div>
+                        <div class="level-stat">
+                            <span class="stat-label">سطح:</span>
+                            <span class="stat-value">${level.id}</span>
+                        </div>
+                    </div>
+                    
+                    ${level.id > currentLevel ? `
+                        <div class="level-price">
+                            ${level.price.toLocaleString()} طلا
+                        </div>
+                    ` : ''}
+                    
+                    <div class="level-actions">
+                        ${level.id === currentLevel ? `
+                            <button class="level-btn secondary" disabled>
+                                <i class="fas fa-check"></i> سطح فعال
+                            </button>
+                        ` : level.id < currentLevel ? `
+                            <button class="level-btn secondary" disabled>
+                                <i class="fas fa-unlock"></i> خریداری شده
+                            </button>
+                        ` : `
+                            <button class="level-btn primary" 
+                                    onclick="purchaseLevel(${level.id})" 
+                                    ${canPurchase ? '' : 'disabled'}>
+                                ${canPurchase ? 
+                                    '<i class="fas fa-arrow-up"></i> ارتقا سطح' : 
+                                    'بودجه ناکافی'
+                                }
+                            </button>
+                        `}
+                    </div>
+                `;
+                
+                levelsGrid.appendChild(levelCard);
+            });
+        }
+
+        // خرید سطح
+        async function purchaseLevel(levelId) {
+            if (!currentUser) {
+                showAuthPage();
+                return;
+            }
+            
+            const level = levels.find(l => l.id === levelId);
+            const currentBalance = gameState.rockBalance;
+            
+            if (currentBalance < level.price) {
+                alert('موجودی طلای شما کافی نیست!');
+                return;
+            }
+            
+            if (levelId !== (currentUser.level || 0) + 1) {
+                alert('شما باید سطح‌ها را به ترتیب خریداری کنید!');
+                return;
+            }
+            
+            try {
+                // کسر هزینه از موجودی
+                const newBalance = currentBalance - level.price;
+                const newLevel = levelId;
+                
+                // آپدیت دیتابیس
+                const updatedUser = await updateUserBalance(currentUser.id, newBalance, currentUser.total_mined || 0, newLevel);
+                
+                if (updatedUser) {
+                    // آپدیت وضعیت محلی
+                    currentUser = updatedUser;
+                    gameState.rockBalance = newBalance;
+                    
+                    // نمایش افکت ارتقا سطح
+                    showLevelUpEffect();
+                    
+                    // آپدیت UI
+                    updateUI();
+                    updateLevelsDisplay();
+                    updateProfile();
+                    
+                    // نمایش پیام موفقیت
+                    setTimeout(() => {
+                        alert(`🎉 تبریک! شما به سطح ${level.name} ارتقا یافتید!\nپاداش استخراج شما ${level.rewardMultiplier}x شد!`);
+                    }, 1000);
+                }
+                
+            } catch (error) {
+                console.error('Error purchasing level:', error);
+                alert('خطا در خرید سطح!');
+            }
+        }
+
+        // نمایش افکت ارتقا سطح
+        function showLevelUpEffect() {
+            const levelsGrid = document.getElementById('levelsGrid');
+            const effect = document.createElement('div');
+            effect.className = 'level-up-effect';
+            levelsGrid.appendChild(effect);
+            
+            setTimeout(() => {
+                effect.remove();
+            }, 1000);
+        }
+
+        // دریافت ضریب پاداش بر اساس سطح
+        function getRewardMultiplier() {
+            const currentLevel = currentUser?.level || 0;
+            const level = levels.find(l => l.id === currentLevel);
+            return level ? level.rewardMultiplier : 1;
         }
 
         // ==================== سیستم تأیید چندمرحله‌ای ====================
@@ -2044,13 +2599,13 @@
         }
 
         function showSection(section) {
+            hideAllSections();
+            
             if (section === 'profile') {
                 if (!currentUser) {
                     showAuthPage();
                     return;
                 }
-                document.getElementById('hammersSection').style.display = 'none';
-                document.getElementById('mountainSection').style.display = 'none';
                 document.getElementById('profileSection').style.display = 'block';
                 updateProfile();
                 
@@ -2061,7 +2616,6 @@
                     }
                 });
             } else if (section === 'hammers') {
-                document.getElementById('profileSection').style.display = 'none';
                 document.getElementById('mountainSection').style.display = 'block';
                 document.getElementById('hammersSection').style.display = 'block';
                 
@@ -2077,7 +2631,28 @@
                         item.classList.add('active');
                     }
                 });
+            } else if (section === 'levels') {
+                if (!currentUser) {
+                    showAuthPage();
+                    return;
+                }
+                document.getElementById('levelsSection').style.display = 'block';
+                updateLevelsDisplay();
+                
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                    if (item.querySelector('i').classList.contains('fa-chart-line')) {
+                        item.classList.add('active');
+                    }
+                });
             }
+        }
+
+        function hideAllSections() {
+            document.getElementById('profileSection').style.display = 'none';
+            document.getElementById('mountainSection').style.display = 'none';
+            document.getElementById('hammersSection').style.display = 'none';
+            document.getElementById('levelsSection').style.display = 'none';
         }
 
         async function logout() {
@@ -2085,9 +2660,6 @@
             currentUser = null;
             document.querySelector('.user-profile-btn').innerHTML = '<i class="fas fa-user"></i>';
             document.getElementById('guestMessage').style.display = 'block';
-            document.getElementById('profileSection').style.display = 'none';
-            document.getElementById('mountainSection').style.display = 'block';
-            document.getElementById('hammersSection').style.display = 'block';
             
             showSection('hammers');
         }
