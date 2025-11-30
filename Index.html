@@ -1881,24 +1881,37 @@
             
             try {
                 const startTime = new Date();
+                
+                // اول تایمرهای قدیمی رو غیرفعال کن
+                await supabase
+                    .from('user_timers')
+                    .update({ 
+                        is_active: false,
+                        updated_at: new Date()
+                    })
+                    .eq('user_id', currentUser.id)
+                    .eq('hammer_id', hammerId)
+                    .eq('is_active', true);
+
+                // حالا تایمر جدید ایجاد کن
                 const { data, error } = await supabase
                     .from('user_timers')
-                    .upsert({
+                    .insert({
                         user_id: currentUser.id,
                         hammer_id: hammerId,
                         start_time: startTime.toISOString(),
                         duration: duration,
-                        is_active: true,
-                        updated_at: new Date()
+                        is_active: true
                     })
                     .select()
                     .single();
                 
                 if (error) throw error;
+                console.log('✅ Timer saved to database:', data);
                 return data;
                 
             } catch (error) {
-                console.error('Error saving timer:', error);
+                console.error('❌ Error saving timer:', error);
                 return null;
             }
         }
@@ -1916,6 +1929,7 @@
                     })
                     .eq('user_id', currentUser.id)
                     .eq('hammer_id', hammerId)
+                    .eq('is_active', true)
                     .select()
                     .single();
                 
@@ -1947,6 +1961,7 @@
                     .eq('is_active', true);
                 
                 if (error) throw error;
+                console.log('📊 Loaded active timers:', timers);
                 return timers || [];
                 
             } catch (error) {
@@ -1968,19 +1983,22 @@
         // بازیابی وضعیت تایمرها موقع لود صفحه
         async function restoreTimersState() {
             const activeTimers = await loadActiveTimers();
+            console.log('🔄 Restoring timers:', activeTimers);
             
             activeTimers.forEach(timer => {
                 const timeLeft = calculateTimeLeft(timer);
                 const hammer = gameState.hammers.find(h => h.id === timer.hammer_id);
                 
+                console.log(`⏰ Timer for hammer ${timer.hammer_id}: ${timeLeft}s left`);
+                
                 if (hammer && timeLeft > 0) {
-                    // تایمر هنوز فعاله
                     hammer.isActive = true;
                     hammer.isOnCooldown = false;
                     hammer.timeLeft = timeLeft;
                     hammer.progress = 1 - (timeLeft / timer.duration);
+                    console.log(`✅ Restored active hammer ${hammer.id}`);
                 } else if (hammer && timeLeft <= 0) {
-                    // تایمر تموم شده - پاداش رو بدین
+                    console.log(`🎯 Completing expired timer for hammer ${timer.hammer_id}`);
                     completeMining(timer.hammer_id);
                 }
             });
@@ -1991,37 +2009,44 @@
             const hammer = gameState.hammers.find(h => h.id === hammerId);
             if (!hammer || !currentUser) return;
             
-            // محاسبه پاداش با در نظر گرفتن سطح
-            const multiplier = getRewardMultiplier();
-            const baseReward = hammer.reward;
-            const actualReward = Math.round(baseReward * multiplier);
-            
-            // آپدیت موجودی کاربر
-            const newBalance = gameState.rockBalance + actualReward;
-            const newTotalMined = (currentUser.total_mined || 0) + actualReward;
-            
-            const updatedUser = await updateUserBalance(currentUser.id, newBalance, newTotalMined);
-            
-            if (updatedUser) {
-                currentUser = updatedUser;
-                gameState.rockBalance = newBalance;
+            try {
+                // محاسبه پاداش با در نظر گرفتن سطح
+                const multiplier = getRewardMultiplier();
+                const baseReward = hammer.reward;
+                const actualReward = Math.round(baseReward * multiplier);
                 
-                // غیرفعال کردن تایمر
-                await deactivateTimer(hammerId);
+                // آپدیت موجودی کاربر
+                const newBalance = gameState.rockBalance + actualReward;
+                const newTotalMined = (currentUser.total_mined || 0) + actualReward;
                 
-                // ریست وضعیت چکش
-                hammer.isActive = false;
-                hammer.isOnCooldown = true;
-                hammer.timeLeft = hammer.cooldown;
-                hammer.progress = 0;
+                const updatedUser = await updateUserBalance(currentUser.id, newBalance, newTotalMined);
                 
-                // آپدیت UI
-                updateUI();
-                updateProfile();
-                updateLevelsDisplay();
+                if (updatedUser) {
+                    currentUser = updatedUser;
+                    gameState.rockBalance = newBalance;
+                    
+                    // غیرفعال کردن تایمر
+                    await deactivateTimer(hammerId);
+                    
+                    // ریست وضعیت چکش و شروع کول‌داون
+                    hammer.isActive = false;
+                    hammer.isOnCooldown = true;
+                    hammer.timeLeft = hammer.cooldown;
+                    hammer.progress = 0;
+                    
+                    // آپدیت UI
+                    updateUI();
+                    updateProfile();
+                    updateLevelsDisplay();
+                    
+                    // نمایش تأیید
+                    startVerification(actualReward);
+                    
+                    console.log('✅ Mining completed! Reward:', actualReward);
+                }
                 
-                // نمایش تأیید
-                startVerification(actualReward);
+            } catch (error) {
+                console.error('❌ Error completing mining:', error);
             }
         }
 
@@ -2341,7 +2366,7 @@
                 
                 // اگر کاربر لاگین نکرده باشد، دکمه غیرفعال باشد
                 const isDisabled = !currentUser || hammer.isActive || hammer.isOnCooldown;
-                const buttonText = !currentUser ? 'ورود برای شروع' : 'شروع استخراج';
+                const buttonText = !currentUser ? 'ورود برای شروع' : (hammer.isActive || hammer.isOnCooldown) ? 'در حال فعالیت' : 'شروع استخراج';
                 
                 hammerCard.innerHTML = `
                     <div class="hammer-header">
@@ -2371,14 +2396,30 @@
         }
 
         async function activateHammer(hammerId) {
+            console.log('🛠️ Activating hammer:', hammerId);
+            
             if (!currentUser) {
+                console.log('❌ No user logged in');
                 showAuthPage();
                 return;
             }
             
             const hammer = gameState.hammers.find(h => h.id === hammerId);
+            console.log('🔍 Found hammer:', hammer);
             
-            if (!hammer.isActive && !hammer.isOnCooldown) {
+            if (!hammer) {
+                console.error('❌ Hammer not found!');
+                return;
+            }
+            
+            if (hammer.isActive || hammer.isOnCooldown) {
+                console.log('⚠️ Hammer is not available');
+                return;
+            }
+            
+            try {
+                console.log('🚀 Starting timer...');
+                
                 // ذخیره تایمر در دیتابیس
                 const timer = await saveTimerToDatabase(hammerId, hammer.duration);
                 
@@ -2386,7 +2427,21 @@
                     hammer.isActive = true;
                     hammer.timeLeft = hammer.duration;
                     hammer.progress = 0;
+                    
+                    console.log('✅ Timer started successfully');
+                    
+                    // آپدیت UI
+                    renderHammers();
+                    updateUI();
+                    updateMountainVisual();
+                } else {
+                    console.error('❌ Failed to save timer to database');
+                    alert('خطا در شروع استخراج! لطفاً دوباره تلاش کنید.');
                 }
+                
+            } catch (error) {
+                console.error('❌ Error activating hammer:', error);
+                alert('خطا در شروع استخراج: ' + error.message);
             }
         }
 
@@ -2687,16 +2742,16 @@
         // ==================== توابع کمکی ====================
         
         function updateUI() {
-            document.getElementById('rockBalance').textContent = gameState.rockBalance;
+            document.getElementById('rockBalance').textContent = gameState.rockBalance.toLocaleString();
             document.getElementById('activeTimers').textContent = gameState.activeTimers;
         }
 
         function updateProfile() {
             if (currentUser) {
                 document.getElementById('profileEmail').textContent = currentUser.email;
-                document.getElementById('profileBalance').textContent = currentUser.balance;
+                document.getElementById('profileBalance').textContent = currentUser.balance.toLocaleString();
                 document.getElementById('profileLevel').textContent = currentUser.level;
-                document.getElementById('profileMined').textContent = currentUser.total_mined || 0;
+                document.getElementById('profileMined').textContent = (currentUser.total_mined || 0).toLocaleString();
             }
         }
 
