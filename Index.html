@@ -21,6 +21,7 @@
             --success: #00C851;
             --warning: #FFD700;
             --danger: #FF4444;
+            --usdt-color: #26a17b;
             --glass: rgba(255, 215, 0, 0.1);
             --glass-border: rgba(255, 215, 0, 0.3);
         }
@@ -381,14 +382,28 @@
             font-size: 0.85rem;
         }
         
+        .stat.usdt {
+            background: rgba(38, 161, 123, 0.1);
+            border: 1px solid rgba(38, 161, 123, 0.3);
+        }
+        
         .stat i {
             color: var(--gold);
             font-size: 0.9rem;
         }
         
+        .stat.usdt i {
+            color: var(--usdt-color);
+        }
+        
         .rock-value {
             font-weight: 700;
             color: var(--gold);
+        }
+        
+        .usdt-value {
+            font-weight: 700;
+            color: var(--usdt-color);
         }
         
         .user-profile-btn {
@@ -429,7 +444,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            height: 380px; /* ارتفاع بزرگتر */
+            height: 380px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -437,7 +452,7 @@
         }
         
         .mountain-title {
-            font-size: 2rem; /* بزرگتر شده */
+            font-size: 2rem;
             margin-bottom: 25px;
             color: var(--gold);
             font-weight: 800;
@@ -451,7 +466,7 @@
         
         .mountain-container {
             position: relative;
-            height: 250px; /* ارتفاع بزرگتر */
+            height: 250px;
             display: flex;
             justify-content: center;
             align-items: flex-end;
@@ -461,9 +476,9 @@
         /* خورشید پشت کوه */
         .sun {
             position: absolute;
-            top: -40px; /* تنظیم موقعیت */
-            width: 200px; /* بزرگتر شده */
-            height: 200px; /* بزرگتر شده */
+            top: -40px;
+            width: 200px;
+            height: 200px;
             background: radial-gradient(
                 circle at center,
                 #FFD700 0%,
@@ -479,9 +494,9 @@
         
         .sun-rays {
             position: absolute;
-            top: -60px; /* تنظیم موقعیت */
-            width: 240px; /* بزرگتر شده */
-            height: 240px; /* بزرگتر شده */
+            top: -60px;
+            width: 240px;
+            height: 240px;
             background: radial-gradient(
                 circle at center,
                 rgba(255, 215, 0, 0.4) 0%,
@@ -506,8 +521,8 @@
         
         .mountain {
             position: relative;
-            width: 450px; /* بزرگتر شده */
-            height: 220px; /* بزرگتر شده */
+            width: 450px;
+            height: 220px;
             filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.7));
             z-index: 2;
         }
@@ -594,7 +609,7 @@
             75% { transform: translateY(-15px) rotate(270deg) scale(1.2); opacity: 0.9; }
         }
         
-        /* بخش استخراج - ارتفاع کوچک شده */
+        /* بخش استخراج */
         .hammers-section {
             background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(18, 18, 18, 0.9) 100%);
             border-radius: 18px;
@@ -602,7 +617,7 @@
             margin-bottom: 15px;
             border: 2px solid var(--glass-border);
             box-shadow: 0 8px 25px rgba(255, 215, 0, 0.12);
-            min-height: 200px; /* ارتفاع کوچک شده */
+            min-height: 200px;
         }
         
         .section-title {
@@ -622,12 +637,12 @@
         .hammer-card {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
-            padding: 12px; /* padding کوچک شده */
+            padding: 12px;
             border: 1px solid var(--glass-border);
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
-            min-height: 140px; /* ارتفاع کوچک شده */
+            min-height: 140px;
         }
         
         .hammer-card::before {
@@ -658,19 +673,19 @@
         }
         
         .hammer-icon {
-            font-size: 1.3rem; /* کوچک شده */
+            font-size: 1.3rem;
             color: var(--gold);
         }
         
         .hammer-name {
-            font-size: 0.9rem; /* کوچک شده */
+            font-size: 0.9rem;
             font-weight: 700;
         }
         
         .hammer-status {
-            padding: 4px 8px; /* کوچک شده */
+            padding: 4px 8px;
             border-radius: 8px;
-            font-size: 0.65rem; /* کوچک شده */
+            font-size: 0.65rem;
             font-weight: 700;
         }
         
@@ -693,7 +708,7 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 10px;
-            font-size: 0.75rem; /* کوچک شده */
+            font-size: 0.75rem;
             color: var(--gray);
             font-weight: 700;
         }
@@ -705,12 +720,12 @@
         
         .hammer-timer {
             text-align: center;
-            padding: 6px; /* کوچک شده */
+            padding: 6px;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 6px;
             margin-bottom: 10px;
             font-weight: 700;
-            font-size: 0.75rem; /* کوچک شده */
+            font-size: 0.75rem;
             border: 1px solid var(--glass-border);
         }
         
@@ -720,7 +735,7 @@
         }
         
         .btn {
-            padding: 6px 10px; /* کوچک شده */
+            padding: 6px 10px;
             border: none;
             border-radius: 6px;
             font-weight: 700;
@@ -728,7 +743,7 @@
             transition: all 0.3s;
             flex: 1;
             text-align: center;
-            font-size: 0.75rem; /* کوچک شده */
+            font-size: 0.75rem;
         }
         
         .btn-gold {
@@ -741,6 +756,16 @@
             box-shadow: 0 4px 12px rgba(255, 215, 0, 0.35);
         }
         
+        .btn-usdt {
+            background: linear-gradient(90deg, var(--usdt-color), #1e8c6d);
+            color: var(--light);
+        }
+        
+        .btn-usdt:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(38, 161, 123, 0.35);
+        }
+        
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
@@ -748,6 +773,149 @@
             box-shadow: none !important;
         }
         
+        /* بخش تبدیل ارز */
+        .conversion-section {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(18, 18, 18, 0.9) 100%);
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.12);
+            display: none;
+        }
+
+        .conversion-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .conversion-title {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .conversion-subtitle {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .conversion-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid var(--glass-border);
+            margin-bottom: 20px;
+        }
+
+        .conversion-rate {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .rate-value {
+            font-size: 1.4rem;
+            color: var(--gold);
+            font-weight: 800;
+            margin: 10px 0;
+        }
+
+        .rate-text {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .conversion-form {
+            margin-bottom: 20px;
+        }
+
+        .amount-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .amount-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .conversion-result {
+            text-align: center;
+            padding: 15px;
+            background: rgba(38, 161, 123, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(38, 161, 123, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .result-text {
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+
+        .result-value {
+            font-size: 1.3rem;
+            color: var(--usdt-color);
+            font-weight: 800;
+        }
+
+        .conversion-history {
+            margin-top: 25px;
+        }
+
+        .history-title {
+            font-size: 1.1rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .history-amount {
+            font-weight: 700;
+        }
+
+        .history-gold {
+            color: var(--gold);
+        }
+
+        .history-usdt {
+            color: var(--usdt-color);
+        }
+
+        .history-date {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
         /* بخش سطح‌بندی */
         .levels-section {
             background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(18, 18, 18, 0.9) 100%);
@@ -1063,11 +1231,20 @@
             text-align: center;
         }
         
+        .profile-stat.usdt {
+            background: rgba(38, 161, 123, 0.1);
+            border: 1px solid rgba(38, 161, 123, 0.3);
+        }
+        
         .profile-stat-value {
             font-size: 1.2rem;
             color: var(--gold);
             font-weight: 800;
             margin-bottom: 4px;
+        }
+        
+        .profile-stat.usdt .profile-stat-value {
+            color: var(--usdt-color);
         }
         
         .profile-stat-label {
@@ -1618,12 +1795,15 @@
                     <i class="fas fa-gem"></i>
                     <span class="rock-value" id="rockBalance">0</span>
                 </div>
+                <div class="stat usdt">
+                    <i class="fas fa-coins"></i>
+                    <span class="usdt-value" id="usdtBalance">0</span>
+                </div>
                 <div class="stat">
                     <i class="fas fa-clock"></i>
                     <span id="activeTimers">0</span>
                 </div>
             </div>
-            <!-- تغییر: آیکون کاربر به پروفایل می‌رود -->
             <div class="user-profile-btn" onclick="showSection('profile')">
                 <i class="fas fa-user"></i>
             </div>
@@ -1631,12 +1811,11 @@
         
         <!-- محتوای اصلی -->
         <div class="main-content">
-            <!-- بخش کوه مرکزی - فقط در صفحه اصلی نمایش داده می‌شود -->
+            <!-- بخش کوه مرکزی -->
             <section class="mountain-section" id="mountainSection">
                 <h2 class="mountain-title">GOLD COIN</h2>
                 
                 <div class="mountain-container">
-                    <!-- خورشید پشت کوه -->
                     <div class="sun-rays"></div>
                     <div class="sun"></div>
                     
@@ -1647,11 +1826,44 @@
                     </div>
                 </div>
                 
-                <!-- ذرات طلایی -->
                 <div class="gold-particles" id="goldParticles"></div>
             </section>
             
-            <!-- بخش پروفایل (مخفی) -->
+            <!-- بخش تبدیل ارز -->
+            <section class="conversion-section" id="conversionSection">
+                <div class="conversion-header">
+                    <h2 class="conversion-title">تبدیل ارز</h2>
+                    <p class="conversion-subtitle">سکه‌های طلای خود را به تتر تبدیل کنید</p>
+                </div>
+                
+                <div class="conversion-card">
+                    <div class="conversion-rate">
+                        <div class="rate-text">نرخ تبدیل فعلی</div>
+                        <div class="rate-value" id="conversionRate">1 GOLD = 0.00001 USDT</div>
+                        <div class="rate-text">هر ۱۰۰,۰۰۰ سکه طلا معادل ۱ تتر</div>
+                    </div>
+                    
+                    <div class="conversion-form">
+                        <input type="number" class="amount-input" id="goldAmount" placeholder="مقدار طلا برای تبدیل" min="1" max="1000000">
+                        <div class="conversion-result">
+                            <div class="result-text">دریافت خواهید کرد:</div>
+                            <div class="result-value" id="usdtResult">0 USDT</div>
+                        </div>
+                        <button class="btn btn-usdt" onclick="convertGoldToUSDT()" style="width: 100%; padding: 12px;">
+                            <i class="fas fa-exchange-alt"></i> تبدیل به تتر
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="conversion-history">
+                    <h3 class="history-title">تاریخچه تبدیل‌ها</h3>
+                    <div class="history-list" id="conversionHistory">
+                        <!-- تاریخچه تبدیل‌ها اینجا نمایش داده می‌شود -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- بخش پروفایل -->
             <section class="profile-section" id="profileSection">
                 <div class="profile-header">
                     <div class="profile-avatar">
@@ -1667,6 +1879,10 @@
                     <div class="profile-stat">
                         <div class="profile-stat-value" id="profileBalance">0</div>
                         <div class="profile-stat-label">موجودی طلا</div>
+                    </div>
+                    <div class="profile-stat usdt">
+                        <div class="profile-stat-value" id="profileUSDT">0</div>
+                        <div class="profile-stat-label">موجودی تتر</div>
                     </div>
                     <div class="profile-stat">
                         <div class="profile-stat-value" id="profileLevel">0</div>
@@ -1689,7 +1905,6 @@
             <section class="hammers-section" id="hammersSection">
                 <h3 class="section-title">ابزارهای استخراج</h3>
                 
-                <!-- پیام لاگین برای کاربران مهمان -->
                 <div class="login-message" id="guestMessage">
                     <p>برای استفاده از ابزارهای استخراج باید وارد حساب کاربری خود شوید</p>
                     <button class="login-btn" onclick="showAuthPage()">
@@ -1772,11 +1987,15 @@
             </div>
         </div>
         
-        <!-- نویگیشن پایین - درست شده -->
+        <!-- نویگیشن پایین -->
         <nav class="bottom-nav">
             <div class="nav-item active" onclick="showSection('hammers')">
                 <i class="fas fa-hammer"></i>
                 <span>استخراج</span>
+            </div>
+            <div class="nav-item" onclick="showSection('conversion')">
+                <i class="fas fa-exchange-alt"></i>
+                <span>تبدیل ارز</span>
             </div>
             <div class="nav-item" onclick="showSection('levels')">
                 <i class="fas fa-chart-line"></i>
@@ -1796,9 +2015,13 @@
         
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
+        // ==================== تنظیمات تبدیل ارز ====================
+        const CONVERSION_RATE = 0.00001;
+        
         let currentUser = null;
         let gameState = {
             rockBalance: 0,
+            usdtBalance: 0,
             activeTimers: 0,
             pendingReward: 0,
             verificationTime: 8,
@@ -1828,61 +2051,191 @@
                 name: 'معدن‌چی تازه‌کار',
                 icon: 'fas fa-gem',
                 price: 0,
-                rewardMultiplier: 1.0,  // 0% افزایش
+                rewardMultiplier: 1.0,
                 description: 'شروع سفر طلایی'
             },
             {
                 id: 1,
                 name: 'معدن‌چی حرفه‌ای',
                 icon: 'fas fa-crown',
-                price: 10000,           // 10,000 سکه
-                rewardMultiplier: 1.2,  // 20% افزایش
+                price: 10000,
+                rewardMultiplier: 1.2,
                 description: '۲۰٪ افزایش پاداش'
             },
             {
                 id: 2,
                 name: 'استاد معدن‌چی',
                 icon: 'fas fa-shield-alt',
-                price: 25000,           // 25,000 سکه
-                rewardMultiplier: 1.3,  // 30% افزایش
+                price: 25000,
+                rewardMultiplier: 1.3,
                 description: '۳۰٪ افزایش پاداش'
             },
             {
                 id: 3,
                 name: 'سلطان طلا',
                 icon: 'fas fa-gem',
-                price: 50000,           // 50,000 سکه
-                rewardMultiplier: 1.5,  // 50% افزایش
+                price: 50000,
+                rewardMultiplier: 1.5,
                 description: '۵۰٪ افزایش پاداش'
             },
             {
                 id: 4,
                 name: 'افسانه معدن',
                 icon: 'fas fa-dragon',
-                price: 100000,          // 100,000 سکه
-                rewardMultiplier: 1.75, // 75% افزایش
+                price: 100000,
+                rewardMultiplier: 1.75,
                 description: '۷۵٪ افزایش پاداش'
             },
             {
                 id: 5,
                 name: 'اسطوره طلا',
                 icon: 'fas fa-trophy',
-                price: 250000,          // 250,000 سکه
-                rewardMultiplier: 2.2,  // 120% افزایش
+                price: 250000,
+                rewardMultiplier: 2.2,
                 description: '۱۲۰٪ افزایش پاداش'
             }
         ];
 
-        // ==================== سیستم مدیریت تایمرها در دیتابیس ====================
+        // ==================== سیستم تبدیل ارز ====================
 
-        // ذخیره تایمر جدید در دیتابیس
+        // محاسبه مقدار تتر بر اساس طلا
+        function calculateUSDT() {
+            const goldAmount = parseInt(document.getElementById('goldAmount').value) || 0;
+            const usdtAmount = goldAmount * CONVERSION_RATE;
+            document.getElementById('usdtResult').textContent = usdtAmount.toFixed(8) + ' USDT';
+        }
+
+        // تبدیل طلا به تتر
+        async function convertGoldToUSDT() {
+            if (!currentUser) {
+                alert('لطفاً اول وارد حساب کاربری خود شوید');
+                return;
+            }
+
+            const goldAmount = parseInt(document.getElementById('goldAmount').value);
+
+            if (!goldAmount || goldAmount <= 0) {
+                alert('لطفاً مقدار معتبری وارد کنید');
+                return;
+            }
+
+            if (goldAmount > gameState.rockBalance) {
+                alert('موجودی طلای شما کافی نیست');
+                return;
+            }
+
+            try {
+                const usdtAmount = goldAmount * CONVERSION_RATE;
+                
+                // محاسبه موجودی جدید
+                const newGoldBalance = gameState.rockBalance - goldAmount;
+                const newUSDTBalance = gameState.usdtBalance + usdtAmount;
+
+                // آپدیت کاربر در دیتابیس
+                const { data: updatedUser, error } = await supabase
+                    .from('users')
+                    .update({
+                        balance: newGoldBalance,
+                        usdt_balance: newUSDTBalance,
+                        updated_at: new Date()
+                    })
+                    .eq('id', currentUser.id)
+                    .select()
+                    .single();
+
+                if (error) throw error;
+
+                // ذخیره تراکنش در جدول conversions
+                const { error: conversionError } = await supabase
+                    .from('conversions')
+                    .insert({
+                        user_id: currentUser.id,
+                        gold_amount: goldAmount,
+                        usdt_amount: usdtAmount,
+                        conversion_rate: CONVERSION_RATE
+                    });
+
+                if (conversionError) throw conversionError;
+
+                // آپدیت وضعیت محلی
+                currentUser = updatedUser;
+                gameState.rockBalance = newGoldBalance;
+                gameState.usdtBalance = newUSDTBalance;
+
+                // آپدیت UI
+                updateUI();
+                updateProfile();
+                loadConversionHistory();
+
+                // نمایش پیام موفقیت
+                alert(`✅ تبدیل موفق!\n${goldAmount.toLocaleString()} سکه طلا به ${usdtAmount.toFixed(8)} تتر تبدیل شد.`);
+
+                // ریست فرم
+                document.getElementById('goldAmount').value = '';
+                document.getElementById('usdtResult').textContent = '0 USDT';
+
+            } catch (error) {
+                console.error('Error converting gold to USDT:', error);
+                alert('خطا در تبدیل ارز! لطفاً دوباره تلاش کنید.');
+            }
+        }
+
+        // بارگذاری تاریخچه تبدیل‌ها
+        async function loadConversionHistory() {
+            if (!currentUser) return;
+
+            try {
+                const { data: conversions, error } = await supabase
+                    .from('conversions')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('created_at', { ascending: false })
+                    .limit(10);
+
+                if (error) throw error;
+
+                const historyContainer = document.getElementById('conversionHistory');
+                historyContainer.innerHTML = '';
+
+                if (!conversions || conversions.length === 0) {
+                    historyContainer.innerHTML = '<div class="history-item">هنوز تبدیلی انجام نداده‌اید</div>';
+                    return;
+                }
+
+                conversions.forEach(conversion => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    
+                    const date = new Date(conversion.created_at);
+                    const formattedDate = date.toLocaleDateString('fa-IR');
+                    
+                    historyItem.innerHTML = `
+                        <div>
+                            <span class="history-amount history-gold">${conversion.gold_amount.toLocaleString()} GOLD</span>
+                            <i class="fas fa-arrow-left" style="margin: 0 8px; color: var(--gray);"></i>
+                            <span class="history-amount history-usdt">${conversion.usdt_amount.toFixed(8)} USDT</span>
+                        </div>
+                        <div class="history-date">${formattedDate}</div>
+                    `;
+                    
+                    historyContainer.appendChild(historyItem);
+                });
+
+            } catch (error) {
+                console.error('Error loading conversion history:', error);
+            }
+        }
+
+        // ==================== بقیه توابع بدون تغییر می‌مونن ====================
+        // [کدهای قبلی مربوط به تایمرها، استخراج، سطح‌بندی و...]
+
+        // سیستم مدیریت تایمرها
         async function saveTimerToDatabase(hammerId, duration) {
             if (!currentUser) return null;
             
             try {
                 const startTime = new Date();
                 
-                // اول تایمرهای قدیمی رو غیرفعال کن
                 await supabase
                     .from('user_timers')
                     .update({ 
@@ -1893,7 +2246,6 @@
                     .eq('hammer_id', hammerId)
                     .eq('is_active', true);
 
-                // حالا تایمر جدید ایجاد کن
                 const { data, error } = await supabase
                     .from('user_timers')
                     .insert({
@@ -1907,16 +2259,14 @@
                     .single();
                 
                 if (error) throw error;
-                console.log('✅ Timer saved to database:', data);
                 return data;
                 
             } catch (error) {
-                console.error('❌ Error saving timer:', error);
+                console.error('Error saving timer:', error);
                 return null;
             }
         }
 
-        // آپدیت وضعیت تایمر
         async function updateTimerInDatabase(hammerId, updates) {
             if (!currentUser) return null;
             
@@ -1942,14 +2292,12 @@
             }
         }
 
-        // غیرفعال کردن تایمر
         async function deactivateTimer(hammerId) {
             return await updateTimerInDatabase(hammerId, {
                 is_active: false
             });
         }
 
-        // بارگذاری تایمرهای فعال کاربر
         async function loadActiveTimers() {
             if (!currentUser) return [];
             
@@ -1961,7 +2309,6 @@
                     .eq('is_active', true);
                 
                 if (error) throw error;
-                console.log('📊 Loaded active timers:', timers);
                 return timers || [];
                 
             } catch (error) {
@@ -1970,7 +2317,6 @@
             }
         }
 
-        // محاسبه زمان باقی‌مانده تایمر
         function calculateTimeLeft(timer) {
             const startTime = new Date(timer.start_time);
             const now = new Date();
@@ -1980,42 +2326,33 @@
             return Math.max(0, timeLeft);
         }
 
-        // بازیابی وضعیت تایمرها موقع لود صفحه
         async function restoreTimersState() {
             const activeTimers = await loadActiveTimers();
-            console.log('🔄 Restoring timers:', activeTimers);
             
             activeTimers.forEach(timer => {
                 const timeLeft = calculateTimeLeft(timer);
                 const hammer = gameState.hammers.find(h => h.id === timer.hammer_id);
-                
-                console.log(`⏰ Timer for hammer ${timer.hammer_id}: ${timeLeft}s left`);
                 
                 if (hammer && timeLeft > 0) {
                     hammer.isActive = true;
                     hammer.isOnCooldown = false;
                     hammer.timeLeft = timeLeft;
                     hammer.progress = 1 - (timeLeft / timer.duration);
-                    console.log(`✅ Restored active hammer ${hammer.id}`);
                 } else if (hammer && timeLeft <= 0) {
-                    console.log(`🎯 Completing expired timer for hammer ${timer.hammer_id}`);
                     completeMining(timer.hammer_id);
                 }
             });
         }
 
-        // کامل کردن استخراج و دادن پاداش
         async function completeMining(hammerId) {
             const hammer = gameState.hammers.find(h => h.id === hammerId);
             if (!hammer || !currentUser) return;
             
             try {
-                // محاسبه پاداش با در نظر گرفتن سطح
                 const multiplier = getRewardMultiplier();
                 const baseReward = hammer.reward;
                 const actualReward = Math.round(baseReward * multiplier);
                 
-                // آپدیت موجودی کاربر
                 const newBalance = gameState.rockBalance + actualReward;
                 const newTotalMined = (currentUser.total_mined || 0) + actualReward;
                 
@@ -2025,32 +2362,26 @@
                     currentUser = updatedUser;
                     gameState.rockBalance = newBalance;
                     
-                    // غیرفعال کردن تایمر
                     await deactivateTimer(hammerId);
                     
-                    // ریست وضعیت چکش و شروع کول‌داون
                     hammer.isActive = false;
                     hammer.isOnCooldown = true;
                     hammer.timeLeft = hammer.cooldown;
                     hammer.progress = 0;
                     
-                    // آپدیت UI
                     updateUI();
                     updateProfile();
                     updateLevelsDisplay();
                     
-                    // نمایش تأیید
                     startVerification(actualReward);
-                    
-                    console.log('✅ Mining completed! Reward:', actualReward);
                 }
                 
             } catch (error) {
-                console.error('❌ Error completing mining:', error);
+                console.error('Error completing mining:', error);
             }
         }
 
-        // ==================== سیستم لودینگ ====================
+        // سیستم لودینگ
         function startLoading() {
             let progress = 0;
             const loadingBar = document.getElementById('loadingBar');
@@ -2064,7 +2395,6 @@
                 loadingBar.style.width = `${progress}%`;
                 loadingPercent.textContent = `${Math.round(progress)}%`;
                 
-                // شبیه‌سازی بارگذاری دارایی‌ها
                 const assetsLoaded = Math.min(5, Math.floor(progress / 20));
                 loadingAssets.textContent = `${assetsLoaded}/5`;
                 
@@ -2080,17 +2410,11 @@
 
         function showGamePage() {
             document.getElementById('gamePage').style.display = 'block';
-            
-            // اگر کاربر از قبل لاگین کرده باشد، اطلاعاتش را بارگذاری کن
             checkAuthState();
-            
-            // شروع بازی
             initGame();
         }
 
-        // ==================== سیستم ثبت نام و ورود با AUTH واقعی ====================
-        
-        // ثبت نام کاربر با Supabase Auth
+        // سیستم احراز هویت
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -2101,7 +2425,6 @@
             setLoading(button, true);
             
             try {
-                // ثبت نام با Supabase Auth
                 const { data: authData, error: authError } = await supabase.auth.signUp({
                     email: email,
                     password: password
@@ -2117,7 +2440,6 @@
                     return;
                 }
                 
-                // ایجاد پروفایل کاربر در جدول users
                 const { error: profileError } = await supabase
                     .from('users')
                     .insert([
@@ -2125,19 +2447,18 @@
                             id: authData.user.id,
                             email: email,
                             balance: 0,
-                            level: 0,  // سطح ۰ شروع
+                            usdt_balance: 0,
+                            level: 0,
                             total_mined: 0
                         }
                     ]);
                 
                 if (profileError) {
                     console.error('Error creating profile:', profileError);
-                    // حتی اگر پروفایل ساخته نشد، بازهم کاربر ثبت نام شده
                 }
                 
                 showMessage('ثبت نام با موفقیت انجام شد!', 'success');
                 
-                // لاگین خودکار بعد از ثبت نام
                 const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
                     email: email,
                     password: password
@@ -2155,7 +2476,6 @@
             setLoading(button, false);
         });
 
-        // ورود کاربر با Supabase Auth
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -2187,7 +2507,6 @@
             setLoading(button, false);
         });
 
-        // بارگذاری پروفایل کاربر از جدول users
         async function loadUserProfile(userId) {
             try {
                 const { data: user, error } = await supabase
@@ -2197,8 +2516,6 @@
                     .single();
                 
                 if (error) {
-                    console.error('Error loading profile:', error);
-                    // اگر پروفایل وجود ندارد، ایجاد کن
                     const { data: newUser } = await supabase
                         .from('users')
                         .insert([
@@ -2206,7 +2523,8 @@
                                 id: userId,
                                 email: (await supabase.auth.getUser()).data.user.email,
                                 balance: 0,
-                                level: 0,  // سطح ۰ شروع
+                                usdt_balance: 0,
+                                level: 0,
                                 total_mined: 0
                             }
                         ])
@@ -2224,7 +2542,6 @@
             }
         }
 
-        // آپدیت اطلاعات کاربر
         async function updateUserBalance(userId, newBalance, newTotalMined, newLevel = null) {
             try {
                 const updates = { 
@@ -2252,39 +2569,32 @@
             }
         }
 
-        // بررسی وضعیت لاگین کاربر هنگام لود صفحه
         async function checkAuthState() {
             const { data: { session } } = await supabase.auth.getSession();
             
             if (session) {
                 await loadUserProfile(session.user.id);
             } else {
-                // کاربر لاگین نکرده - فقط پیام مهمان را نشان بده
                 document.getElementById('guestMessage').style.display = 'block';
             }
         }
 
-        // ==================== توابع اصلی بازی ====================
-        
+        // توابع اصلی بازی
         async function showGame(user) {
             currentUser = user;
             document.getElementById('authPage').style.display = 'none';
             
-            // تغییر آیکون کاربر در هدر
             document.querySelector('.user-profile-btn').innerHTML = '<i class="fas fa-user-check"></i>';
-            
-            // مخفی کردن پیام مهمان
             document.getElementById('guestMessage').style.display = 'none';
             
-            // آپدیت اطلاعات اولیه
             gameState.rockBalance = user.balance || 0;
+            gameState.usdtBalance = user.usdt_balance || 0;
             updateUI();
             updateProfile();
             
-            // بازیابی تایمرهای فعال
             await restoreTimersState();
+            loadConversionHistory();
             
-            // نمایش بخش استخراج
             showSection('hammers');
         }
 
@@ -2296,7 +2606,6 @@
             document.getElementById('authPage').style.display = 'flex';
         }
 
-        // تایمر بازی
         function updateGame() {
             let activeCount = 0;
             
@@ -2309,7 +2618,6 @@
                     updateMountainVisual();
                     
                     if (hammer.timeLeft === 0) {
-                        // تموم شدن تایمر - پاداش رو بدین
                         completeMining(hammer.id);
                     }
                 } else if (hammer.isOnCooldown && hammer.timeLeft > 0) {
@@ -2325,8 +2633,7 @@
             renderHammers();
         }
 
-        // ==================== سیستم استخراج ====================
-        
+        // سیستم استخراج
         function renderHammers() {
             const hammersContainer = document.getElementById('hammersContainer');
             hammersContainer.innerHTML = '';
@@ -2364,7 +2671,6 @@
                     timerText = '✅ آماده';
                 }
                 
-                // اگر کاربر لاگین نکرده باشد، دکمه غیرفعال باشد
                 const isDisabled = !currentUser || hammer.isActive || hammer.isOnCooldown;
                 const buttonText = !currentUser ? 'ورود برای شروع' : (hammer.isActive || hammer.isOnCooldown) ? 'در حال فعالیت' : 'شروع استخراج';
                 
@@ -2396,64 +2702,41 @@
         }
 
         async function activateHammer(hammerId) {
-            console.log('🛠️ Activating hammer:', hammerId);
+            console.log('Activating hammer:', hammerId);
             
             if (!currentUser) {
-                console.log('❌ No user logged in');
                 showAuthPage();
                 return;
             }
             
             const hammer = gameState.hammers.find(h => h.id === hammerId);
-            console.log('🔍 Found hammer:', hammer);
             
-            if (!hammer) {
-                console.error('❌ Hammer not found!');
-                return;
-            }
-            
-            if (hammer.isActive || hammer.isOnCooldown) {
-                console.log('⚠️ Hammer is not available');
-                return;
-            }
-            
-            try {
-                console.log('🚀 Starting timer...');
-                
-                // ذخیره تایمر در دیتابیس
-                const timer = await saveTimerToDatabase(hammerId, hammer.duration);
-                
-                if (timer) {
-                    hammer.isActive = true;
-                    hammer.timeLeft = hammer.duration;
-                    hammer.progress = 0;
+            if (!hammer.isActive && !hammer.isOnCooldown) {
+                try {
+                    const timer = await saveTimerToDatabase(hammerId, hammer.duration);
                     
-                    console.log('✅ Timer started successfully');
+                    if (timer) {
+                        hammer.isActive = true;
+                        hammer.timeLeft = hammer.duration;
+                        hammer.progress = 0;
+                        
+                        renderHammers();
+                        updateUI();
+                        updateMountainVisual();
+                    }
                     
-                    // آپدیت UI
-                    renderHammers();
-                    updateUI();
-                    updateMountainVisual();
-                } else {
-                    console.error('❌ Failed to save timer to database');
-                    alert('خطا در شروع استخراج! لطفاً دوباره تلاش کنید.');
+                } catch (error) {
+                    console.error('Error activating hammer:', error);
                 }
-                
-            } catch (error) {
-                console.error('❌ Error activating hammer:', error);
-                alert('خطا در شروع استخراج: ' + error.message);
             }
         }
 
-        // ==================== سیستم سطح‌بندی ====================
-        
-        // نمایش بخش سطح‌ها
+        // سیستم سطح‌بندی
         function showLevelsSection() {
             hideAllSections();
             document.getElementById('levelsSection').style.display = 'block';
             updateLevelsDisplay();
             
-            // آپدیت نویگیشن
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
                 if (item.querySelector('i').classList.contains('fa-chart-line')) {
@@ -2462,24 +2745,17 @@
             });
         }
 
-        // آپدیت نمایش سطح‌ها
         function updateLevelsDisplay() {
             if (!currentUser) return;
             
             const currentLevel = currentUser.level || 0;
-            
-            // آپدیت اطلاعات سطح فعلی
             document.getElementById('currentLevelDisplay').textContent = currentLevel;
             document.getElementById('profileLevel').textContent = currentLevel;
             
-            // آپدیت پیشرفت
             updateLevelProgress();
-            
-            // رندر کارت‌های سطح
             renderLevelCards();
         }
 
-        // آپدیت نوار پیشرفت
         function updateLevelProgress() {
             const currentLevel = currentUser.level || 0;
             const currentBalance = gameState.rockBalance;
@@ -2497,7 +2773,6 @@
             }
         }
 
-        // رندر کارت‌های سطح
         function renderLevelCards() {
             const levelsGrid = document.getElementById('levelsGrid');
             levelsGrid.innerHTML = '';
@@ -2584,7 +2859,6 @@
             });
         }
 
-        // خرید سطح
         async function purchaseLevel(levelId) {
             if (!currentUser) {
                 showAuthPage();
@@ -2605,27 +2879,21 @@
             }
             
             try {
-                // کسر هزینه از موجودی
                 const newBalance = currentBalance - level.price;
                 const newLevel = levelId;
                 
-                // آپدیت دیتابیس
                 const updatedUser = await updateUserBalance(currentUser.id, newBalance, currentUser.total_mined || 0, newLevel);
                 
                 if (updatedUser) {
-                    // آپدیت وضعیت محلی
                     currentUser = updatedUser;
                     gameState.rockBalance = newBalance;
                     
-                    // نمایش افکت ارتقا سطح
                     showLevelUpEffect();
                     
-                    // آپدیت UI
                     updateUI();
                     updateLevelsDisplay();
                     updateProfile();
                     
-                    // نمایش پیام موفقیت
                     setTimeout(() => {
                         alert(`🎉 تبریک! شما به سطح ${level.name} ارتقا یافتید!\nپاداش استخراج شما ${level.rewardMultiplier}x شد!`);
                     }, 1000);
@@ -2637,7 +2905,6 @@
             }
         }
 
-        // نمایش افکت ارتقا سطح
         function showLevelUpEffect() {
             const levelsGrid = document.getElementById('levelsGrid');
             const effect = document.createElement('div');
@@ -2649,15 +2916,13 @@
             }, 1000);
         }
 
-        // دریافت ضریب پاداش بر اساس سطح
         function getRewardMultiplier() {
             const currentLevel = currentUser?.level || 0;
             const level = levels.find(l => l.id === currentLevel);
             return level ? level.rewardMultiplier : 1;
         }
 
-        // ==================== سیستم تأیید چندمرحله‌ای ====================
-        
+        // سیستم تأیید چندمرحله‌ای
         function startVerification(reward) {
             gameState.pendingReward = reward;
             gameState.verificationTime = 8;
@@ -2739,10 +3004,10 @@
             }, 1500);
         }
 
-        // ==================== توابع کمکی ====================
-        
+        // توابع کمکی
         function updateUI() {
             document.getElementById('rockBalance').textContent = gameState.rockBalance.toLocaleString();
+            document.getElementById('usdtBalance').textContent = gameState.usdtBalance.toFixed(8);
             document.getElementById('activeTimers').textContent = gameState.activeTimers;
         }
 
@@ -2750,6 +3015,7 @@
             if (currentUser) {
                 document.getElementById('profileEmail').textContent = currentUser.email;
                 document.getElementById('profileBalance').textContent = currentUser.balance.toLocaleString();
+                document.getElementById('profileUSDT').textContent = (currentUser.usdt_balance || 0).toFixed(8);
                 document.getElementById('profileLevel').textContent = currentUser.level;
                 document.getElementById('profileMined').textContent = (currentUser.total_mined || 0).toLocaleString();
             }
@@ -2806,6 +3072,20 @@
                         item.classList.add('active');
                     }
                 });
+            } else if (section === 'conversion') {
+                if (!currentUser) {
+                    showAuthPage();
+                    return;
+                }
+                document.getElementById('conversionSection').style.display = 'block';
+                loadConversionHistory();
+                
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                    if (item.querySelector('i').classList.contains('fa-exchange-alt')) {
+                        item.classList.add('active');
+                    }
+                });
             } else if (section === 'hammers') {
                 document.getElementById('mountainSection').style.display = 'block';
                 document.getElementById('hammersSection').style.display = 'block';
@@ -2841,6 +3121,7 @@
 
         function hideAllSections() {
             document.getElementById('profileSection').style.display = 'none';
+            document.getElementById('conversionSection').style.display = 'none';
             document.getElementById('mountainSection').style.display = 'none';
             document.getElementById('hammersSection').style.display = 'none';
             document.getElementById('levelsSection').style.display = 'none';
@@ -2860,11 +3141,12 @@
             renderHammers();
             createGoldParticles();
             
-            // شروع تایمر بازی
+            // اضافه کردن event listener برای محاسبه خودکار تتر
+            document.getElementById('goldAmount').addEventListener('input', calculateUSDT);
+            
             setInterval(updateGame, 1000);
         }
 
-        // لیست متن‌های هش رندوم
         const hashMessages = [
             "0x1a2b3c4d5e6f7890abcdef1234567890",
             "SHA256: 7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2",
@@ -2932,4 +3214,4 @@
         });
     </script>
 </body>
-    </html>
+</html>
