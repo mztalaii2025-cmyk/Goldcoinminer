@@ -418,18 +418,18 @@
             margin: 0 auto;
         }
         
-        /* بخش کوه مرکزی - فقط در صفحه اصلی نمایش داده می‌شود */
+        /* بخش کوه مرکزی - ارتفاع بزرگتر شده */
         .mountain-section {
             background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(18, 18, 18, 0.9) 100%);
             border-radius: 20px;
-            padding: 20px;
+            padding: 25px;
             margin-bottom: 15px;
             border: 2px solid var(--glass-border);
             box-shadow: 0 10px 30px rgba(255, 215, 0, 0.15);
             text-align: center;
             position: relative;
             overflow: hidden;
-            height: 320px;
+            height: 380px; /* ارتفاع بزرگتر */
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -437,8 +437,8 @@
         }
         
         .mountain-title {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
+            font-size: 2rem; /* بزرگتر شده */
+            margin-bottom: 25px;
             color: var(--gold);
             font-weight: 800;
             text-shadow: 
@@ -451,7 +451,7 @@
         
         .mountain-container {
             position: relative;
-            height: 200px;
+            height: 250px; /* ارتفاع بزرگتر */
             display: flex;
             justify-content: center;
             align-items: flex-end;
@@ -461,9 +461,9 @@
         /* خورشید پشت کوه */
         .sun {
             position: absolute;
-            top: -30px;
-            width: 160px;
-            height: 160px;
+            top: -40px; /* تنظیم موقعیت */
+            width: 200px; /* بزرگتر شده */
+            height: 200px; /* بزرگتر شده */
             background: radial-gradient(
                 circle at center,
                 #FFD700 0%,
@@ -479,9 +479,9 @@
         
         .sun-rays {
             position: absolute;
-            top: -50px;
-            width: 200px;
-            height: 200px;
+            top: -60px; /* تنظیم موقعیت */
+            width: 240px; /* بزرگتر شده */
+            height: 240px; /* بزرگتر شده */
             background: radial-gradient(
                 circle at center,
                 rgba(255, 215, 0, 0.4) 0%,
@@ -506,8 +506,8 @@
         
         .mountain {
             position: relative;
-            width: 380px;
-            height: 180px;
+            width: 450px; /* بزرگتر شده */
+            height: 220px; /* بزرگتر شده */
             filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.7));
             z-index: 2;
         }
@@ -594,7 +594,7 @@
             75% { transform: translateY(-15px) rotate(270deg) scale(1.2); opacity: 0.9; }
         }
         
-        /* بخش استخراج */
+        /* بخش استخراج - ارتفاع کوچک شده */
         .hammers-section {
             background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(18, 18, 18, 0.9) 100%);
             border-radius: 18px;
@@ -602,7 +602,7 @@
             margin-bottom: 15px;
             border: 2px solid var(--glass-border);
             box-shadow: 0 8px 25px rgba(255, 215, 0, 0.12);
-            min-height: auto;
+            min-height: 200px; /* ارتفاع کوچک شده */
         }
         
         .section-title {
@@ -616,18 +616,18 @@
         .hammers-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
+            gap: 12px;
         }
         
         .hammer-card {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
-            padding: 15px;
+            padding: 12px; /* padding کوچک شده */
             border: 1px solid var(--glass-border);
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
-            min-height: auto;
+            min-height: 140px; /* ارتفاع کوچک شده */
         }
         
         .hammer-card::before {
@@ -654,23 +654,23 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         
         .hammer-icon {
-            font-size: 1.5rem;
+            font-size: 1.3rem; /* کوچک شده */
             color: var(--gold);
         }
         
         .hammer-name {
-            font-size: 1rem;
+            font-size: 0.9rem; /* کوچک شده */
             font-weight: 700;
         }
         
         .hammer-status {
-            padding: 5px 10px;
-            border-radius: 10px;
-            font-size: 0.7rem;
+            padding: 4px 8px; /* کوچک شده */
+            border-radius: 8px;
+            font-size: 0.65rem; /* کوچک شده */
             font-weight: 700;
         }
         
@@ -692,8 +692,8 @@
         .hammer-stats {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 0.8rem;
+            margin-bottom: 10px;
+            font-size: 0.75rem; /* کوچک شده */
             color: var(--gray);
             font-weight: 700;
         }
@@ -705,30 +705,30 @@
         
         .hammer-timer {
             text-align: center;
-            padding: 8px;
+            padding: 6px; /* کوچک شده */
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            margin-bottom: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.75rem; /* کوچک شده */
             border: 1px solid var(--glass-border);
         }
         
         .hammer-actions {
             display: flex;
-            gap: 8px;
+            gap: 6px;
         }
         
         .btn {
-            padding: 8px 12px;
+            padding: 6px 10px; /* کوچک شده */
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
             flex: 1;
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.75rem; /* کوچک شده */
         }
         
         .btn-gold {
@@ -1391,33 +1391,33 @@
         /* ریسپانسیو */
         @media (max-width: 768px) {
             .mountain {
-                width: 320px;
-                height: 150px;
-            }
-            
-            .mountain-container {
+                width: 350px;
                 height: 180px;
             }
             
+            .mountain-container {
+                height: 200px;
+            }
+            
             .mountain-title {
-                font-size: 1.5rem;
+                font-size: 1.7rem;
             }
             
             .mountain-section {
-                height: 280px;
-                padding: 15px;
+                height: 320px;
+                padding: 20px;
             }
             
             .sun {
-                top: -25px;
-                width: 130px;
-                height: 130px;
+                top: -30px;
+                width: 160px;
+                height: 160px;
             }
             
             .sun-rays {
-                top: -40px;
-                width: 170px;
-                height: 170px;
+                top: -50px;
+                width: 200px;
+                height: 200px;
             }
             
             .hammers-grid {
@@ -1462,33 +1462,33 @@
         
         @media (max-width: 480px) {
             .mountain {
-                width: 280px;
-                height: 130px;
+                width: 300px;
+                height: 150px;
             }
             
             .mountain-container {
-                height: 160px;
+                height: 170px;
             }
             
             .mountain-title {
-                font-size: 1.3rem;
+                font-size: 1.4rem;
             }
             
             .mountain-section {
-                height: 250px;
-                padding: 12px;
+                height: 280px;
+                padding: 15px;
             }
             
             .sun {
-                top: -20px;
-                width: 110px;
-                height: 110px;
+                top: -25px;
+                width: 130px;
+                height: 130px;
             }
             
             .sun-rays {
-                top: -35px;
-                width: 150px;
-                height: 150px;
+                top: -40px;
+                width: 170px;
+                height: 170px;
             }
             
             .main-content {
@@ -1873,6 +1873,158 @@
             }
         ];
 
+        // ==================== سیستم مدیریت تایمرها در دیتابیس ====================
+
+        // ذخیره تایمر جدید در دیتابیس
+        async function saveTimerToDatabase(hammerId, duration) {
+            if (!currentUser) return null;
+            
+            try {
+                const startTime = new Date();
+                const { data, error } = await supabase
+                    .from('user_timers')
+                    .upsert({
+                        user_id: currentUser.id,
+                        hammer_id: hammerId,
+                        start_time: startTime.toISOString(),
+                        duration: duration,
+                        is_active: true,
+                        updated_at: new Date()
+                    })
+                    .select()
+                    .single();
+                
+                if (error) throw error;
+                return data;
+                
+            } catch (error) {
+                console.error('Error saving timer:', error);
+                return null;
+            }
+        }
+
+        // آپدیت وضعیت تایمر
+        async function updateTimerInDatabase(hammerId, updates) {
+            if (!currentUser) return null;
+            
+            try {
+                const { data, error } = await supabase
+                    .from('user_timers')
+                    .update({
+                        ...updates,
+                        updated_at: new Date()
+                    })
+                    .eq('user_id', currentUser.id)
+                    .eq('hammer_id', hammerId)
+                    .select()
+                    .single();
+                
+                if (error) throw error;
+                return data;
+                
+            } catch (error) {
+                console.error('Error updating timer:', error);
+                return null;
+            }
+        }
+
+        // غیرفعال کردن تایمر
+        async function deactivateTimer(hammerId) {
+            return await updateTimerInDatabase(hammerId, {
+                is_active: false
+            });
+        }
+
+        // بارگذاری تایمرهای فعال کاربر
+        async function loadActiveTimers() {
+            if (!currentUser) return [];
+            
+            try {
+                const { data: timers, error } = await supabase
+                    .from('user_timers')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .eq('is_active', true);
+                
+                if (error) throw error;
+                return timers || [];
+                
+            } catch (error) {
+                console.error('Error loading timers:', error);
+                return [];
+            }
+        }
+
+        // محاسبه زمان باقی‌مانده تایمر
+        function calculateTimeLeft(timer) {
+            const startTime = new Date(timer.start_time);
+            const now = new Date();
+            const elapsedSeconds = Math.floor((now - startTime) / 1000);
+            const timeLeft = timer.duration - elapsedSeconds;
+            
+            return Math.max(0, timeLeft);
+        }
+
+        // بازیابی وضعیت تایمرها موقع لود صفحه
+        async function restoreTimersState() {
+            const activeTimers = await loadActiveTimers();
+            
+            activeTimers.forEach(timer => {
+                const timeLeft = calculateTimeLeft(timer);
+                const hammer = gameState.hammers.find(h => h.id === timer.hammer_id);
+                
+                if (hammer && timeLeft > 0) {
+                    // تایمر هنوز فعاله
+                    hammer.isActive = true;
+                    hammer.isOnCooldown = false;
+                    hammer.timeLeft = timeLeft;
+                    hammer.progress = 1 - (timeLeft / timer.duration);
+                } else if (hammer && timeLeft <= 0) {
+                    // تایمر تموم شده - پاداش رو بدین
+                    completeMining(timer.hammer_id);
+                }
+            });
+        }
+
+        // کامل کردن استخراج و دادن پاداش
+        async function completeMining(hammerId) {
+            const hammer = gameState.hammers.find(h => h.id === hammerId);
+            if (!hammer || !currentUser) return;
+            
+            // محاسبه پاداش با در نظر گرفتن سطح
+            const multiplier = getRewardMultiplier();
+            const baseReward = hammer.reward;
+            const actualReward = Math.round(baseReward * multiplier);
+            
+            // آپدیت موجودی کاربر
+            const newBalance = gameState.rockBalance + actualReward;
+            const newTotalMined = (currentUser.total_mined || 0) + actualReward;
+            
+            const updatedUser = await updateUserBalance(currentUser.id, newBalance, newTotalMined);
+            
+            if (updatedUser) {
+                currentUser = updatedUser;
+                gameState.rockBalance = newBalance;
+                
+                // غیرفعال کردن تایمر
+                await deactivateTimer(hammerId);
+                
+                // ریست وضعیت چکش
+                hammer.isActive = false;
+                hammer.isOnCooldown = true;
+                hammer.timeLeft = hammer.cooldown;
+                hammer.progress = 0;
+                
+                // آپدیت UI
+                updateUI();
+                updateProfile();
+                updateLevelsDisplay();
+                
+                // نمایش تأیید
+                startVerification(actualReward);
+            }
+        }
+
         // ==================== سیستم لودینگ ====================
         function startLoading() {
             let progress = 0;
@@ -2089,7 +2241,7 @@
 
         // ==================== توابع اصلی بازی ====================
         
-        function showGame(user) {
+        async function showGame(user) {
             currentUser = user;
             document.getElementById('authPage').style.display = 'none';
             
@@ -2103,6 +2255,9 @@
             gameState.rockBalance = user.balance || 0;
             updateUI();
             updateProfile();
+            
+            // بازیابی تایمرهای فعال
+            await restoreTimersState();
             
             // نمایش بخش استخراج
             showSection('hammers');
@@ -2129,32 +2284,8 @@
                     updateMountainVisual();
                     
                     if (hammer.timeLeft === 0) {
-                        // محاسبه پاداش با در نظر گرفتن سطح
-                        const multiplier = getRewardMultiplier();
-                        const baseReward = hammer.reward;
-                        const actualReward = Math.round(baseReward * multiplier);
-                        
-                        // پایان استخراج - آپدیت دیتابیس
-                        const newBalance = gameState.rockBalance + actualReward;
-                        const newTotalMined = (currentUser.total_mined || 0) + actualReward;
-                        
-                        updateUserBalance(currentUser.id, newBalance, newTotalMined)
-                            .then(updatedUser => {
-                                if (updatedUser) {
-                                    currentUser = updatedUser;
-                                    gameState.rockBalance = newBalance;
-                                    updateUI();
-                                    updateProfile();
-                                    updateLevelsDisplay(); // آپدیت پیشرفت سطح
-                                }
-                            });
-                        
-                        startVerification(actualReward);
-                        
-                        hammer.isActive = false;
-                        hammer.isOnCooldown = true;
-                        hammer.timeLeft = hammer.cooldown;
-                        hammer.progress = 0;
+                        // تموم شدن تایمر - پاداش رو بدین
+                        completeMining(hammer.id);
                     }
                 } else if (hammer.isOnCooldown && hammer.timeLeft > 0) {
                     hammer.timeLeft--;
@@ -2239,7 +2370,7 @@
             });
         }
 
-        function activateHammer(hammerId) {
+        async function activateHammer(hammerId) {
             if (!currentUser) {
                 showAuthPage();
                 return;
@@ -2248,9 +2379,14 @@
             const hammer = gameState.hammers.find(h => h.id === hammerId);
             
             if (!hammer.isActive && !hammer.isOnCooldown) {
-                hammer.isActive = true;
-                hammer.timeLeft = hammer.duration;
-                hammer.progress = 0;
+                // ذخیره تایمر در دیتابیس
+                const timer = await saveTimerToDatabase(hammerId, hammer.duration);
+                
+                if (timer) {
+                    hammer.isActive = true;
+                    hammer.timeLeft = hammer.duration;
+                    hammer.progress = 0;
+                }
             }
         }
 
