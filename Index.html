@@ -1278,6 +1278,218 @@
             background: rgba(255, 68, 68, 0.3);
         }
         
+        /* بخش سیستم ارجاع */
+        .referral-section {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(18, 18, 18, 0.9) 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 15px;
+            border: 2px solid var(--gold);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.15);
+            display: none;
+        }
+
+        .referral-hero {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .referral-hero h2 {
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .referral-hero p {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        .your-code, .your-earnings {
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .your-code h4, .your-earnings h4 {
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .code-box, .earnings-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-box button, .earnings-box button {
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .code-box button:hover {
+            background: var(--gold-dark);
+            transform: scale(1.05);
+        }
+
+        .earnings-box {
+            border-color: var(--success);
+        }
+
+        .earnings-box span {
+            color: var(--success);
+        }
+
+        .invite-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .invite-buttons button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 15px;
+            color: var(--gold);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .invite-buttons button:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .invite-buttons button:nth-child(1) {
+            border-color: #25D366;
+            color: #25D366;
+        }
+
+        .invite-buttons button:nth-child(2) {
+            border-color: #0088cc;
+            color: #0088cc;
+        }
+
+        .referral-info {
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+
+        .referral-info h4 {
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .info-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .info-step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .step-number {
+            background: var(--gold);
+            color: var(--black);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .step-text {
+            color: var(--light);
+            font-size: 0.9rem;
+        }
+
+        .step-text strong {
+            color: var(--gold);
+        }
+
+        .referral-list {
+            margin-top: 30px;
+        }
+
+        .referral-list h4 {
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .referral-list-container {
+            max-height: 300px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .referral-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .referral-item:last-child {
+            border-bottom: none;
+        }
+
+        .referral-email {
+            color: var(--light);
+            font-size: 0.9rem;
+        }
+
+        .referral-reward {
+            color: var(--success);
+            font-weight: 700;
+        }
+
         /* تأیید چند مرحله‌ای */
         .confirmation-grid {
             position: fixed;
@@ -1635,6 +1847,10 @@
             .nav-item span {
                 font-size: 0.7rem;
             }
+            
+            .invite-buttons {
+                grid-template-columns: 1fr;
+            }
         }
         
         @media (max-width: 480px) {
@@ -1761,6 +1977,14 @@
                     <button type="button" class="password-toggle" onclick="togglePassword('registerPassword', this)">
                         <i class="fas fa-eye"></i>
                     </button>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-gift"></i> کد معرف دوستتان (اختیاری)
+                        <span style="color: var(--gold); font-size: 0.8rem;">+۱۰,۰۰۰ سکه هدیه!</span>
+                    </label>
+                    <input type="text" class="form-input" id="referralCode" placeholder="کد دوستتان را وارد کنید" maxlength="10">
+                    <p style="color: var(--gray); font-size: 0.8rem; margin-top: 5px;">با وارد کردن کد، ۱۰,۰۰۰ سکه هدیه می‌گیرید!</p>
                 </div>
                 <button type="submit" class="auth-btn" id="registerBtn">
                     ثبت نام و شروع بازی
@@ -1917,6 +2141,74 @@
                 </div>
             </section>
             
+            <!-- بخش سیستم ارجاع -->
+            <section class="referral-section" id="referralSection">
+                <div class="referral-hero">
+                    <h2><i class="fas fa-users"></i> دوستانت رو دعوت کن</h2>
+                    <p>هر دعوت = ۵,۰۰۰ سکه برای تو + ۱۰,۰۰۰ سکه برای دوستت</p>
+                </div>
+                
+                <div class="your-code">
+                    <h4>کد تو:</h4>
+                    <div class="code-box">
+                        <span id="myReferralCode">در حال بارگذاری...</span>
+                        <button onclick="copyReferralCode()">📋 کپی</button>
+                    </div>
+                </div>
+                
+                <div class="your-earnings">
+                    <h4>تا الان از دعوت دوستان:</h4>
+                    <div class="earnings-box">
+                        <span id="myReferralEarnings">0</span> سکه
+                    </div>
+                </div>
+                
+                <div class="invite-buttons">
+                    <button onclick="shareViaWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> واتساپ
+                    </button>
+                    <button onclick="shareViaTelegram()">
+                        <i class="fab fa-telegram"></i> تلگرام
+                    </button>
+                    <button onclick="copyInviteLink()">
+                        <i class="fas fa-link"></i> کپی لینک
+                    </button>
+                </div>
+                
+                <div class="referral-info">
+                    <h4>چگونه کار می‌کند؟</h4>
+                    <div class="info-steps">
+                        <div class="info-step">
+                            <span class="step-number">۱</span>
+                            <div class="step-text">کد بالا را برای دوستانت بفرست</div>
+                        </div>
+                        <div class="info-step">
+                            <span class="step-number">۲</span>
+                            <div class="step-text">دوستانت با کد تو ثبت‌نام کنند</div>
+                        </div>
+                        <div class="info-step">
+                            <span class="step-number">۳</span>
+                            <div class="step-text">دوستت <strong>۱۰,۰۰۰ سکه</strong> هدیه می‌گیرد</div>
+                        </div>
+                        <div class="info-step">
+                            <span class="step-number">۴</span>
+                            <div class="step-text">تو <strong>۵,۰۰۰ سکه</strong> پاداش می‌گیری</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="referral-list">
+                    <h4>دوستانی که دعوت کردی</h4>
+                    <div class="referral-list-container" id="referralsList">
+                        <!-- لیست دوستان اینجا نمایش داده می‌شود -->
+                        <div class="referral-item">
+                            <span class="referral-email">هنوز کسی رو دعوت نکردی</span>
+                            <span class="referral-reward">-</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
             <!-- بخش سطح‌ها -->
             <section class="levels-section" id="levelsSection">
                 <div class="levels-header">
@@ -2000,6 +2292,10 @@
             <div class="nav-item" onclick="showSection('levels')">
                 <i class="fas fa-chart-line"></i>
                 <span>سطح</span>
+            </div>
+            <div class="nav-item" onclick="showSection('referral')">
+                <i class="fas fa-user-friends"></i>
+                <span>معرفی دوستان</span>
             </div>
             <div class="nav-item" onclick="showSection('profile')">
                 <i class="fas fa-user"></i>
@@ -2096,140 +2392,198 @@
             }
         ];
 
-        // ==================== سیستم تبدیل ارز ====================
-
-        // محاسبه مقدار تتر بر اساس طلا
-        function calculateUSDT() {
-            const goldAmount = parseInt(document.getElementById('goldAmount').value) || 0;
-            const usdtAmount = goldAmount * CONVERSION_RATE;
-            document.getElementById('usdtResult').textContent = usdtAmount.toFixed(8) + ' USDT';
+        // ==================== توابع سیستم ارجاع ====================
+        
+        // تولید کد معرف یکتا
+        function generateReferralCode() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code = 'G';
+            for (let i = 0; i < 5; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
         }
 
-        // تبدیل طلا به تتر
-        async function convertGoldToUSDT() {
-            if (!currentUser) {
-                alert('لطفاً اول وارد حساب کاربری خود شوید');
-                return;
-            }
-
-            const goldAmount = parseInt(document.getElementById('goldAmount').value);
-
-            if (!goldAmount || goldAmount <= 0) {
-                alert('لطفاً مقدار معتبری وارد کنید');
-                return;
-            }
-
-            if (goldAmount > gameState.rockBalance) {
-                alert('موجودی طلای شما کافی نیست');
-                return;
-            }
-
+        // پرداخت پاداش‌های ارجاع
+        async function handleReferralRewards(newUserId, referralCode) {
             try {
-                const usdtAmount = goldAmount * CONVERSION_RATE;
+                console.log('پرداخت پاداش‌های ارجاع شروع شد');
+                console.log('کد معرف:', referralCode);
                 
-                // محاسبه موجودی جدید
-                const newGoldBalance = gameState.rockBalance - goldAmount;
-                const newUSDTBalance = gameState.usdtBalance + usdtAmount;
-
-                // آپدیت کاربر در دیتابیس
-                const { data: updatedUser, error } = await supabase
+                // ۱. پیدا کردن معرف اصلی
+                const { data: referrer, error: refError } = await supabase
                     .from('users')
-                    .update({
-                        balance: newGoldBalance,
-                        usdt_balance: newUSDTBalance,
-                        updated_at: new Date()
-                    })
-                    .eq('id', currentUser.id)
-                    .select()
+                    .select('id, balance, referral_earnings, total_referrals, referred_by')
+                    .eq('referral_code', referralCode)
                     .single();
-
-                if (error) throw error;
-
-                // ذخیره تراکنش در جدول conversions
-                const { error: conversionError } = await supabase
-                    .from('conversions')
-                    .insert({
-                        user_id: currentUser.id,
-                        gold_amount: goldAmount,
-                        usdt_amount: usdtAmount,
-                        conversion_rate: CONVERSION_RATE
-                    });
-
-                if (conversionError) throw conversionError;
-
-                // آپدیت وضعیت محلی
-                currentUser = updatedUser;
-                gameState.rockBalance = newGoldBalance;
-                gameState.usdtBalance = newUSDTBalance;
-
-                // آپدیت UI
-                updateUI();
-                updateProfile();
-                loadConversionHistory();
-
-                // نمایش پیام موفقیت
-                alert(`✅ تبدیل موفق!\n${goldAmount.toLocaleString()} سکه طلا به ${usdtAmount.toFixed(8)} تتر تبدیل شد.`);
-
-                // ریست فرم
-                document.getElementById('goldAmount').value = '';
-                document.getElementById('usdtResult').textContent = '0 USDT';
-
-            } catch (error) {
-                console.error('Error converting gold to USDT:', error);
-                alert('خطا در تبدیل ارز! لطفاً دوباره تلاش کنید.');
-            }
-        }
-
-        // بارگذاری تاریخچه تبدیل‌ها
-        async function loadConversionHistory() {
-            if (!currentUser) return;
-
-            try {
-                const { data: conversions, error } = await supabase
-                    .from('conversions')
-                    .select('*')
-                    .eq('user_id', currentUser.id)
-                    .order('created_at', { ascending: false })
-                    .limit(10);
-
-                if (error) throw error;
-
-                const historyContainer = document.getElementById('conversionHistory');
-                historyContainer.innerHTML = '';
-
-                if (!conversions || conversions.length === 0) {
-                    historyContainer.innerHTML = '<div class="history-item">هنوز تبدیلی انجام نداده‌اید</div>';
+                    
+                if (refError || !referrer) {
+                    console.log('کد معرف معتبر نیست');
                     return;
                 }
-
-                conversions.forEach(conversion => {
-                    const historyItem = document.createElement('div');
-                    historyItem.className = 'history-item';
+                
+                console.log('معرف اصلی پیدا شد:', referrer.id);
+                
+                // ۲. پرداخت ۵,۰۰۰ سکه به معرف اصلی
+                await supabase
+                    .from('users')
+                    .update({
+                        balance: referrer.balance + 5000,
+                        referral_earnings: referrer.referral_earnings + 5000,
+                        total_referrals: referrer.total_referrals + 1,
+                        updated_at: new Date()
+                    })
+                    .eq('id', referrer.id);
+                
+                console.log('۵,۰۰۰ سکه به معرف اصلی پرداخت شد');
+                
+                // ۳. ثبت در جدول referrals (سطح ۱)
+                await supabase
+                    .from('referrals')
+                    .insert({
+                        referrer_id: referrer.id,
+                        referred_id: newUserId,
+                        level: 1,
+                        amount: 5000
+                    });
+                
+                console.log('در جدول referrals ثبت شد (سطح ۱)');
+                
+                // ۴. اگر معرف اصلی خودش با کد دیگری ثبت‌نام کرده
+                if (referrer.referred_by) {
+                    console.log('جستجوی معرف سطح ۲...');
                     
-                    const date = new Date(conversion.created_at);
-                    const formattedDate = date.toLocaleDateString('fa-IR');
-                    
-                    historyItem.innerHTML = `
-                        <div>
-                            <span class="history-amount history-gold">${conversion.gold_amount.toLocaleString()} GOLD</span>
-                            <i class="fas fa-arrow-left" style="margin: 0 8px; color: var(--gray);"></i>
-                            <span class="history-amount history-usdt">${conversion.usdt_amount.toFixed(8)} USDT</span>
-                        </div>
-                        <div class="history-date">${formattedDate}</div>
-                    `;
-                    
-                    historyContainer.appendChild(historyItem);
-                });
-
+                    const { data: level2Referrer } = await supabase
+                        .from('users')
+                        .select('id, balance, referral_earnings')
+                        .eq('referral_code', referrer.referred_by)
+                        .single();
+                        
+                    if (level2Referrer) {
+                        console.log('معرف سطح ۲ پیدا شد:', level2Referrer.id);
+                        
+                        // پرداخت ۲,۵۰۰ سکه به معرف سطح ۲
+                        await supabase
+                            .from('users')
+                            .update({
+                                balance: level2Referrer.balance + 2500,
+                                referral_earnings: level2Referrer.referral_earnings + 2500,
+                                updated_at: new Date()
+                            })
+                            .eq('id', level2Referrer.id);
+                        
+                        console.log('۲,۵۰۰ سکه به معرف سطح ۲ پرداخت شد');
+                        
+                        // ثبت در جدول referrals (سطح ۲)
+                        await supabase
+                            .from('referrals')
+                            .insert({
+                                referrer_id: level2Referrer.id,
+                                referred_id: newUserId,
+                                level: 2,
+                                amount: 2500
+                            });
+                        
+                        console.log('در جدول referrals ثبت شد (سطح ۲)');
+                    }
+                }
+                
+                console.log('پرداخت پاداش‌های ارجاع با موفقیت انجام شد');
+                
             } catch (error) {
-                console.error('Error loading conversion history:', error);
+                console.error('خطا در پرداخت پاداش‌های ارجاع:', error);
             }
         }
 
-        // ==================== بقیه توابع بدون تغییر می‌مونن ====================
-        // [کدهای قبلی مربوط به تایمرها، استخراج، سطح‌بندی و...]
+        // بارگذاری اطلاعات ارجاع کاربر
+        async function loadReferralInfo() {
+            if (!currentUser) return;
+            
+            try {
+                // بارگذاری کد معرف کاربر
+                document.getElementById('myReferralCode').textContent = currentUser.referral_code || 'در حال تولید...';
+                document.getElementById('myReferralEarnings').textContent = currentUser.referral_earnings || 0;
+                
+                // بارگذاری لیست دوستان دعوت شده
+                const { data: referrals, error } = await supabase
+                    .from('referrals')
+                    .select('*, users:referred_id(email)')
+                    .eq('referrer_id', currentUser.id)
+                    .order('created_at', { ascending: false })
+                    .limit(10);
+                
+                if (error) throw error;
+                
+                const referralsList = document.getElementById('referralsList');
+                referralsList.innerHTML = '';
+                
+                if (!referrals || referrals.length === 0) {
+                    referralsList.innerHTML = `
+                        <div class="referral-item">
+                            <span class="referral-email">هنوز کسی رو دعوت نکردی</span>
+                            <span class="referral-reward">-</span>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                referrals.forEach(ref => {
+                    const referralItem = document.createElement('div');
+                    referralItem.className = 'referral-item';
+                    
+                    const email = ref.users?.email || 'کاربر ناشناس';
+                    const maskedEmail = email.split('@')[0].slice(0, 3) + '***@' + email.split('@')[1];
+                    
+                    referralItem.innerHTML = `
+                        <span class="referral-email">${maskedEmail}</span>
+                        <span class="referral-reward">+${ref.amount} سکه</span>
+                    `;
+                    
+                    referralsList.appendChild(referralItem);
+                });
+                
+            } catch (error) {
+                console.error('خطا در بارگذاری اطلاعات ارجاع:', error);
+            }
+        }
 
-        // سیستم مدیریت تایمرها
+        // کپی کد معرف
+        function copyReferralCode() {
+            const code = document.getElementById('myReferralCode').textContent;
+            if (code && code !== 'در حال بارگذاری...') {
+                navigator.clipboard.writeText(code).then(() => {
+                    alert('کد با موفقیت کپی شد: ' + code);
+                });
+            }
+        }
+
+        // اشتراک‌گذاری در واتساپ
+        function shareViaWhatsApp() {
+            if (!currentUser) return;
+            const code = currentUser.referral_code;
+            const message = `سلام! به بازی معدن‌چی طلا بپیوند و ۱۰,۰۰۰ سکه طلای رایگان بگیر! 🎮💰\n\nکد معرف من: ${code}\n\nلینک بازی: ${window.location.origin}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // اشتراک‌گذاری در تلگرام
+        function shareViaTelegram() {
+            if (!currentUser) return;
+            const code = currentUser.referral_code;
+            const message = `سلام! به بازی معدن‌چی طلا بپیوند و ۱۰,۰۰۰ سکه طلای رایگان بگیر! 🎮💰\n\nکد معرف من: ${code}\n\nلینک بازی: ${window.location.origin}`;
+            window.open(`https://t.me/share/url?url=${encodeURIComponent(window.location.origin)}&text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // کپی لینک دعوت
+        function copyInviteLink() {
+            if (!currentUser) return;
+            const code = currentUser.referral_code;
+            const link = `${window.location.origin}?ref=${code}`;
+            navigator.clipboard.writeText(link).then(() => {
+                alert('لینک دعوت با موفقیت کپی شد!');
+            });
+        }
+
+        // ==================== سیستم مدیریت تایمرها ====================
         async function saveTimerToDatabase(hammerId, duration) {
             if (!currentUser) return null;
             
@@ -2381,7 +2735,137 @@
             }
         }
 
-        // سیستم لودینگ
+        // ==================== سیستم تبدیل ارز ====================
+
+        // محاسبه مقدار تتر بر اساس طلا
+        function calculateUSDT() {
+            const goldAmount = parseInt(document.getElementById('goldAmount').value) || 0;
+            const usdtAmount = goldAmount * CONVERSION_RATE;
+            document.getElementById('usdtResult').textContent = usdtAmount.toFixed(8) + ' USDT';
+        }
+
+        // تبدیل طلا به تتر
+        async function convertGoldToUSDT() {
+            if (!currentUser) {
+                alert('لطفاً اول وارد حساب کاربری خود شوید');
+                return;
+            }
+
+            const goldAmount = parseInt(document.getElementById('goldAmount').value);
+
+            if (!goldAmount || goldAmount <= 0) {
+                alert('لطفاً مقدار معتبری وارد کنید');
+                return;
+            }
+
+            if (goldAmount > gameState.rockBalance) {
+                alert('موجودی طلای شما کافی نیست');
+                return;
+            }
+
+            try {
+                const usdtAmount = goldAmount * CONVERSION_RATE;
+                
+                // محاسبه موجودی جدید
+                const newGoldBalance = gameState.rockBalance - goldAmount;
+                const newUSDTBalance = gameState.usdtBalance + usdtAmount;
+
+                // آپدیت کاربر در دیتابیس
+                const { data: updatedUser, error } = await supabase
+                    .from('users')
+                    .update({
+                        balance: newGoldBalance,
+                        usdt_balance: newUSDTBalance,
+                        updated_at: new Date()
+                    })
+                    .eq('id', currentUser.id)
+                    .select()
+                    .single();
+
+                if (error) throw error;
+
+                // ذخیره تراکنش در جدول conversions
+                const { error: conversionError } = await supabase
+                    .from('conversions')
+                    .insert({
+                        user_id: currentUser.id,
+                        gold_amount: goldAmount,
+                        usdt_amount: usdtAmount,
+                        conversion_rate: CONVERSION_RATE
+                    });
+
+                if (conversionError) throw conversionError;
+
+                // آپدیت وضعیت محلی
+                currentUser = updatedUser;
+                gameState.rockBalance = newGoldBalance;
+                gameState.usdtBalance = newUSDTBalance;
+
+                // آپدیت UI
+                updateUI();
+                updateProfile();
+                loadConversionHistory();
+
+                // نمایش پیام موفقیت
+                alert(`✅ تبدیل موفق!\n${goldAmount.toLocaleString()} سکه طلا به ${usdtAmount.toFixed(8)} تتر تبدیل شد.`);
+
+                // ریست فرم
+                document.getElementById('goldAmount').value = '';
+                document.getElementById('usdtResult').textContent = '0 USDT';
+
+            } catch (error) {
+                console.error('Error converting gold to USDT:', error);
+                alert('خطا در تبدیل ارز! لطفاً دوباره تلاش کنید.');
+            }
+        }
+
+        // بارگذاری تاریخچه تبدیل‌ها
+        async function loadConversionHistory() {
+            if (!currentUser) return;
+
+            try {
+                const { data: conversions, error } = await supabase
+                    .from('conversions')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('created_at', { ascending: false })
+                    .limit(10);
+
+                if (error) throw error;
+
+                const historyContainer = document.getElementById('conversionHistory');
+                historyContainer.innerHTML = '';
+
+                if (!conversions || conversions.length === 0) {
+                    historyContainer.innerHTML = '<div class="history-item">هنوز تبدیلی انجام نداده‌اید</div>';
+                    return;
+                }
+
+                conversions.forEach(conversion => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    
+                    const date = new Date(conversion.created_at);
+                    const formattedDate = date.toLocaleDateString('fa-IR');
+                    
+                    historyItem.innerHTML = `
+                        <div>
+                            <span class="history-amount history-gold">${conversion.gold_amount.toLocaleString()} GOLD</span>
+                            <i class="fas fa-arrow-left" style="margin: 0 8px; color: var(--gray);"></i>
+                            <span class="history-amount history-usdt">${conversion.usdt_amount.toFixed(8)} USDT</span>
+                        </div>
+                        <div class="history-date">${formattedDate}</div>
+                    `;
+                    
+                    historyContainer.appendChild(historyItem);
+                });
+
+            } catch (error) {
+                console.error('Error loading conversion history:', error);
+            }
+        }
+
+        // ==================== سیستم لودینگ ====================
         function startLoading() {
             let progress = 0;
             const loadingBar = document.getElementById('loadingBar');
@@ -2414,12 +2898,13 @@
             initGame();
         }
 
-        // سیستم احراز هویت
+        // ==================== سیستم احراز هویت ====================
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
+            const referralCode = document.getElementById('referralCode').value.trim();
             const button = document.getElementById('registerBtn');
             
             setLoading(button, true);
@@ -2440,25 +2925,48 @@
                     return;
                 }
                 
-                const { error: profileError } = await supabase
-                    .from('users')
-                    .insert([
-                        {
-                            id: authData.user.id,
-                            email: email,
-                            balance: 0,
-                            usdt_balance: 0,
-                            level: 0,
-                            total_mined: 0
-                        }
-                    ]);
+                // تولید کد معرف برای کاربر جدید
+                const userReferralCode = generateReferralCode();
                 
-                if (profileError) {
-                    console.error('Error creating profile:', profileError);
-                }
+                // ایجاد پروفایل کاربر در جدول users
+                const { data: newUser, error: userError } = await supabase
+                    .from('users')
+                    .insert({
+                        id: authData.user.id,
+                        email: email,
+                        balance: 10000, // ۱۰,۰۰۰ سکه هدیه شروع
+                        referral_code: userReferralCode,
+                        referred_by: referralCode || null,
+                        level: 0,
+                        total_mined: 0,
+                        referral_earnings: 0,
+                        total_referrals: 0
+                    })
+                    .select()
+                    .single();
+                    
+                if (userError) throw userError;
                 
                 showMessage('ثبت نام با موفقیت انجام شد!', 'success');
                 
+                // اگر کد معرف داشت، پرداخت پاداش‌های ارجاع
+                if (referralCode) {
+                    await handleReferralRewards(authData.user.id, referralCode);
+                    
+                    // بارگذاری مجدد کاربر برای دریافت موجودی آپدیت شده
+                    const { data: updatedUser } = await supabase
+                        .from('users')
+                        .select('*')
+                        .eq('id', authData.user.id)
+                        .single();
+                    
+                    if (updatedUser) {
+                        currentUser = updatedUser;
+                        gameState.rockBalance = updatedUser.balance;
+                    }
+                }
+                
+                // ورود خودکار بعد از ثبت‌نام
                 const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
                     email: email,
                     password: password
@@ -2516,16 +3024,19 @@
                     .single();
                 
                 if (error) {
+                    // اگر کاربر در جدول users وجود نداشت، ایجادش کن
                     const { data: newUser } = await supabase
                         .from('users')
                         .insert([
                             {
                                 id: userId,
                                 email: (await supabase.auth.getUser()).data.user.email,
-                                balance: 0,
-                                usdt_balance: 0,
+                                balance: 10000,
+                                referral_code: generateReferralCode(),
                                 level: 0,
-                                total_mined: 0
+                                total_mined: 0,
+                                referral_earnings: 0,
+                                total_referrals: 0
                             }
                         ])
                         .select()
@@ -2579,7 +3090,7 @@
             }
         }
 
-        // توابع اصلی بازی
+        // ==================== توابع اصلی بازی ====================
         async function showGame(user) {
             currentUser = user;
             document.getElementById('authPage').style.display = 'none';
@@ -2594,6 +3105,7 @@
             
             await restoreTimersState();
             loadConversionHistory();
+            loadReferralInfo();
             
             showSection('hammers');
         }
@@ -2633,7 +3145,7 @@
             renderHammers();
         }
 
-        // سیستم استخراج
+        // ==================== سیستم استخراج ====================
         function renderHammers() {
             const hammersContainer = document.getElementById('hammersContainer');
             hammersContainer.innerHTML = '';
@@ -2731,7 +3243,7 @@
             }
         }
 
-        // سیستم سطح‌بندی
+        // ==================== سیستم سطح‌بندی ====================
         function showLevelsSection() {
             hideAllSections();
             document.getElementById('levelsSection').style.display = 'block';
@@ -2922,7 +3434,7 @@
             return level ? level.rewardMultiplier : 1;
         }
 
-        // سیستم تأیید چندمرحله‌ای
+        // ==================== سیستم تأیید چندمرحله‌ای ====================
         function startVerification(reward) {
             gameState.pendingReward = reward;
             gameState.verificationTime = 8;
@@ -2952,7 +3464,8 @@
                 activateStep(2);
             } else if (gameState.verificationTime === 0) {
                 activateStep(3);
-                completeVerification();
+                document.getElementById('verificationBtn').disabled = false;
+                document.getElementById('verificationBtn').textContent = 'برداشت موفق! 🎉';
             }
         }
 
@@ -3004,7 +3517,7 @@
             }, 1500);
         }
 
-        // توابع کمکی
+        // ==================== توابع کمکی ====================
         function updateUI() {
             document.getElementById('rockBalance').textContent = gameState.rockBalance.toLocaleString();
             document.getElementById('usdtBalance').textContent = gameState.usdtBalance.toFixed(8);
@@ -3116,6 +3629,20 @@
                         item.classList.add('active');
                     }
                 });
+            } else if (section === 'referral') {
+                if (!currentUser) {
+                    showAuthPage();
+                    return;
+                }
+                document.getElementById('referralSection').style.display = 'block';
+                loadReferralInfo();
+                
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                    if (item.querySelector('i').classList.contains('fa-user-friends')) {
+                        item.classList.add('active');
+                    }
+                });
             }
         }
 
@@ -3125,6 +3652,7 @@
             document.getElementById('mountainSection').style.display = 'none';
             document.getElementById('hammersSection').style.display = 'none';
             document.getElementById('levelsSection').style.display = 'none';
+            document.getElementById('referralSection').style.display = 'none';
         }
 
         async function logout() {
@@ -3207,11 +3735,19 @@
             }
         }
 
-        // شروع اولیه
+        // ==================== شروع اولیه ====================
         window.addEventListener('load', () => {
             showTab('register');
             startLoading();
+            
+            // بررسی پارامتر ref در URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+            
+            if (refCode) {
+                document.getElementById('referralCode').value = refCode;
+            }
         });
     </script>
 </body>
-</html>
+    </html>
