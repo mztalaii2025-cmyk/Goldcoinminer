@@ -2545,90 +2545,130 @@
             });
         }
 
-        // پرداخت پاداش زیرمجموعه
-        async function awardReferralPoints(referralCode, newUserId) {
-            try {
-                // یافتن معرف
-                const { data: referrer, error } = await supabase
-                    .from('users')
-                    .select('*')
-                    .eq('referral_code', referralCode)
-                    .single();
+        // تابع اصلاح شده برای پرداخت پاداش زیرمجموعه
+async function awardReferralPoints(referralCode, newUserId) {
+    try {
+        console.log('🔍 Checking referral code:', referralCode);
+        console.log('👤 New user ID:', newUserId);
+        
+        // یافتن معرف
+        const { data: referrer, error } = await supabase
+            .from('users')
+            .select('*')
+            .eq('referral_code', referralCode.trim())
+            .single();
+        
+        if (error || !referrer) {
+            console.error('❌ Referrer not found:', error);
+            return false;
+        }
+        
+        console.log('✅ Referrer found:', referrer.email);
+        
+        // پاداش به معرف سطح ۱
+        const level1Reward = 5000;
+        
+        // آپدیت موجودی معرف سطح ۱
+        const { error: updateError } = await supabase
+            .from('users')
+            .update({
+                balance: referrer.balance + level1Reward,
+                referral_earnings: (referrer.referral_earnings || 0) + level1Reward,
+                total_referrals: (referrer.total_referrals || 0) + 1,
+                updated_at: new Date()
+            })
+            .eq('id', referrer.id);
+        
+        if (updateError) {
+            console.error('❌ Error updating referrer:', updateError);
+            return false;
+        }
+        
+        console.log('💰 Level 1 reward added:', level1Reward);
+        
+        // ذخیره رکورد رفرال سطح ۱
+        const { error: insertError1 } = await supabase
+            .from('referrals')
+            .insert({
+                referrer_id: referrer.id,
+                referred_user_id: newUserId,
+                referral_code: referralCode.trim(),
+                level: 1,
+                points_awarded: level1Reward
+            });
+        
+        if (insertError1) {
+            console.error('❌ Error saving referral level 1:', insertError1);
+        } else {
+            console.log('✅ Level 1 referral saved');
+        }
+        
+        // یافتن معرف سطح ۲ (معرفِ معرف)
+        if (referrer.referred_by) {
+            console.log('🔍 Looking for level 2 referrer:', referrer.referred_by);
+            
+            const { data: referrer2, error: error2 } = await supabase
+                .from('users')
+                .select('*')
+                .eq('referral_code', referrer.referred_by.trim())
+                .single();
+            
+            if (!error2 && referrer2) {
+                console.log('✅ Level 2 referrer found:', referrer2.email);
                 
-                if (error || !referrer) {
-                    console.log('Referrer not found or invalid code');
-                    return;
-                }
+                // پاداش به معرف سطح ۲
+                const level2Reward = 2500;
                 
-                // پاداش به معرف سطح ۱
-                const level1Reward = 5000;
-                const newBalance1 = referrer.balance + level1Reward;
-                const newReferralEarnings1 = (referrer.referral_earnings || 0) + level1Reward;
-                const newTotalReferrals1 = (referrer.total_referrals || 0) + 1;
-                
+                // آپدیت موجودی معرف سطح ۲
                 await supabase
                     .from('users')
                     .update({
-                        balance: newBalance1,
-                        referral_earnings: newReferralEarnings1,
-                        total_referrals: newTotalReferrals1
+                        balance: referrer2.balance + level2Reward,
+                        referral_earnings: (referrer2.referral_earnings || 0) + level2Reward,
+                        total_referrals: (referrer2.total_referrals || 0) + 1,
+                        updated_at: new Date()
                     })
-                    .eq('id', referrer.id);
+                    .eq('id', referrer2.id);
                 
-                // ذخیره رکورد رفرال سطح ۱
+                console.log('💰 Level 2 reward added:', level2Reward);
+                
+                // ذخیره رکورد رفرال سطح ۲
                 await supabase
                     .from('referrals')
                     .insert({
-                        referrer_id: referrer.id,
+                        referrer_id: referrer2.id,
                         referred_user_id: newUserId,
-                        referral_code: referralCode,
-                        level: 1,
-                        points_awarded: level1Reward
+                        referral_code: referrer.referred_by.trim(),
+                        level: 2,
+                        points_awarded: level2Reward
                     });
                 
-                // یافتن معرف سطح ۲ (معرفِ معرف)
-                if (referrer.referred_by) {
-                    const { data: referrer2, error: error2 } = await supabase
-                        .from('users')
-                        .select('*')
-                        .eq('referral_code', referrer.referred_by)
-                        .single();
-                    
-                    if (!error2 && referrer2) {
-                        // پاداش به معرف سطح ۲
-                        const level2Reward = 2500;
-                        const newBalance2 = referrer2.balance + level2Reward;
-                        const newReferralEarnings2 = (referrer2.referral_earnings || 0) + level2Reward;
-                        const newTotalReferrals2 = (referrer2.total_referrals || 0) + 1;
-                        
-                        await supabase
-                            .from('users')
-                            .update({
-                                balance: newBalance2,
-                                referral_earnings: newReferralEarnings2,
-                                total_referrals: newTotalReferrals2
-                            })
-                            .eq('id', referrer2.id);
-                        
-                        // ذخیره رکورد رفرال سطح ۲
-                        await supabase
-                            .from('referrals')
-                            .insert({
-                                referrer_id: referrer2.id,
-                                referred_user_id: newUserId,
-                                referral_code: referrer.referred_by,
-                                level: 2,
-                                points_awarded: level2Reward
-                            });
-                    }
-                }
-                
-                console.log('Referral points awarded successfully');
-                
-            } catch (error) {
-                console.error('Error awarding referral points:', error);
+                console.log('✅ Level 2 referral saved');
+            } else {
+                console.log('⚠️ No level 2 referrer found');
             }
+        } else {
+            console.log('⚠️ Referrer has no referred_by field');
         }
+        
+        // آپدیت کاربر جدید برای ذخیره کد معرف
+        await supabase
+            .from('users')
+            .update({
+                referred_by: referralCode.trim(),
+                updated_at: new Date()
+            })
+            .eq('id', newUserId);
+        
+        console.log('✅ New user updated with referral code');
+        
+        return true;
+        
+    } catch (error) {
+        console.error('❌ Error in awardReferralPoints:', error);
+        return false;
+    }
+}
 
         // ==================== سیستم تبدیل ارز ====================
 
@@ -2948,79 +2988,99 @@
             initGame();
         }
 
-        // سیستم احراز هویت
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const referralCode = document.getElementById('referralCode').value;
-            const button = document.getElementById('registerBtn');
-            
-            setLoading(button, true);
-            
-            try {
-                // ثبت نام کاربر
-                const { data: authData, error: authError } = await supabase.auth.signUp({
-                    email: email,
-                    password: password
-                });
-                
-                if (authError) {
-                    if (authError.message.includes('already registered')) {
-                        showMessage('این ایمیل قبلاً ثبت شده است', 'error');
-                    } else {
-                        showMessage('خطا در ثبت نام: ' + authError.message, 'error');
-                    }
-                    setLoading(button, false);
-                    return;
-                }
-                
-                // ایجاد پروفایل کاربر
-                const { data: user, error: profileError } = await supabase
-                    .from('users')
-                    .insert([
-                        {
-                            id: authData.user.id,
-                            email: email,
-                            balance: 0,
-                            usdt_balance: 0,
-                            level: 0,
-                            total_mined: 0,
-                            referral_earnings: 0,
-                            total_referrals: 0,
-                            referred_by: referralCode || null
-                        }
-                    ])
-                    .select()
-                    .single();
-                
-                if (profileError) throw profileError;
-                
-                // اگر کد معرف وارد شده، پرداخت پاداش
-                if (referralCode && referralCode.trim() !== '') {
-                    await awardReferralPoints(referralCode, authData.user.id);
-                }
-                
-                showMessage('ثبت نام با موفقیت انجام شد!', 'success');
-                
-                // لاگین خودکار
-                const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
-                
-                if (!loginError) {
-                    await loadUserProfile(loginData.user.id);
-                }
-                
-            } catch (error) {
-                console.error('Registration error:', error);
-                showMessage('خطا در ثبت نام. لطفاً دوباره تلاش کنید.', 'error');
-            }
-            
-            setLoading(button, false);
+    e.preventDefault();
+    
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+    const referralCode = document.getElementById('referralCode').value;
+    const button = document.getElementById('registerBtn');
+    
+    setLoading(button, true);
+    
+    try {
+        console.log('🚀 Starting registration...');
+        
+        // ثبت نام کاربر
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+            email: email,
+            password: password
         });
+        
+        if (authError) {
+            console.error('❌ Auth error:', authError);
+            if (authError.message.includes('already registered')) {
+                showMessage('این ایمیل قبلاً ثبت شده است', 'error');
+            } else {
+                showMessage('خطا در ثبت نام: ' + authError.message, 'error');
+            }
+            setLoading(button, false);
+            return;
+        }
+        
+        console.log('✅ User created in auth:', authData.user.id);
+        
+        // ایجاد پروفایل کاربر
+        const { data: user, error: profileError } = await supabase
+            .from('users')
+            .insert([
+                {
+                    id: authData.user.id,
+                    email: email,
+                    balance: 0,
+                    usdt_balance: 0,
+                    level: 0,
+                    total_mined: 0,
+                    referral_earnings: 0,
+                    total_referrals: 0,
+                    referred_by: referralCode || null
+                }
+            ])
+            .select()
+            .single();
+        
+        if (profileError) {
+            console.error('❌ Profile error:', profileError);
+            throw profileError;
+        }
+        
+        console.log('✅ User profile created');
+        
+        // اگر کد معرف وارد شده، پرداخت پاداش
+        if (referralCode && referralCode.trim() !== '') {
+            console.log('🎯 Processing referral code:', referralCode);
+            const success = await awardReferralPoints(referralCode, authData.user.id);
+            if (success) {
+                console.log('✅ Referral points awarded successfully');
+            } else {
+                console.log('⚠️ Referral points not awarded');
+            }
+        } else {
+            console.log('ℹ️ No referral code provided');
+        }
+        
+        showMessage('ثبت نام با موفقیت انجام شد!', 'success');
+        console.log('🎉 Registration completed successfully');
+        
+        // لاگین خودکار
+        setTimeout(async () => {
+            const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+            
+            if (!loginError) {
+                await loadUserProfile(loginData.user.id);
+            }
+        }, 1000);
+        
+    } catch (error) {
+        console.error('❌ Registration error:', error);
+        showMessage('خطا در ثبت نام. لطفاً دوباره تلاش کنید.', 'error');
+    }
+    
+    setLoading(button, false);
+});
 
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
