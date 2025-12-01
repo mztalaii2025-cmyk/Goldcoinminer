@@ -2989,6 +2989,24 @@ if (referralCode && referralCode.trim() !== '') {
     setLoading(button, false);
 });
 
+// بعد از ثبت‌نام موفق
+setTimeout(async () => {
+    const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
+    
+    if (!loginError) {
+        await loadUserProfile(loginData.user.id);
+        
+        // رفرش اطلاعات زیرمجموعه
+        setTimeout(() => {
+            loadReferralInfo();
+            updateUI();
+        }, 1000);
+    }
+}, 1000);
+
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
