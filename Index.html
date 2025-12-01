@@ -6,6 +6,7 @@
     <title>معدن‌چی طلا</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
         
@@ -22,6 +23,7 @@
             --warning: #FFD700;
             --danger: #FF4444;
             --usdt-color: #26a17b;
+            --referral-color: #6f42c1;
             --glass: rgba(255, 215, 0, 0.1);
             --glass-border: rgba(255, 215, 0, 0.3);
         }
@@ -387,6 +389,11 @@
             border: 1px solid rgba(38, 161, 123, 0.3);
         }
         
+        .stat.referral {
+            background: rgba(111, 66, 193, 0.1);
+            border: 1px solid rgba(111, 66, 193, 0.3);
+        }
+        
         .stat i {
             color: var(--gold);
             font-size: 0.9rem;
@@ -394,6 +401,10 @@
         
         .stat.usdt i {
             color: var(--usdt-color);
+        }
+        
+        .stat.referral i {
+            color: var(--referral-color);
         }
         
         .rock-value {
@@ -404,6 +415,11 @@
         .usdt-value {
             font-weight: 700;
             color: var(--usdt-color);
+        }
+        
+        .referral-value {
+            font-weight: 700;
+            color: var(--referral-color);
         }
         
         .user-profile-btn {
@@ -433,7 +449,7 @@
             margin: 0 auto;
         }
         
-        /* بخش کوه مرکزی - ارتفاع بزرگتر شده */
+        /* بخش کوه مرکزی */
         .mountain-section {
             background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(18, 18, 18, 0.9) 100%);
             border-radius: 20px;
@@ -766,6 +782,16 @@
             box-shadow: 0 4px 12px rgba(38, 161, 123, 0.35);
         }
         
+        .btn-referral {
+            background: linear-gradient(90deg, var(--referral-color), #5a32a3);
+            color: var(--light);
+        }
+        
+        .btn-referral:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(111, 66, 193, 0.35);
+        }
+        
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
@@ -914,6 +940,223 @@
         .history-date {
             color: var(--gray);
             font-size: 0.8rem;
+        }
+
+        /* بخش زیرمجموعه */
+        .referral-section {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(18, 18, 18, 0.9) 100%);
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.12);
+            display: none;
+        }
+
+        .referral-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .referral-title {
+            font-size: 1.5rem;
+            color: var(--referral-color);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .referral-subtitle {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .referral-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .referral-stat {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        .referral-stat.referral {
+            background: rgba(111, 66, 193, 0.1);
+            border: 1px solid rgba(111, 66, 193, 0.3);
+        }
+
+        .referral-stat-value {
+            font-size: 1.4rem;
+            color: var(--referral-color);
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .referral-stat-label {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        .referral-code-card {
+            background: rgba(111, 66, 193, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid rgba(111, 66, 193, 0.3);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .referral-code-title {
+            color: var(--referral-color);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .referral-code-display {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--referral-color);
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--referral-color);
+            letter-spacing: 5px;
+            margin-bottom: 15px;
+            direction: ltr;
+        }
+
+        .referral-link {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 12px;
+            margin: 15px 0;
+            word-break: break-all;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .referral-benefits {
+            margin-top: 25px;
+        }
+
+        .benefits-title {
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .benefit-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .benefit-icon {
+            font-size: 1.2rem;
+            color: var(--gold);
+        }
+
+        .benefit-name {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .benefit-amount {
+            font-size: 1.3rem;
+            color: var(--success);
+            font-weight: 800;
+            margin: 5px 0;
+        }
+
+        .benefit-desc {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        .referral-history {
+            margin-top: 30px;
+        }
+
+        .referral-history-title {
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .referral-history-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .referral-history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .referral-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .referral-user-avatar {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--referral-color), #5a32a3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .referral-user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .referral-user-email {
+            font-size: 0.85rem;
+            color: var(--light);
+        }
+
+        .referral-user-date {
+            font-size: 0.7rem;
+            color: var(--gray);
+        }
+
+        .referral-reward {
+            color: var(--success);
+            font-weight: 700;
         }
 
         /* بخش سطح‌بندی */
@@ -1367,7 +1610,7 @@
             z-index: 1;
         }
         
-        .step {
+            .step {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -1762,6 +2005,10 @@
                         <i class="fas fa-eye"></i>
                     </button>
                 </div>
+                <div class="form-group">
+                    <label class="form-label">کد معرف (اختیاری)</label>
+                    <input type="text" class="form-input" id="referralCode" placeholder="کد ۶ رقمی معرف" maxlength="6">
+                </div>
                 <button type="submit" class="auth-btn" id="registerBtn">
                     ثبت نام و شروع بازی
                 </button>
@@ -1798,6 +2045,10 @@
                 <div class="stat usdt">
                     <i class="fas fa-coins"></i>
                     <span class="usdt-value" id="usdtBalance">0</span>
+                </div>
+                <div class="stat referral">
+                    <i class="fas fa-users"></i>
+                    <span class="referral-value" id="referralEarnings">0</span>
                 </div>
                 <div class="stat">
                     <i class="fas fa-clock"></i>
@@ -1859,6 +2110,81 @@
                     <h3 class="history-title">تاریخچه تبدیل‌ها</h3>
                     <div class="history-list" id="conversionHistory">
                         <!-- تاریخچه تبدیل‌ها اینجا نمایش داده می‌شود -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- بخش زیرمجموعه -->
+            <section class="referral-section" id="referralSection">
+                <div class="referral-header">
+                    <h2 class="referral-title">سیستم زیرمجموعه</h2>
+                    <p class="referral-subtitle">با دعوت از دوستان خود سکه دریافت کنید</p>
+                </div>
+                
+                <div class="referral-stats">
+                    <div class="referral-stat referral">
+                        <div class="referral-stat-value" id="totalReferrals">0</div>
+                        <div class="referral-stat-label">کل زیرمجموعه‌ها</div>
+                    </div>
+                    <div class="referral-stat">
+                        <div class="referral-stat-value" id="referralEarningsStats">0</div>
+                        <div class="referral-stat-label">سکه دریافتی</div>
+                    </div>
+                    <div class="referral-stat">
+                        <div class="referral-stat-value" id="level1Referrals">0</div>
+                        <div class="referral-stat-label">سطح ۱</div>
+                    </div>
+                    <div class="referral-stat">
+                        <div class="referral-stat-value" id="level2Referrals">0</div>
+                        <div class="referral-stat-label">سطح ۲</div>
+                    </div>
+                </div>
+                
+                <div class="referral-code-card">
+                    <div class="referral-code-title">کد معرف شما</div>
+                    <div class="referral-code-display" id="userReferralCode">000000</div>
+                    <button class="btn btn-referral" onclick="copyReferralCode()" style="width: 100%; padding: 12px;">
+                        <i class="fas fa-copy"></i> کپی کد معرف
+                    </button>
+                    
+                    <div style="margin: 15px 0; text-align: center;">
+                        <div style="color: var(--gray); margin-bottom: 8px;">لینک دعوت شما:</div>
+                        <div class="referral-link" id="referralLink">
+                            <!-- لینک دعوت اینجا نمایش داده می‌شود -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="referral-benefits">
+                    <h3 class="benefits-title">مزایای سیستم زیرمجموعه</h3>
+                    <div class="benefits-list">
+                        <div class="benefit-card">
+                            <div class="benefit-header">
+                                <div class="benefit-icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="benefit-name">سطح ۱ (مستقیم)</div>
+                            </div>
+                            <div class="benefit-amount">+۵,۰۰۰ سکه</div>
+                            <div class="benefit-desc">برای هر کاربری که با کد شما ثبت‌نام کند</div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-header">
+                                <div class="benefit-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="benefit-name">سطح ۲ (غیرمستقیم)</div>
+                            </div>
+                            <div class="benefit-amount">+۲,۵۰۰ سکه</div>
+                            <div class="benefit-desc">برای هر کاربری که زیرمجموعه‌های شما بیاورند</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="referral-history">
+                    <h3 class="referral-history-title">تاریخچه زیرمجموعه‌ها</h3>
+                    <div class="referral-history-list" id="referralHistoryList">
+                        <!-- تاریخچه زیرمجموعه‌ها اینجا نمایش داده می‌شود -->
                     </div>
                 </div>
             </section>
@@ -1997,6 +2323,10 @@
                 <i class="fas fa-exchange-alt"></i>
                 <span>تبدیل ارز</span>
             </div>
+            <div class="nav-item" onclick="showSection('referrals')">
+                <i class="fas fa-users"></i>
+                <span>زیرمجموعه</span>
+            </div>
             <div class="nav-item" onclick="showSection('levels')">
                 <i class="fas fa-chart-line"></i>
                 <span>سطح</span>
@@ -2022,6 +2352,7 @@
         let gameState = {
             rockBalance: 0,
             usdtBalance: 0,
+            referralEarnings: 0,
             activeTimers: 0,
             pendingReward: 0,
             verificationTime: 8,
@@ -2095,6 +2426,209 @@
                 description: '۱۲۰٪ افزایش پاداش'
             }
         ];
+
+        // ==================== سیستم زیرمجموعه ====================
+
+        // بارگذاری اطلاعات زیرمجموعه
+        async function loadReferralInfo() {
+            if (!currentUser) return;
+            
+            try {
+                // بارگذاری آمار زیرمجموعه
+                const { data: referrals, error } = await supabase
+                    .from('referrals')
+                    .select('*')
+                    .eq('referrer_id', currentUser.id);
+                
+                if (error) throw error;
+                
+                // محاسبه آمار
+                const totalReferrals = referrals?.length || 0;
+                const level1Count = referrals?.filter(r => r.level === 1).length || 0;
+                const level2Count = referrals?.filter(r => r.level === 2).length || 0;
+                const totalEarnings = referrals?.reduce((sum, r) => sum + r.points_awarded, 0) || 0;
+                
+                // آپدیت UI
+                document.getElementById('totalReferrals').textContent = totalReferrals;
+                document.getElementById('level1Referrals').textContent = level1Count;
+                document.getElementById('level2Referrals').textContent = level2Count;
+                document.getElementById('referralEarningsStats').textContent = totalEarnings.toLocaleString();
+                document.getElementById('referralEarnings').textContent = totalEarnings.toLocaleString();
+                
+                gameState.referralEarnings = totalEarnings;
+                
+                // بارگذاری کد معرف کاربر
+                const { data: userData, error: userError } = await supabase
+                    .from('users')
+                    .select('referral_code')
+                    .eq('id', currentUser.id)
+                    .single();
+                
+                if (!userError && userData?.referral_code) {
+                    document.getElementById('userReferralCode').textContent = userData.referral_code;
+                    document.getElementById('referralLink').textContent = 
+                        `${window.location.origin}?ref=${userData.referral_code}`;
+                }
+                
+                // بارگذاری تاریخچه زیرمجموعه‌ها
+                await loadReferralHistory();
+                
+            } catch (error) {
+                console.error('Error loading referral info:', error);
+            }
+        }
+
+        // بارگذاری تاریخچه زیرمجموعه‌ها
+        async function loadReferralHistory() {
+            if (!currentUser) return;
+            
+            try {
+                const { data: referrals, error } = await supabase
+                    .from('referrals')
+                    .select(`
+                        *,
+                        referred_user:users!referrals_referred_user_id_fkey(email, created_at)
+                    `)
+                    .eq('referrer_id', currentUser.id)
+                    .order('created_at', { ascending: false })
+                    .limit(10);
+                
+                if (error) throw error;
+                
+                const historyContainer = document.getElementById('referralHistoryList');
+                historyContainer.innerHTML = '';
+                
+                if (!referrals || referrals.length === 0) {
+                    historyContainer.innerHTML = '<div class="referral-history-item" style="justify-content: center; color: var(--gray);">هنوز زیرمجموعه‌ای ندارید</div>';
+                    return;
+                }
+                
+                referrals.forEach(referral => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'referral-history-item';
+                    
+                    const date = new Date(referral.created_at);
+                    const formattedDate = date.toLocaleDateString('fa-IR');
+                    const userEmail = referral.referred_user?.email || 'کاربر حذف شده';
+                    
+                    historyItem.innerHTML = `
+                        <div class="referral-user">
+                            <div class="referral-user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="referral-user-info">
+                                <div class="referral-user-email">${userEmail}</div>
+                                <div class="referral-user-date">${formattedDate} | سطح ${referral.level}</div>
+                            </div>
+                        </div>
+                        <div class="referral-reward">+${referral.points_awarded.toLocaleString()} سکه</div>
+                    `;
+                    
+                    historyContainer.appendChild(historyItem);
+                });
+                
+            } catch (error) {
+                console.error('Error loading referral history:', error);
+            }
+        }
+
+        // کپی کردن کد معرف
+        function copyReferralCode() {
+            const referralCode = document.getElementById('userReferralCode').textContent;
+            const referralLink = `${window.location.origin}?ref=${referralCode}`;
+            
+            navigator.clipboard.writeText(referralLink).then(() => {
+                alert('لینک دعوت با موفقیت کپی شد!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('خطا در کپی کردن لینک');
+            });
+        }
+
+        // پرداخت پاداش زیرمجموعه
+        async function awardReferralPoints(referralCode, newUserId) {
+            try {
+                // یافتن معرف
+                const { data: referrer, error } = await supabase
+                    .from('users')
+                    .select('*')
+                    .eq('referral_code', referralCode)
+                    .single();
+                
+                if (error || !referrer) {
+                    console.log('Referrer not found or invalid code');
+                    return;
+                }
+                
+                // پاداش به معرف سطح ۱
+                const level1Reward = 5000;
+                const newBalance1 = referrer.balance + level1Reward;
+                const newReferralEarnings1 = (referrer.referral_earnings || 0) + level1Reward;
+                const newTotalReferrals1 = (referrer.total_referrals || 0) + 1;
+                
+                await supabase
+                    .from('users')
+                    .update({
+                        balance: newBalance1,
+                        referral_earnings: newReferralEarnings1,
+                        total_referrals: newTotalReferrals1
+                    })
+                    .eq('id', referrer.id);
+                
+                // ذخیره رکورد رفرال سطح ۱
+                await supabase
+                    .from('referrals')
+                    .insert({
+                        referrer_id: referrer.id,
+                        referred_user_id: newUserId,
+                        referral_code: referralCode,
+                        level: 1,
+                        points_awarded: level1Reward
+                    });
+                
+                // یافتن معرف سطح ۲ (معرفِ معرف)
+                if (referrer.referred_by) {
+                    const { data: referrer2, error: error2 } = await supabase
+                        .from('users')
+                        .select('*')
+                        .eq('referral_code', referrer.referred_by)
+                        .single();
+                    
+                    if (!error2 && referrer2) {
+                        // پاداش به معرف سطح ۲
+                        const level2Reward = 2500;
+                        const newBalance2 = referrer2.balance + level2Reward;
+                        const newReferralEarnings2 = (referrer2.referral_earnings || 0) + level2Reward;
+                        const newTotalReferrals2 = (referrer2.total_referrals || 0) + 1;
+                        
+                        await supabase
+                            .from('users')
+                            .update({
+                                balance: newBalance2,
+                                referral_earnings: newReferralEarnings2,
+                                total_referrals: newTotalReferrals2
+                            })
+                            .eq('id', referrer2.id);
+                        
+                        // ذخیره رکورد رفرال سطح ۲
+                        await supabase
+                            .from('referrals')
+                            .insert({
+                                referrer_id: referrer2.id,
+                                referred_user_id: newUserId,
+                                referral_code: referrer.referred_by,
+                                level: 2,
+                                points_awarded: level2Reward
+                            });
+                    }
+                }
+                
+                console.log('Referral points awarded successfully');
+                
+            } catch (error) {
+                console.error('Error awarding referral points:', error);
+            }
+        }
 
         // ==================== سیستم تبدیل ارز ====================
 
@@ -2226,7 +2760,7 @@
             }
         }
 
-        // ==================== بقیه توابع بدون تغییر می‌مونن ====================
+        // ==================== بقیه توابع بدون تغییر ====================
         // [کدهای قبلی مربوط به تایمرها، استخراج، سطح‌بندی و...]
 
         // سیستم مدیریت تایمرها
@@ -2420,11 +2954,13 @@
             
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
+            const referralCode = document.getElementById('referralCode').value;
             const button = document.getElementById('registerBtn');
             
             setLoading(button, true);
             
             try {
+                // ثبت نام کاربر
                 const { data: authData, error: authError } = await supabase.auth.signUp({
                     email: email,
                     password: password
@@ -2440,7 +2976,8 @@
                     return;
                 }
                 
-                const { error: profileError } = await supabase
+                // ایجاد پروفایل کاربر
+                const { data: user, error: profileError } = await supabase
                     .from('users')
                     .insert([
                         {
@@ -2449,16 +2986,25 @@
                             balance: 0,
                             usdt_balance: 0,
                             level: 0,
-                            total_mined: 0
+                            total_mined: 0,
+                            referral_earnings: 0,
+                            total_referrals: 0,
+                            referred_by: referralCode || null
                         }
-                    ]);
+                    ])
+                    .select()
+                    .single();
                 
-                if (profileError) {
-                    console.error('Error creating profile:', profileError);
+                if (profileError) throw profileError;
+                
+                // اگر کد معرف وارد شده، پرداخت پاداش
+                if (referralCode && referralCode.trim() !== '') {
+                    await awardReferralPoints(referralCode, authData.user.id);
                 }
                 
                 showMessage('ثبت نام با موفقیت انجام شد!', 'success');
                 
+                // لاگین خودکار
                 const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
                     email: email,
                     password: password
@@ -2525,7 +3071,9 @@
                                 balance: 0,
                                 usdt_balance: 0,
                                 level: 0,
-                                total_mined: 0
+                                total_mined: 0,
+                                referral_earnings: 0,
+                                total_referrals: 0
                             }
                         ])
                         .select()
@@ -2589,11 +3137,13 @@
             
             gameState.rockBalance = user.balance || 0;
             gameState.usdtBalance = user.usdt_balance || 0;
+            gameState.referralEarnings = user.referral_earnings || 0;
             updateUI();
             updateProfile();
             
             await restoreTimersState();
             loadConversionHistory();
+            loadReferralInfo();
             
             showSection('hammers');
         }
@@ -3008,6 +3558,7 @@
         function updateUI() {
             document.getElementById('rockBalance').textContent = gameState.rockBalance.toLocaleString();
             document.getElementById('usdtBalance').textContent = gameState.usdtBalance.toFixed(8);
+            document.getElementById('referralEarnings').textContent = gameState.referralEarnings.toLocaleString();
             document.getElementById('activeTimers').textContent = gameState.activeTimers;
         }
 
@@ -3086,6 +3637,20 @@
                         item.classList.add('active');
                     }
                 });
+            } else if (section === 'referrals') {
+                if (!currentUser) {
+                    showAuthPage();
+                    return;
+                }
+                document.getElementById('referralSection').style.display = 'block';
+                loadReferralInfo();
+                
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                    if (item.querySelector('i').classList.contains('fa-users')) {
+                        item.classList.add('active');
+                    }
+                });
             } else if (section === 'hammers') {
                 document.getElementById('mountainSection').style.display = 'block';
                 document.getElementById('hammersSection').style.display = 'block';
@@ -3122,6 +3687,7 @@
         function hideAllSections() {
             document.getElementById('profileSection').style.display = 'none';
             document.getElementById('conversionSection').style.display = 'none';
+            document.getElementById('referralSection').style.display = 'none';
             document.getElementById('mountainSection').style.display = 'none';
             document.getElementById('hammersSection').style.display = 'none';
             document.getElementById('levelsSection').style.display = 'none';
@@ -3214,4 +3780,4 @@
         });
     </script>
 </body>
-</html>
+    </html>
