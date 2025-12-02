@@ -3513,38 +3513,64 @@ if (referralCode) {
 
         // ==================== سیستم تأیید چندمرحله‌ای ====================
         function startVerification(reward) {
-            gameState.pendingReward = reward;
-            gameState.verificationTime = 8;
-            gameState.currentStep = 0;
-            
-            document.getElementById('verificationReward').textContent = `+${reward} GOLD`;
-            document.getElementById('verificationTimer').textContent = gameState.verificationTime;
-            document.getElementById('verificationBtn').disabled = true;
-            document.getElementById('verificationBtn').textContent = 'در حال تأیید...';
-            
-            resetSteps();
-            updateHashDisplay();
-            
-            gameState.hashInterval = setInterval(updateHashDisplay, 1500);
-            document.getElementById('confirmationGrid').style.display = 'flex';
-            
-            gameState.verificationInterval = setInterval(updateVerification, 10000);
-        }
+    gameState.pendingReward = reward;
+    gameState.verificationTime = 8; // از ۸ شروع کن
+    gameState.currentStep = 0;
+    
+    // ریست نمایش
+    document.getElementById('verificationReward').textContent = `+${reward} GOLD`;
+    document.getElementById('verificationTimer').textContent = gameState.verificationTime;
+    document.getElementById('verificationBtn').disabled = true;
+    document.getElementById('verificationBtn').textContent = 'در حال تأیید...';
+    
+    // ریست مراحل
+    resetSteps();
+    updateHashDisplay();
+    
+    // تایمر هش
+    if (gameState.hashInterval) clearInterval(gameState.hashInterval);
+    gameState.hashInterval = setInterval(updateHashDisplay, 1500);
+    
+    // نمایش صفحه
+    document.getElementById('confirmationGrid').style.display = 'flex';
+    
+    // تایمر اصلی
+    if (gameState.verificationInterval) clearInterval(gameState.verificationInterval);
+    gameState.verificationInterval = setInterval(updateVerification, 1000);
+}
 
         function updateVerification() {
-            gameState.verificationTime--;
-            document.getElementById('verificationTimer').textContent = gameState.verificationTime;
-            
-            if (gameState.verificationTime === 6) {
-                activateStep(1);
-            } else if (gameState.verificationTime === 3) {
-                activateStep(2);
-            } else if (gameState.verificationTime === 0) {
-                activateStep(3);
-                document.getElementById('verificationBtn').disabled = false;
-                document.getElementById('verificationBtn').textContent = 'برداشت موفق! 🎉';
+    // کاهش زمان
+    gameState.verificationTime = Math.max(0, gameState.verificationTime - 1);
+    
+    // نمایش
+    document.getElementById('verificationTimer').textContent = gameState.verificationTime;
+    
+    // مراحل
+    if (gameState.verificationTime === 6) {
+        activateStep(1);
+    } else if (gameState.verificationTime === 3) {
+        activateStep(2);
+    } else if (gameState.verificationTime === 0) {
+        // متوقف کردن تایمر
+        clearInterval(gameState.verificationInterval);
+        clearInterval(gameState.hashInterval);
+        
+        // فعال کردن مرحله ۳
+        activateStep(3);
+        
+        // فعال کردن دکمه
+        document.getElementById('verificationBtn').disabled = false;
+        document.getElementById('verificationBtn').textContent = 'برداشت موفق! 🎉';
+        
+        // خودکار بسته شود بعد از ۲ ثانیه
+        setTimeout(() => {
+            if (document.getElementById('confirmationGrid').style.display !== 'none') {
+                document.getElementById('confirmationGrid').style.display = 'none';
             }
-        }
+        }, 2000);
+    }
+}
 
         function activateStep(stepNumber) {
             gameState.currentStep = stepNumber;
@@ -3583,16 +3609,25 @@ if (referralCode) {
         }
 
         function completeVerification() {
-            clearInterval(gameState.verificationInterval);
-            clearInterval(gameState.hashInterval);
-            
-            document.getElementById('verificationBtn').disabled = false;
-            document.getElementById('verificationBtn').textContent = 'برداشت موفق! 🎉';
-            
-            setTimeout(() => {
-                document.getElementById('confirmationGrid').style.display = 'none';
-            }, 1500);
-        }
+    // مطمئن شو همه تایمرها متوقف شده
+    clearInterval(gameState.verificationInterval);
+    clearInterval(gameState.hashInterval);
+    
+    // فعال کردن دکمه
+    document.getElementById('verificationBtn').disabled = false;
+    document.getElementById('verificationBtn').textContent = 'برداشت موفق! 🎉';
+    
+    // خودکار بسته شود
+    setTimeout(() => {
+        document.getElementById('confirmationGrid').style.display = 'none';
+        
+        // ریست برای دفعه بعد
+        gameState.verificationTime = 8;
+        gameState.currentStep = 0;
+        document.getElementById('verificationBtn').disabled = true;
+        document.getElementById('verificationBtn').textContent = 'در حال تأیید...';
+    }, 1500);
+}
 
         // ==================== توابع کمکی ====================
         function updateUI() {
