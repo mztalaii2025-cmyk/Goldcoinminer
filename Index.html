@@ -2406,94 +2406,114 @@
 
         // پرداخت پاداش‌های ارجاع
         async function handleReferralRewards(newUserId, referralCode) {
-            try {
-                console.log('پرداخت پاداش‌های ارجاع شروع شد');
-                console.log('کد معرف:', referralCode);
+    try {
+        console.log('پرداخت پاداش‌های ارجاع شروع شد');
+        console.log('کد معرف:', referralCode);
+        
+        // ۱. پیدا کردن معرف اصلی
+        const { data: referrer, error: refError } = await supabase
+            .from('users')
+            .select('id, balance, referral_earnings, total_referrals, referred_by')
+            .eq('referral_code', referralCode)
+            .single();
+            
+        if (refError || !referrer) {
+            console.log('کد معرف معتبر نیست');
+            return;
+        }
+        
+        console.log('معرف اصلی پیدا شد:', referrer.id);
+        
+        // ۲. پرداخت ۵,۰۰۰ سکه به معرف اصلی
+        const newBalance = (referrer.balance || 0) + 5000;
+        const newReferralEarnings = (referrer.referral_earnings || 0) + 5000;
+        const newTotalReferrals = (referrer.total_referrals || 0) + 1;
+        
+        const { error: updateError } = await supabase
+            .from('users')
+            .update({
+                balance: newBalance,
+                referral_earnings: newReferralEarnings,
+                total_referrals: newTotalReferrals,
+                updated_at: new Date()
+            })
+            .eq('id', referrer.id);
+        
+        if (updateError) {
+            console.error('خطا در آپدیت معرف:', updateError);
+            return;
+        }
+        
+        console.log('۵,۰۰۰ سکه به معرف اصلی پرداخت شد');
+        
+        // ۳. ثبت در جدول referrals (سطح ۱)
+        const { error: insertError } = await supabase
+            .from('referrals')
+            .insert({
+                referrer_id: referrer.id,
+                referred_id: newUserId,
+                level: 1,
+                amount: 5000
+            });
+        
+        if (insertError) {
+            console.error('خطا در ثبت ارجاع:', insertError);
+        } else {
+            console.log('در جدول referrals ثبت شد (سطح ۱)');
+        }
+        
+        // ۴. اگر معرف اصلی خودش با کد دیگری ثبت‌نام کرده
+        if (referrer.referred_by) {
+            console.log('جستجوی معرف سطح ۲...');
+            
+            const { data: level2Referrer } = await supabase
+                .from('users')
+                .select('id, balance, referral_earnings')
+                .eq('referral_code', referrer.referred_by)
+                .single();
                 
-                // ۱. پیدا کردن معرف اصلی
-                const { data: referrer, error: refError } = await supabase
-                    .from('users')
-                    .select('id, balance, referral_earnings, total_referrals, referred_by')
-                    .eq('referral_code', referralCode)
-                    .single();
-                    
-                if (refError || !referrer) {
-                    console.log('کد معرف معتبر نیست');
-                    return;
-                }
+            if (level2Referrer) {
+                console.log('معرف سطح ۲ پیدا شد:', level2Referrer.id);
                 
-                console.log('معرف اصلی پیدا شد:', referrer.id);
+                // پرداخت ۲,۵۰۰ سکه به معرف سطح ۲
+                const level2NewBalance = (level2Referrer.balance || 0) + 2500;
+                const level2NewEarnings = (level2Referrer.referral_earnings || 0) + 2500;
                 
-                // ۲. پرداخت ۵,۰۰۰ سکه به معرف اصلی
-                await supabase
+                const { error: level2UpdateError } = await supabase
                     .from('users')
                     .update({
-                        balance: referrer.balance + 5000,
-                        referral_earnings: referrer.referral_earnings + 5000,
-                        total_referrals: referrer.total_referrals + 1,
+                        balance: level2NewBalance,
+                        referral_earnings: level2NewEarnings,
                         updated_at: new Date()
                     })
-                    .eq('id', referrer.id);
+                    .eq('id', level2Referrer.id);
                 
-                console.log('۵,۰۰۰ سکه به معرف اصلی پرداخت شد');
+                if (level2UpdateError) {
+                    console.error('خطا در آپدیت معرف سطح ۲:', level2UpdateError);
+                } else {
+                    console.log('۲,۵۰۰ سکه به معرف سطح ۲ پرداخت شد');
+                }
                 
-                // ۳. ثبت در جدول referrals (سطح ۱)
+                // ثبت در جدول referrals (سطح ۲)
                 await supabase
                     .from('referrals')
                     .insert({
-                        referrer_id: referrer.id,
+                        referrer_id: level2Referrer.id,
                         referred_id: newUserId,
-                        level: 1,
-                        amount: 5000
+                        level: 2,
+                        amount: 2500
                     });
                 
-                console.log('در جدول referrals ثبت شد (سطح ۱)');
-                
-                // ۴. اگر معرف اصلی خودش با کد دیگری ثبت‌نام کرده
-                if (referrer.referred_by) {
-                    console.log('جستجوی معرف سطح ۲...');
-                    
-                    const { data: level2Referrer } = await supabase
-                        .from('users')
-                        .select('id, balance, referral_earnings')
-                        .eq('referral_code', referrer.referred_by)
-                        .single();
-                        
-                    if (level2Referrer) {
-                        console.log('معرف سطح ۲ پیدا شد:', level2Referrer.id);
-                        
-                        // پرداخت ۲,۵۰۰ سکه به معرف سطح ۲
-                        await supabase
-                            .from('users')
-                            .update({
-                                balance: level2Referrer.balance + 2500,
-                                referral_earnings: level2Referrer.referral_earnings + 2500,
-                                updated_at: new Date()
-                            })
-                            .eq('id', level2Referrer.id);
-                        
-                        console.log('۲,۵۰۰ سکه به معرف سطح ۲ پرداخت شد');
-                        
-                        // ثبت در جدول referrals (سطح ۲)
-                        await supabase
-                            .from('referrals')
-                            .insert({
-                                referrer_id: level2Referrer.id,
-                                referred_id: newUserId,
-                                level: 2,
-                                amount: 2500
-                            });
-                        
-                        console.log('در جدول referrals ثبت شد (سطح ۲)');
-                    }
-                }
-                
-                console.log('پرداخت پاداش‌های ارجاع با موفقیت انجام شد');
-                
-            } catch (error) {
-                console.error('خطا در پرداخت پاداش‌های ارجاع:', error);
+                console.log('در جدول referrals ثبت شد (سطح ۲)');
             }
         }
+        
+        console.log('پرداخت پاداش‌های ارجاع با موفقیت انجام شد');
+        
+    } catch (error) {
+        console.error('خطا در پرداخت پاداش‌های ارجاع:', error);
+    }
+}
 
         // بارگذاری اطلاعات ارجاع کاربر
         async function loadReferralInfo() {
