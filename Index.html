@@ -2556,46 +2556,93 @@ async function guaranteedReferral(referrerCode, referredEmail) {
         // ۲. تاریخچه ارجاعات
         const { data: referrals, error } = await supabase
             .from('referrals')
-            .select(`
-                *,
-                referred_user:referred_id(email),
-                referrer_user:referrer_id(email)
-            `)
+            .select('*, users!referrals_referred_id_fkey(email)')
             .eq('referrer_id', currentUser.id)
             .order('created_at', { ascending: false });
         
-        if (error) throw error;
-        
-        const referralsList = document.getElementById('referralsList');
-        referralsList.innerHTML = '';
-        
-        if (!referrals || referrals.length === 0) {
-            referralsList.innerHTML = '<div class="referral-item">هنوز کسی رو دعوت نکردی</div>';
+        if (error) {
+            console.error('خطا در دریافت ارجاعات:', error);
+            
+            // روش جایگزین ساده
+            const { data: simpleRefs } = await supabase
+                .from('referrals')
+                .select('*')
+                .eq('referrer_id', currentUser.id)
+                .order('created_at', { ascending: false });
+            
+            displayReferralsSimple(simpleRefs);
             return;
         }
         
-        referrals.forEach(ref => {
-            const referralItem = document.createElement('div');
-            referralItem.className = 'referral-item';
-            
-            const email = ref.referred_user?.email || 'کاربر ناشناس';
-            const maskedEmail = email.split('@')[0].slice(0, 3) + '***@' + email.split('@')[1];
-            const date = new Date(ref.created_at).toLocaleDateString('fa-IR');
-            
-            referralItem.innerHTML = `
-                <div>
-                    <div class="referral-email">${maskedEmail}</div>
-                    <div class="referral-date">${date} - سطح ${ref.level}</div>
-                </div>
-                <span class="referral-reward">+${ref.amount} سکه</span>
-            `;
-            
-            referralsList.appendChild(referralItem);
-        });
+        displayReferrals(referrals);
         
     } catch (error) {
         console.error('خطا در بارگذاری اطلاعات ارجاع:', error);
     }
+}
+
+// نمایش ساده
+function displayReferralsSimple(referrals) {
+    const referralsList = document.getElementById('referralsList');
+    referralsList.innerHTML = '';
+    
+    if (!referrals || referrals.length === 0) {
+        referralsList.innerHTML = '<div class="referral-item">هنوز کسی رو دعوت نکردی</div>';
+        return;
+    }
+    
+    referrals.forEach(ref => {
+        const referralItem = document.createElement('div');
+        referralItem.className = 'referral-item';
+        
+        const date = new Date(ref.created_at).toLocaleDateString('fa-IR');
+        const levelText = ref.level === 2 ? 'سطح ۲' : 'سطح ۱';
+        
+        referralItem.innerHTML = `
+            <div>
+                <div class="referral-email">کاربر دعوت شده</div>
+                <div class="referral-date">${date} - ${levelText}</div>
+            </div>
+            <span class="referral-reward">+${ref.amount} سکه</span>
+        `;
+        
+        referralsList.appendChild(referralItem);
+    });
+}
+
+// نمایش با ایمیل
+function displayReferrals(referrals) {
+    const referralsList = document.getElementById('referralsList');
+    referralsList.innerHTML = '';
+    
+    if (!referrals || referrals.length === 0) {
+        referralsList.innerHTML = '<div class="referral-item">هنوز کسی رو دعوت نکردی</div>';
+        return;
+    }
+    
+    referrals.forEach(ref => {
+        const referralItem = document.createElement('div');
+        referralItem.className = 'referral-item';
+        
+        // ایمیل کاربر دعوت شده
+        const userEmail = ref.users?.email || 'کاربر دعوت شده';
+        const maskedEmail = userEmail.includes('@') 
+            ? userEmail.split('@')[0].slice(0, 3) + '***@' + userEmail.split('@')[1]
+            : userEmail;
+        
+        const date = new Date(ref.created_at).toLocaleDateString('fa-IR');
+        const levelText = ref.level === 2 ? 'سطح ۲' : 'سطح ۱';
+        
+        referralItem.innerHTML = `
+            <div>
+                <div class="referral-email">${maskedEmail}</div>
+                <div class="referral-date">${date} - ${levelText}</div>
+            </div>
+            <span class="referral-reward">+${ref.amount} سکه</span>
+        `;
+        
+        referralsList.appendChild(referralItem);
+    });
 }
 
         // کپی کد معرف
@@ -3813,4 +3860,4 @@ if (referralCode) {
         });
     </script>
 </body>
-    </html>
+</html>
