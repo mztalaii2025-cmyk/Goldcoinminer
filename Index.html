@@ -2271,7 +2271,7 @@
                 </div>
                 
                 <div class="verification-timer" id="verificationTimer">8</div>
-                <div class="verification-reward" id="verificationReward">+1000 GOLD</div>
+                <div class="verification-reward" id="verificationReward">+10000 GOLD</div>
                 
                 <button class="verification-btn" id="verificationBtn" onclick="completeVerification()" disabled>
                     در حال تأیید...
@@ -2548,55 +2548,139 @@ async function guaranteedReferral(referrerCode, referredEmail) {
         async function loadReferralInfo() {
     if (!currentUser) return;
     
-    // کد و درآمد
-    document.getElementById('myReferralCode').textContent = currentUser.referral_code || '---';
-    document.getElementById('myReferralEarnings').textContent = currentUser.referral_earnings || 0;
-    
-    // ۱. گرفتن ارجاعات
-    const { data: referrals } = await supabase
-        .from('referrals')
-        .select('*')
-        .eq('referrer_id', currentUser.id)
-        .order('created_at', { ascending: false });
-    
-    if (!referrals?.length) {
-        document.getElementById('referralsList').innerHTML = '<div class="referral-item">هنوز کسی رو دعوت نکردی</div>';
-        return;
+    try {
+        // ۱. کد و درآمد
+        document.getElementById('myReferralCode').textContent = currentUser.referral_code || '---';
+        document.getElementById('myReferralEarnings').textContent = currentUser.referral_earnings || 0;
+        
+        // ۲. گرفتن ارجاعات
+        const { data: referrals, error: refError } = await supabase
+            .from('referrals')
+            .select('id, referred_id, level, amount, created_at')
+            .eq('referrer_id', currentUser.id)
+            .order('created_at', { ascending: false });
+        
+        if (refError) {
+            console.error('خطا در گرفتن ارجاعات:', refError);
+            return;
+        }
+        
+        if (!referrals || referrals.length === 0) {
+            document.getElementById('referralsList').innerHTML = 
+                '<div class="referral-item">هنوز کسی رو دعوت نکردی</div>';
+            return;
+        }
+        
+        // ۳. گرفتن ایمیل کاربران دعوت شده
+        const userIds = referrals.map(r => r.referred_id);
+        
+        const { data: users, error: userError } = await supabase
+            .from('users')
+            .select('id, email')
+            .in('id', userIds);
+        
+        if (userError) {
+            console.error('خطا در گرفتن کاربران:', userError);
+            return;
+        }
+        
+        // ۴. ایجاد مپ از ID به ایمیل
+        const emailMap = {};
+        if (users) {
+            users.forEach(user => {
+                emailMap[user.id] = user.email;
+            });
+        }
+        
+        // ۵. نمایش
+        displayReferralsList(referrals, emailMap);
+        
+    } catch (error) {
+        console.error('خطای کلی:', error);
     }
-    
-    // ۲. گرفتن ایمیل کاربران
-    const userIds = referrals.map(r => r.referred_id);
-    
-    const { data: users } = await supabase
-        .from('users')
-        .select('id, email')
-        .in('id', userIds);
-    
-    // ۳. نمایش
+}
+
+// نمایش لیست
+function displayReferralsList(referrals, emailMap) {
     const referralsList = document.getElementById('referralsList');
     referralsList.innerHTML = '';
     
-    const emailMap = {};
-    users?.forEach(u => emailMap[u.id] = u.email);
-    
     referrals.forEach(ref => {
-        const email = emailMap[ref.referred_id] || 'کاربر دعوت شده';
-        const masked = email.includes('@') 
-            ? email.split('@')[0].substring(0, 3) + '***@' + email.split('@')[1]
-            : email;
+        // ایمیل کاربر دعوت شده
+        let userEmail = emailMap[ref.referred_id];
         
+        // اگر ایمیل پیدا نشد
+        if (!userEmail) {
+            // کوئری جدا برای این کاربر خاص
+            fetchUserEmail(ref.referred_id).then(email => {
+                if (email) {
+                    updateReferralItem(ref, email);
+                }
+            });
+            userEmail = 'در حال دریافت...';
+        }
+        
+        // مخفی کردن ایمیل
+        const maskedEmail = maskEmail(userEmail);
         const date = new Date(ref.created_at).toLocaleDateString('fa-IR');
+        const levelText = `سطح ${ref.level}`;
         
-        referralsList.innerHTML += `
-            <div class="referral-item">
-                <div>
-                    <div class="referral-email">${masked}</div>
-                    <div class="referral-date">${date} - سطح ${ref.level}</div>
-                </div>
-                <span class="referral-reward">+${ref.amount} سکه</span>
+        const referralItem = document.createElement('div');
+        referralItem.className = 'referral-item';
+        referralItem.id = `ref-${ref.id}`;
+        
+        referralItem.innerHTML = `
+            <div>
+                <div class="referral-email">${maskedEmail}</div>
+                <div class="referral-date">${date} - ${levelText}</div>
             </div>
+            <span class="referral-reward">+${ref.amount} سکه</span>
         `;
+        
+        referralsList.appendChild(referralItem);
     });
+}
+
+// گرفتن ایمیل یک کاربر خاص
+async function fetchUserEmail(userId) {
+    try {
+        const { data: user } = await supabase
+            .from('users')
+            .select('email')
+            .eq('id', userId)
+            .single();
+        
+        return user?.email || null;
+    } catch (error) {
+        console.error('خطا در گرفتن ایمیل کاربر:', error);
+        return null;
+    }
+}
+
+// آپدیت آیتم بعد از دریافت ایمیل
+function updateReferralItem(ref, email) {
+    const item = document.getElementById(`ref-${ref.id}`);
+    if (item) {
+        const emailElement = item.querySelector('.referral-email');
+        if (emailElement) {
+            emailElement.textContent = maskEmail(email);
+        }
+    }
+}
+
+// مخفی کردن ایمیل
+function maskEmail(email) {
+    if (!email || typeof email !== 'string') return 'کاربر دعوت شده';
+    
+    if (!email.includes('@')) return email;
+    
+    const [username, domain] = email.split('@');
+    
+    if (username.length <= 3) {
+        return `${username}***@${domain}`;
+    }
+    
+    return `${username.substring(0, 3)}***@${domain}`;
 }
 
         // کپی کد معرف
@@ -3814,4 +3898,4 @@ if (referralCode) {
         });
     </script>
 </body>
-    </html>
+      </html>
