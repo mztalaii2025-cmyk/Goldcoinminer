@@ -2920,89 +2920,156 @@
 
         // ==================== سیستم احراز هویت ====================
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+    e.preventDefault();
+    
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+    const referralCode = document.getElementById('referralCode').value.trim().toUpperCase();
+    const button = document.getElementById('registerBtn');
+    
+    setLoading(button, true);
+    
+    try {
+        // ۱. ثبت‌نام در Auth
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+            email: email,
+            password: password
+        });
+        
+        if (authError) throw authError;
+        
+        // ۲. تولید کد معرف
+        const userReferralCode = generateReferralCode();
+        
+        // ۳. ابتدا کاربر جدید را ایجاد کن
+        const { data: newUser, error: userError } = await supabase
+            .from('users')
+            .insert({
+                id: authData.user.id,
+                email: email,
+                balance: 10000,
+                referral_code: userReferralCode,
+                referred_by: referralCode || null,
+                level: 0,
+                total_mined: 0,
+                referral_earnings: 0,
+                total_referrals: 0,
+                created_at: new Date(),
+                updated_at: new Date()
+            })
+            .select()
+            .single();
             
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const referralCode = document.getElementById('referralCode').value.trim();
-            const button = document.getElementById('registerBtn');
-            
-            setLoading(button, true);
+        if (userError) throw userError;
+        
+        console.log('✅ کاربر ایجاد شد:', newUser);
+        
+        // ۴. اگر کد معرف داشت، پرداخت پاداش
+        if (referralCode && referralCode.length > 0) {
+            console.log('🚀 پرداخت پاداش برای کد:', referralCode);
             
             try {
-                const { data: authData, error: authError } = await supabase.auth.signUp({
-                    email: email,
-                    password: password
-                });
-                
-                if (authError) {
-                    if (authError.message.includes('already registered')) {
-                        showMessage('این ایمیل قبلاً ثبت شده است', 'error');
-                    } else {
-                        showMessage('خطا در ثبت نام: ' + authError.message, 'error');
-                    }
-                    setLoading(button, false);
-                    return;
-                }
-                
-                // تولید کد معرف برای کاربر جدید
-                const userReferralCode = generateReferralCode();
-                
-                // ایجاد پروفایل کاربر در جدول users
-                const { data: newUser, error: userError } = await supabase
+                // الف: پیدا کردن معرف
+                const { data: referrer, error: findError } = await supabase
                     .from('users')
-                    .insert({
-                        id: authData.user.id,
-                        email: email,
-                        balance: 10000, // ۱۰,۰۰۰ سکه هدیه شروع
-                        referral_code: userReferralCode,
-                        referred_by: referralCode || null,
-                        level: 0,
-                        total_mined: 0,
-                        referral_earnings: 0,
-                        total_referrals: 0
-                    })
-                    .select()
+                    .select('*')
+                    .eq('referral_code', referralCode)
                     .single();
                     
-                if (userError) throw userError;
-                
-                showMessage('ثبت نام با موفقیت انجام شد!', 'success');
-                
-                // اگر کد معرف داشت، پرداخت پاداش‌های ارجاع
-                if (referralCode) {
-                    await handleReferralRewards(authData.user.id, referralCode);
+                if (findError) {
+                    console.error('❌ معرف پیدا نشد:', findError);
+                } else if (referrer) {
+                    console.log('✅ معرف پیدا شد:', referrer.email);
                     
-                    // بارگذاری مجدد کاربر برای دریافت موجودی آپدیت شده
-                    const { data: updatedUser } = await supabase
+                    // ب: پرداخت به معرف اصلی
+                    const { error: updateError } = await supabase
                         .from('users')
-                        .select('*')
-                        .eq('id', authData.user.id)
-                        .single();
+                        .update({
+                            balance: (referrer.balance || 0) + 5000,
+                            referral_earnings: (referrer.referral_earnings || 0) + 5000,
+                            total_referrals: (referrer.total_referrals || 0) + 1
+                        })
+                        .eq('id', referrer.id);
+                        
+                    if (updateError) {
+                        console.error('❌ خطا در آپدیت معرف:', updateError);
+                    } else {
+                        console.log('✅ ۵۰۰۰ سکه به معرف پرداخت شد');
+                    }
                     
-                    if (updatedUser) {
-                        currentUser = updatedUser;
-                        gameState.rockBalance = updatedUser.balance;
+                    // ج: ثبت در جدول referrals
+                    const { error: insertError } = await supabase
+                        .from('referrals')
+                        .insert({
+                            referrer_id: referrer.id,
+                            referred_id: newUser.id,
+                            level: 1,
+                            amount: 5000,
+                            created_at: new Date()
+                        });
+                        
+                    if (insertError) {
+                        console.error('❌ خطا در ثبت ارجاع:', insertError);
+                    } else {
+                        console.log('✅ در جدول referrals ثبت شد');
+                    }
+                    
+                    // د: بررسی معرف سطح ۲
+                    if (referrer.referred_by) {
+                        const { data: level2Referrer } = await supabase
+                            .from('users')
+                            .select('*')
+                            .eq('referral_code', referrer.referred_by)
+                            .single();
+                            
+                        if (level2Referrer) {
+                            // پرداخت به معرف سطح ۲
+                            await supabase
+                                .from('users')
+                                .update({
+                                    balance: (level2Referrer.balance || 0) + 2500,
+                                    referral_earnings: (level2Referrer.referral_earnings || 0) + 2500
+                                })
+                                .eq('id', level2Referrer.id);
+                                
+                            console.log('✅ ۲۵۰۰ سکه به معرف سطح ۲ پرداخت شد');
+                            
+                            // ثبت در جدول referrals
+                            await supabase
+                                .from('referrals')
+                                .insert({
+                                    referrer_id: level2Referrer.id,
+                                    referred_id: newUser.id,
+                                    level: 2,
+                                    amount: 2500,
+                                    created_at: new Date()
+                                });
+                        }
                     }
                 }
-                
-                // ورود خودکار بعد از ثبت‌نام
-                const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
-                
-                if (!loginError) {
-                    await loadUserProfile(loginData.user.id);
-                }
-                
-            } catch (error) {
-                console.error('Registration error:', error);
-                showMessage('خطا در ثبت نام. لطفاً دوباره تلاش کنید.', 'error');
+            } catch (refError) {
+                console.error('❌ خطا در پرداخت پاداش:', refError);
             }
-            
-            setLoading(button, false);
+        }
+        
+        showMessage('ثبت نام با موفقیت انجام شد!', 'success');
+        
+        // ۵. ورود خودکار
+        const { data: loginData } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password
         });
+        
+        hideAuthPage();
+        showGame(newUser);
+        
+    } catch (error) {
+        console.error('❌ خطای کلی:', error);
+        showMessage('خطا در ثبت نام', 'error');
+    }
+    
+    setLoading(button, false);
+});
 
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
