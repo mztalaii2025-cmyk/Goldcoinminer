@@ -2553,36 +2553,34 @@ async function guaranteedReferral(referrerCode, referredEmail) {
         document.getElementById('myReferralCode').textContent = currentUser.referral_code || '---';
         document.getElementById('myReferralEarnings').textContent = currentUser.referral_earnings || 0;
         
-        // ۲. تاریخچه ارجاعات
+        // ۲. تاریخچه ارجاعات - کوئری درست
         const { data: referrals, error } = await supabase
             .from('referrals')
-            .select('*, users!referrals_referred_id_fkey(email)')
+            .select(`
+                *,
+                referred_user:referred_id (
+                    email
+                )
+            `)
             .eq('referrer_id', currentUser.id)
             .order('created_at', { ascending: false });
         
         if (error) {
-            console.error('خطا در دریافت ارجاعات:', error);
-            
-            // روش جایگزین ساده
-            const { data: simpleRefs } = await supabase
-                .from('referrals')
-                .select('*')
-                .eq('referrer_id', currentUser.id)
-                .order('created_at', { ascending: false });
-            
-            displayReferralsSimple(simpleRefs);
+            console.error('خطا در کوئری:', error);
+            // روش جایگزین
+            await loadReferralsAlternative();
             return;
         }
         
-        displayReferrals(referrals);
+        displayReferralsWithEmail(referrals);
         
     } catch (error) {
         console.error('خطا در بارگذاری اطلاعات ارجاع:', error);
     }
 }
 
-// نمایش ساده
-function displayReferralsSimple(referrals) {
+// نمایش با ایمیل واقعی
+function displayReferralsWithEmail(referrals) {
     const referralsList = document.getElementById('referralsList');
     referralsList.innerHTML = '';
     
@@ -2595,12 +2593,23 @@ function displayReferralsSimple(referrals) {
         const referralItem = document.createElement('div');
         referralItem.className = 'referral-item';
         
+        // ایمیل واقعی
+        let userEmail = 'کاربر ناشناس';
+        
+        if (ref.referred_user && Array.isArray(ref.referred_user) && ref.referred_user.length > 0) {
+            userEmail = ref.referred_user[0].email;
+        } else if (ref.referred_user && ref.referred_user.email) {
+            userEmail = ref.referred_user.email;
+        }
+        
+        // مخفی کردن بخشی از ایمیل
+        const maskedEmail = maskEmail(userEmail);
         const date = new Date(ref.created_at).toLocaleDateString('fa-IR');
         const levelText = ref.level === 2 ? 'سطح ۲' : 'سطح ۱';
         
         referralItem.innerHTML = `
             <div>
-                <div class="referral-email">کاربر دعوت شده</div>
+                <div class="referral-email">${maskedEmail}</div>
                 <div class="referral-date">${date} - ${levelText}</div>
             </div>
             <span class="referral-reward">+${ref.amount} سکه</span>
@@ -2610,26 +2619,54 @@ function displayReferralsSimple(referrals) {
     });
 }
 
-// نمایش با ایمیل
-function displayReferrals(referrals) {
+// مخفی کردن ایمیل
+function maskEmail(email) {
+    if (!email || !email.includes('@')) return 'کاربر دعوت شده';
+    
+    const [username, domain] = email.split('@');
+    
+    if (username.length <= 3) {
+        return `${username}***@${domain}`;
+    }
+    
+    return `${username.substring(0, 3)}***@${domain}`;
+}
+
+// روش جایگزین: دو کوئری جدا
+async function loadReferralsAlternative() {
+    // ۱. گرفتن ارجاعات
+    const { data: referrals } = await supabase
+        .from('referrals')
+        .select('*')
+        .eq('referrer_id', currentUser.id)
+        .order('created_at', { ascending: false });
+    
+    if (!referrals || referrals.length === 0) return;
+    
+    // ۲. گرفتن ایمیل کاربران دعوت شده
+    const referredIds = referrals.map(ref => ref.referred_id);
+    
+    const { data: referredUsers } = await supabase
+        .from('users')
+        .select('id, email')
+        .in('id', referredIds);
+    
+    // مپ کردن ایمیل‌ها
+    const emailMap = {};
+    referredUsers?.forEach(user => {
+        emailMap[user.id] = user.email;
+    });
+    
+    // نمایش
     const referralsList = document.getElementById('referralsList');
     referralsList.innerHTML = '';
-    
-    if (!referrals || referrals.length === 0) {
-        referralsList.innerHTML = '<div class="referral-item">هنوز کسی رو دعوت نکردی</div>';
-        return;
-    }
     
     referrals.forEach(ref => {
         const referralItem = document.createElement('div');
         referralItem.className = 'referral-item';
         
-        // ایمیل کاربر دعوت شده
-        const userEmail = ref.users?.email || 'کاربر دعوت شده';
-        const maskedEmail = userEmail.includes('@') 
-            ? userEmail.split('@')[0].slice(0, 3) + '***@' + userEmail.split('@')[1]
-            : userEmail;
-        
+        const userEmail = emailMap[ref.referred_id] || 'کاربر ناشناس';
+        const maskedEmail = maskEmail(userEmail);
         const date = new Date(ref.created_at).toLocaleDateString('fa-IR');
         const levelText = ref.level === 2 ? 'سطح ۲' : 'سطح ۱';
         
@@ -3860,4 +3897,4 @@ if (referralCode) {
         });
     </script>
 </body>
-</html>
+    </html>
