@@ -3528,7 +3528,7 @@ if (referralCode) {
             gameState.hashInterval = setInterval(updateHashDisplay, 1500);
             document.getElementById('confirmationGrid').style.display = 'flex';
             
-            gameState.verificationInterval = setInterval(updateVerification, 1000);
+            gameState.verificationInterval = setInterval(updateVerification, 10000);
         }
 
         function updateVerification() {
