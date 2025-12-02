@@ -2404,78 +2404,32 @@
             return code;
         }
         
-        // 🔥 تابع قطعی برای پرداخت ارجاع
-async function forceAddReferral(newUserEmail, referralCode) {
-    console.log('⚡ forceAddReferral شروع');
+        // 🔥 تابع قطعی با RPC
+async function guaranteedReferral(referrerCode, referredEmail) {
+    console.log('⚔️ guaranteedReferral شروع');
     
     try {
-        // ۱. پیدا کردن کاربر جدید
-        const { data: newUser } = await supabase
-            .from('users')
-            .select('*')
-            .eq('email', newUserEmail)
-            .single();
-        
-        if (!newUser) {
-            console.error('کاربر پیدا نشد');
-            return;
-        }
-        
-        // ۲. پیدا کردن معرف
-        const { data: referrer } = await supabase
-            .from('users')
-            .select('*')
-            .eq('referral_code', referralCode)
-            .single();
-        
-        if (!referrer) {
-            console.error('کد معرف معتبر نیست');
-            return;
-        }
-        
-        console.log('🎯', newUser.email, '→', referrer.email);
-        
-        // ۳. مستقیماً با fetch ارسال کن
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/referrals`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'apikey': SUPABASE_ANON_KEY,
-                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                'Prefer': 'return=representation'
-            },
-            body: JSON.stringify({
-                referrer_id: referrer.id,
-                referred_id: newUser.id,
-                level: 1,
-                amount: 5000,
-                created_at: new Date().toISOString()
-            })
+        const { data, error } = await supabase.rpc('add_referral', {
+            p_referrer_code: referrerCode,
+            p_referred_email: referredEmail
         });
         
-        if (!response.ok) {
-            const error = await response.text();
-            console.error('❌ fetch error:', error);
+        if (error) {
+            console.error('❌ RPC error:', error);
             return;
         }
         
-        const result = await response.json();
-        console.log('✅ referral ثبت شد:', result);
+        console.log('✅ نتیجه:', data);
         
-        // ۴. آپدیت معرف
-        await supabase
-            .from('users')
-            .update({
-                balance: referrer.balance + 5000,
-                referral_earnings: referrer.referral_earnings + 5000,
-                total_referrals: (referrer.total_referrals || 0) + 1
-            })
-            .eq('id', referrer.id);
-        
-        console.log('💰 پاداش پرداخت شد');
+        if (data && data.error) {
+            console.error('خطا از سرور:', data.error);
+        } else if (data && data.success) {
+            console.log('🎉 ارجاع ثبت شد! ID:', data.referral_id);
+            alert(`ارجاع ثبت شد! ${data.amount} سکه به ${data.referrer_email} پرداخت شد.`);
+        }
         
     } catch (err) {
-        console.error('💥 خطا:', err);
+        console.error('💥 خطای جدی:', err);
     }
 }
 
@@ -3050,14 +3004,16 @@ async function forceAddReferral(newUserEmail, referralCode) {
         
         console.log('✅ کاربر ایجاد شد:', newUser);
         
-        // 🔥 پرداخت ارجاع
+        // 🔥 پرداخت قطعی
 if (referralCode) {
-    console.log('🎯 ارجاع فعال');
+    console.log('🎯 استفاده از تابع قطعی');
     
-    // بدون await - مستقیم اجرا شه
-    forceAddReferral(email, referralCode)
-        .then(() => console.log('پرداخت کامل شد'))
-        .catch(err => console.error('خطا:', err));
+    // ۲ ثانیه صبر کن بعد اجرا کن
+    setTimeout(() => {
+        guaranteedReferral(referralCode, email)
+            .then(() => console.log('پرداخت کامل'))
+            .catch(err => console.error('خطا:', err));
+    }, 2000);
 }
         
         // 4. 🔥 **اینجا مهم است** - پرداخت ارجاع
