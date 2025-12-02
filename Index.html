@@ -3063,6 +3063,55 @@ async function handleReferralPayment(newUserId, referralCode) {
         
         console.log('✅ کاربر ایجاد شد:', newUser);
         
+        // در تابع ثبت‌نام، بعد از ایجاد کاربر جدید:
+if (referralCode) {
+    console.log('🔥 شروع پرداخت ارجاع برای کد:', referralCode);
+    
+    // فوری اجرا کن
+    setTimeout(async () => {
+        try {
+            // ۱. پیدا کردن معرف
+            const { data: referrer } = await supabase
+                .from('users')
+                .select('*')
+                .eq('referral_code', referralCode)
+                .single();
+                
+            if (referrer) {
+                console.log('✅ معرف پیدا شد:', referrer.email);
+                
+                // ۲. ثبت referral
+                const { data: refData } = await supabase
+                    .from('referrals')
+                    .insert({
+                        referrer_id: referrer.id,
+                        referred_id: newUser.id,
+                        level: 1,
+                        amount: 5000,
+                        created_at: new Date().toISOString()
+                    })
+                    .select();
+                    
+                console.log('✅ referral ثبت شد:', refData);
+                
+                // ۳. آپدیت معرف
+                await supabase
+                    .from('users')
+                    .update({
+                        balance: referrer.balance + 5000,
+                        referral_earnings: referrer.referral_earnings + 5000,
+                        total_referrals: (referrer.total_referrals || 0) + 1
+                    })
+                    .eq('id', referrer.id);
+                    
+                console.log('💰 پاداش پرداخت شد!');
+            }
+        } catch (err) {
+            console.error('❌ خطا در پرداخت ارجاع:', err);
+        }
+    }, 1000); // ۱ ثانیه تاخیر
+}
+        
         // 4. 🔥 **اینجا مهم است** - پرداخت ارجاع
         if (referralCode && referralCode.length >= 6) {
             console.log('🎯 پرداخت ارجاع فعال برای کد:', referralCode);
