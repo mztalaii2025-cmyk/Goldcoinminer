@@ -2827,6 +2827,265 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
         }
+        
+        /* ==================== سیستم زنگوله نوتیفیکیشن ==================== */
+.notification-bell-container {
+    position: relative;
+    margin-left: -4px;
+    z-index: 2;
+}
+
+.notification-bell {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--gold);
+    font-size: 1.2rem;
+}
+
+.notification-bell:hover {
+    background: rgba(255, 215, 0, 0.2);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.notification-bell.has-unread {
+    animation: bellShake 1s ease infinite;
+}
+
+@keyframes bellShake {
+    0%, 100% { transform: rotate(0deg); }
+    10%, 30%, 50%, 70%, 90% { transform: rotate(-10deg); }
+    20%, 40%, 60%, 80% { transform: rotate(10deg); }
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--danger);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 800;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    border: 2px solid var(--black);
+}
+
+/* پنل نوتیفیکیشن */
+.notification-panel {
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    width: 350px;
+    max-height: 500px;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(20px);
+    border: 2px solid var(--gold);
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(255, 215, 0, 0.2);
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.notification-panel-header {
+    padding: 15px;
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 215, 0, 0.05);
+}
+
+.notification-panel-header h3 {
+    color: var(--gold);
+    font-size: 1.1rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--gray);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.close-btn:hover {
+    color: var(--light);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.notification-panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.notification-panel-footer {
+    padding: 15px;
+    border-top: 1px solid var(--glass-border);
+    text-align: center;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.mark-all-read-btn {
+    background: rgba(0, 200, 81, 0.1);
+    color: var(--success);
+    border: 1px solid var(--success);
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.mark-all-read-btn:hover {
+    background: rgba(0, 200, 81, 0.2);
+    transform: translateY(-2px);
+}
+
+/* آیتم نوتیفیکیشن */
+.notification-item {
+    padding: 12px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border-left: 3px solid var(--gold);
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.notification-item.unread {
+    background: rgba(255, 215, 0, 0.08);
+    border-left: 3px solid var(--warning);
+}
+
+.notification-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(-5px);
+}
+
+.notification-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.notification-title {
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.notification-date {
+    color: var(--gray);
+    font-size: 0.75rem;
+}
+
+.notification-message {
+    color: var(--light);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 5px;
+}
+
+.notification-type {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-top: 5px;
+}
+
+.type-info {
+    background: rgba(255, 215, 0, 0.1);
+    color: var(--warning);
+}
+
+.type-success {
+    background: rgba(0, 200, 81, 0.1);
+    color: var(--success);
+}
+
+.type-warning {
+    background: rgba(255, 140, 0, 0.1);
+    color: #ff8c00;
+}
+
+.type-danger {
+    background: rgba(255, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+.loading-notifications {
+    text-align: center;
+    padding: 30px;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.no-notifications {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.no-notifications i {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    display: block;
+    color: var(--gold);
+}
+
+/* برای موبایل */
+@media (max-width: 768px) {
+    .notification-panel {
+        left: 10px;
+        right: 10px;
+        width: auto;
+        top: 65px;
+    }
+    
+    .notification-bell {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+}
 
         /* ریسپانسیو */
         @media (max-width: 768px) {
@@ -3087,6 +3346,28 @@
     </style>
 </head>
 <body>
+  <!-- پنل نوتیفیکیشن -->
+<div class="notification-panel" id="notificationPanel">
+    <div class="notification-panel-header">
+        <h3><i class="fas fa-bell"></i> اطلاعیه‌ها</h3>
+        <button class="close-btn" onclick="toggleNotificationPanel()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <div class="notification-panel-body" id="notificationPanelBody">
+        <!-- نوتیفیکیشن‌ها اینجا لود می‌شوند -->
+        <div class="loading-notifications">
+            <i class="fas fa-spinner fa-spin"></i> در حال بارگذاری اطلاعیه‌ها...
+        </div>
+    </div>
+    
+    <div class="notification-panel-footer">
+        <button class="mark-all-read-btn" onclick="markAllNotificationsAsRead()">
+            <i class="fas fa-check-double"></i> علامت‌گذاری همه به عنوان خوانده شده
+        </button>
+    </div>
+</div>
     <!-- سیستم نوتیفیکیشن -->
     <div class="notification-container" id="notificationContainer"></div>
 
@@ -3098,7 +3379,7 @@
             </div>
             <h2 class="limit-title">⚠️ دسترسی محدود شده!</h2>
             <p class="limit-message">
-                شما به سقف استخراج کاربر عادی (۳ میلیون سکه) رسیده‌اید.<br>
+                شما به سقف استخراج کاربر عادی (۵ میلیون سکه) رسیده‌اید.<br>
                 برای ادامه استخراج باید یکی از پلن‌های VIP را خریداری کنید.
             </p>
             <button class="btn btn-gold" onclick="showSection('vip')" style="padding: 15px 30px; font-size: 1.1rem;">
@@ -3263,7 +3544,7 @@
                     <i class="fas fa-mountain"></i>
                 </div>
                 <h1 class="auth-title">معدن‌چی طلا</h1>
-                <p class="auth-subtitle">برای شروع بازی ثبت نام کنید</p>
+                <p class="auth-subtitle">برای شروع استخراج ثبت نام نمایید</p>
             </div>
             
             <div class="auth-tabs">
@@ -3292,7 +3573,7 @@
                     <input type="text" class="form-input" id="referralCode" placeholder="کد دوستتان را وارد کنید" maxlength="10">
                 </div>
                 <button type="submit" class="auth-btn" id="registerBtn">
-                    ثبت نام و شروع بازی
+                    ثبت نام و شروع استخراج
                 </button>
             </form>
             
@@ -3309,7 +3590,7 @@
                     </button>
                 </div>
                 <button type="submit" class="auth-btn" id="loginBtn">
-                    ورود به بازی
+                    ورود به معدن طلا
                 </button>
             </form>
         </div>
@@ -3337,6 +3618,12 @@
                     <span id="activeTimers">0</span>
                 </div>
             </div>
+            <div class="notification-bell-container">
+        <div class="notification-bell" id="notificationBell" onclick="toggleNotificationPanel()">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge" id="notificationBadge">0</span>
+        </div>
+    </div>
             <div class="user-profile-btn" onclick="showSection('profile')">
                 <i class="fas fa-user"></i>
             </div>
@@ -3420,8 +3707,7 @@
                         
                         <ul class="plan-features">
                             <li><i class="fas fa-check"></i> سقف ۳ میلیون در هر سیکل</li>
-                            <li><i class="fas fa-check"></i> تایمر ۵ دقیقه‌ای</li>
-                            <li><i class="fas fa-check"></i> ریست خودکار سقف</li>
+                            <li><i  class="fas fa-check"></i> ریست خودکار سقف</li>
                             <li><i class="fas fa-check"></i> دائمی و همیشگی</li>
                             <li><i class="fas fa-check"></i> امکان ارتقاء به الماس</li>
                         </ul>
@@ -3445,8 +3731,7 @@
                         
                         <ul class="plan-features">
                             <li><i class="fas fa-check"></i> سقف ۶ میلیون در هر سیکل</li>
-                            <li><i class="fas fa-check"></i> تایمر ۵ دقیقه‌ای</li>
-                            <li><i class="fas fa-check"></i> ریست خودکار سقف</li>
+                            <li><i  class="fas fa-check"></i> ریست خودکار سقف</li>
                             <li><i class="fas fa-check"></i> دائمی و همیشگی</li>
                             <li><i class="fas fa-check"></i> بهترین پلن پیشنهادی</li>
                         </ul>
@@ -3499,8 +3784,8 @@
                     <div id="normalUserStatus">
                         <h4 style="color: var(--gray); margin-bottom: 10px;">🔒 وضعیت فعلی: کاربر عادی</h4>
                         <p style="color: var(--warning); font-size: 0.9rem;">
-                            سقف استخراج شما: ۳,۰۰۰,۰۰۰ سکه (کلی)<br>
-                            <span id="normalUserProgress">۰ از ۳,۰۰۰,۰۰۰ سکه استخراج شده</span>
+                            سقف استخراج شما: 5,000,000 سکه (کلی)<br>
+                            <span id="normalUserProgress">۰ از 5,000,000 سکه استخراج شده</span>
                         </p>
                     </div>
                     <div id="vipUserStatus" style="display: none;">
@@ -3561,7 +3846,7 @@
                     </div>
                     <div class="profile-info">
                         <h3 id="profileEmail"></h3>
-                        <p>بازیکن معدن‌چی طلا</p>
+                        <p> معدن‌چی طلا</p>
                     </div>
                 </div>
                 
@@ -3793,11 +4078,278 @@
     </div>
 
     <script>
-        // ==================== تنظیمات Supabase ====================
-        const SUPABASE_URL = 'https://plqdzjvrmssqddmgowbn.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBscWR6anZybXNzcWRkbWdvd2JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQzNTI2NDUsImV4cCI6MjA3OTkyODY0NX0.PnfyxjvZYyEXOkEVWBR6jOhLJ_tu1aUwQIvFwhcZoDA';
+    // ==================== تنظیمات Supabase ====================
+    const SUPABASE_URL = 'https://plqdzjvrmssqddmgowbn.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBscWR6anZybXNzcWRkbWdvd2JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQzNTI2NDUsImV4cCI6MjA3OTkyODY0NX0.PnfyxjvZYyEXOkEVWBR6jOhLJ_tu1aUwQIvFwhcZoDA';
+    
+    // بررسی اینکه آیا قبلاً تعریف شده یا نه
+    if (typeof window.supabaseClient === 'undefined') {
+        var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        window.supabaseClient = supabase;
+    } else {
+        var supabase = window.supabaseClient;
+    }
+    
+    // ==================== سیستم نوتیفیکیشن زنگوله ====================
+let notificationPanelVisible = false;
+let unreadNotificationsCount = 0;
+
+// تابع برای نمایش/مخفی کردن پنل
+function toggleNotificationPanel() {
+    const panel = document.getElementById('notificationPanel');
+    notificationPanelVisible = !notificationPanelVisible;
+    
+    if (notificationPanelVisible) {
+        panel.style.display = 'flex';
+        loadNotifications();
+        // اگر روی موبایل هستیم، استایل متفاوت
+        if (window.innerWidth <= 768) {
+            panel.style.left = '10px';
+            panel.style.right = '10px';
+            panel.style.width = 'auto';
+        }
+    } else {
+        panel.style.display = 'none';
+    }
+}
+
+// بستن پنل با کلیک خارج
+document.addEventListener('click', function(event) {
+    const panel = document.getElementById('notificationPanel');
+    const bell = document.getElementById('notificationBell');
+    
+    if (panel.style.display === 'flex' && 
+        !panel.contains(event.target) && 
+        !bell.contains(event.target)) {
+        panel.style.display = 'none';
+        notificationPanelVisible = false;
+    }
+});
+
+// بارگذاری نوتیفیکیشن‌ها از دیتابیس
+async function loadNotifications() {
+    if (!currentUser) return;
+    
+    try {
+        const panelBody = document.getElementById('notificationPanelBody');
+        panelBody.innerHTML = '<div class="loading-notifications"><i class="fas fa-spinner fa-spin"></i> در حال بارگذاری اطلاعیه‌ها...</div>';
         
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // دریافت نوتیفیکیشن‌ها
+        const { data: notifications, error } = await supabase
+            .from('notifications')
+            .select('*')
+            .or(`target_user_id.eq.${currentUser.id},target_user_id.is.null`)
+            .order('created_at', { ascending: false })
+            .limit(20);
+        
+        if (error) throw error;
+        
+        // محاسبه تعداد خوانده نشده‌ها
+        unreadNotificationsCount = notifications?.filter(n => !n.is_read).length || 0;
+        updateNotificationBadge();
+        
+        // نمایش نوتیفیکیشن‌ها
+        if (!notifications || notifications.length === 0) {
+            panelBody.innerHTML = `
+                <div class="no-notifications">
+                    <i class="fas fa-bell-slash"></i>
+                    <p>هیچ اطلاعیه‌ای وجود ندارد</p>
+                </div>
+            `;
+            return;
+        }
+        
+        panelBody.innerHTML = '';
+        
+        notifications.forEach(notification => {
+            const notificationItem = document.createElement('div');
+            notificationItem.className = `notification-item ${notification.is_read ? 'read' : 'unread'}`;
+            notificationItem.onclick = () => markNotificationAsRead(notification.id);
+            
+            const date = new Date(notification.created_at);
+            const formattedDate = date.toLocaleDateString('fa-IR');
+            const formattedTime = date.toLocaleTimeString('fa-IR', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            // تعیین نوع و آیکون
+            let typeClass = 'type-info';
+            let icon = 'fas fa-info-circle';
+            
+            switch (notification.type) {
+                case 'success':
+                    typeClass = 'type-success';
+                    icon = 'fas fa-check-circle';
+                    break;
+                case 'warning':
+                    typeClass = 'type-warning';
+                    icon = 'fas fa-exclamation-triangle';
+                    break;
+                case 'danger':
+                    typeClass = 'type-danger';
+                    icon = 'fas fa-exclamation-circle';
+                    break;
+                case 'vip':
+                    typeClass = 'type-info';
+                    icon = 'fas fa-crown';
+                    break;
+                case 'referral':
+                    typeClass = 'type-success';
+                    icon = 'fas fa-users';
+                    break;
+            }
+            
+            notificationItem.innerHTML = `
+                <div class="notification-item-header">
+                    <div class="notification-title">
+                        <i class="${icon}"></i>
+                        ${notification.title}
+                    </div>
+                    <div class="notification-date">${formattedDate} ${formattedTime}</div>
+                </div>
+                <div class="notification-message">${notification.message}</div>
+                <div class="notification-type ${typeClass}">
+                    ${notification.type === 'info' ? 'اطلاعیه' : 
+                      notification.type === 'success' ? 'موفقیت' : 
+                      notification.type === 'warning' ? 'هشدار' : 
+                      notification.type === 'danger' ? 'مهم' : 
+                      notification.type === 'vip' ? 'VIP' : 
+                      notification.type === 'referral' ? 'ارجاع' : 'عمومی'}
+                </div>
+            `;
+            
+            panelBody.appendChild(notificationItem);
+        });
+        
+    } catch (error) {
+        console.error('خطا در بارگذاری نوتیفیکیشن‌ها:', error);
+        document.getElementById('notificationPanelBody').innerHTML = `
+            <div class="no-notifications">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>خطا در بارگذاری اطلاعیه‌ها</p>
+            </div>
+        `;
+    }
+}
+
+// آپدیت بج زنگوله
+function updateNotificationBadge() {
+    const badge = document.getElementById('notificationBadge');
+    const bell = document.getElementById('notificationBell');
+    
+    if (unreadNotificationsCount > 0) {
+        badge.textContent = unreadNotificationsCount > 99 ? '99+' : unreadNotificationsCount;
+        badge.style.display = 'flex';
+        bell.classList.add('has-unread');
+    } else {
+        badge.style.display = 'none';
+        bell.classList.remove('has-unread');
+    }
+}
+
+// علامت‌گذاری به عنوان خوانده شده
+async function markNotificationAsRead(notificationId) {
+    try {
+        const { error } = await supabase
+            .from('notifications')
+            .update({ 
+                is_read: true,
+                read_at: new Date().toISOString()
+            })
+            .eq('id', notificationId);
+        
+        if (error) throw error;
+        
+        // کاهش تعداد خوانده نشده‌ها
+        if (unreadNotificationsCount > 0) {
+            unreadNotificationsCount--;
+            updateNotificationBadge();
+        }
+        
+        // رفرش لیست
+        loadNotifications();
+        
+    } catch (error) {
+        console.error('خطا در علامت‌گذاری نوتیفیکیشن:', error);
+    }
+}
+
+// علامت‌گذاری همه به عنوان خوانده شده
+async function markAllNotificationsAsRead() {
+    if (!currentUser) return;
+    
+    try {
+        const { error } = await supabase
+            .from('notifications')
+            .update({ 
+                is_read: true,
+                read_at: new Date().toISOString()
+            })
+            .eq('target_user_id', currentUser.id)
+            .eq('is_read', false);
+        
+        if (error) throw error;
+        
+        // ریست کردن شمارنده
+        unreadNotificationsCount = 0;
+        updateNotificationBadge();
+        
+        // رفرش لیست
+        loadNotifications();
+        
+        showNotification('موفق', 'همه اطلاعیه‌ها به عنوان خوانده شده علامت‌گذاری شدند', 'success');
+        
+    } catch (error) {
+        console.error('خطا در علامت‌گذاری همه نوتیفیکیشن‌ها:', error);
+        showNotification('خطا', 'خطا در علامت‌گذاری اطلاعیه‌ها', 'error');
+    }
+}
+
+// چک نوتیفیکیشن‌های جدید هر 30 ثانیه
+function startNotificationPolling() {
+    setInterval(async () => {
+        if (currentUser) {
+            await checkNewNotifications();
+        }
+    }, 30000); // هر 30 ثانیه
+}
+
+// چک نوتیفیکیشن‌های جدید
+async function checkNewNotifications() {
+    try {
+        const { data: newNotifications, error } = await supabase
+            .from('notifications')
+            .select('id')
+            .or(`target_user_id.eq.${currentUser.id},target_user_id.is.null`)
+            .eq('is_read', false);
+        
+        if (error) throw error;
+        
+        const newCount = newNotifications?.length || 0;
+        
+        if (newCount > unreadNotificationsCount) {
+            unreadNotificationsCount = newCount;
+            updateNotificationBadge();
+            
+            // اگر پنل باز است، رفرش کن
+            if (notificationPanelVisible) {
+                loadNotifications();
+            }
+        }
+        
+    } catch (error) {
+        console.error('خطا در بررسی نوتیفیکیشن‌های جدید:', error);
+    }
+}
+
+// بارگذاری اولیه نوتیفیکیشن‌ها
+async function loadInitialNotifications() {
+    if (currentUser) {
+        await loadNotifications();
+        startNotificationPolling();
+    }
+}
         
         // ==================== تنظیمات تبدیل ارز ====================
         const CONVERSION_RATE = 0.00001;
@@ -5410,14 +5962,14 @@ async function submitPayment() {
         function shareViaWhatsApp() {
             if (!currentUser) return;
             const code = currentUser.referral_code;
-            const message = `سلام! به بازی معدن‌چی طلا بپیوند و ۱۰,۰۰۰ سکه طلای رایگان بگیر! 🎮💰\n\nکد معرف من: ${code}\n\nلینک بازی: ${window.location.origin}`;
+            const message = `سلام! به شبکه معدن‌چی طلا بپیوند و ۱۰,۰۰۰ سکه طلای رایگان بگیر! 🎮💰\n\nکد معرف من: ${code}\n\nلینک شبکه: ${window.location.origin}`;
             window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
         }
 
         function shareViaTelegram() {
             if (!currentUser) return;
             const code = currentUser.referral_code;
-            const message = `سلام! به بازی معدن‌چی طلا بپیوند و ۱۰,۰۰۰ سکه طلای رایگان بگیر! 🎮💰\n\nکد معرف من: ${code}\n\nلینک بازی: ${window.location.origin}`;
+            const message = `سلام! به شبکه معدن‌چی طلا بپیوند و ۱۰,۰۰۰ سکه طلای رایگان بگیر! 🎮💰\n\nکد معرف من: ${code}\n\nلینک شبکه: ${window.location.origin}`;
             window.open(`https://t.me/share/url?url=${encodeURIComponent(window.location.origin)}&text=${encodeURIComponent(message)}`, '_blank');
         }
 
@@ -5936,7 +6488,8 @@ async function submitPayment() {
     
     showSection('hammers');
     
-    showNotification('خوش آمدید', `${user.email} عزیز به بازی معدن‌چی طلا خوش آمدید!`, 'success');
+    showNotification('خوش آمدید', `${user.email} عزیز به شبکه معدن‌چی طلا خوش آمدید!`, 'success');
+    loadInitialNotifications();
 }
 
         function hideAuthPage() {
@@ -6483,96 +7036,77 @@ async function submitPayment() {
         }
 
         function showSection(section) {
-            hideAllSections();
+    hideAllSections();
+    
+    // بستن مودال محدودیت
+    document.getElementById('limitModal').style.display = 'none';
+    
+    // 🔥 لیست تب‌های نیازمند لاگین
+    const loginRequiredSections = ['vip', 'conversion', 'levels', 'referral', 'profile'];
+    
+    // اگر تب نیاز به لاگین دارد و کاربر لاگین نکرده
+    if (loginRequiredSections.includes(section) && !currentUser) {
+        showAuthPage();
+        return;
+    }
+    
+    // نمایش بخش انتخاب شده
+    switch(section) {
+        case 'vip':
+            document.getElementById('vipSection').style.display = 'block';
+            updateVIPDisplay();
+            break;
             
-            // بستن مودال محدودیت
-            document.getElementById('limitModal').style.display = 'none';
+        case 'profile':
+            document.getElementById('profileSection').style.display = 'block';
+            updateProfile();
+            updateVIPDisplay();
+            break;
             
-            if (section === 'vip') {
-                document.getElementById('vipSection').style.display = 'block';
-                updateVIPDisplay();
-                
-                document.querySelectorAll('.nav-item').forEach(item => {
-                    item.classList.remove('active');
-                    if (item.querySelector('i').classList.contains('fa-crown')) {
-                        item.classList.add('active');
-                    }
-                });
-            } else if (section === 'profile') {
-                if (!currentUser) {
-                    showAuthPage();
-                    return;
-                }
-                document.getElementById('profileSection').style.display = 'block';
-                updateProfile();
-                updateVIPDisplay();
-                
-                document.querySelectorAll('.nav-item').forEach(item => {
-                    item.classList.remove('active');
-                    if (item.querySelector('i').classList.contains('fa-user')) {
-                        item.classList.add('active');
-                    }
-                });
-            } else if (section === 'conversion') {
-                if (!currentUser) {
-                    showAuthPage();
-                    return;
-                }
-                document.getElementById('conversionSection').style.display = 'block';
-                loadConversionHistory();
-                
-                document.querySelectorAll('.nav-item').forEach(item => {
-                    item.classList.remove('active');
-                    if (item.querySelector('i').classList.contains('fa-exchange-alt')) {
-                        item.classList.add('active');
-                    }
-                });
-            } else if (section === 'hammers') {
-                document.getElementById('mountainSection').style.display = 'block';
-                document.getElementById('hammersSection').style.display = 'block';
-                
-                if (!currentUser) {
-                    document.getElementById('guestMessage').style.display = 'block';
-                } else {
-                    document.getElementById('guestMessage').style.display = 'none';
-                }
-                
-                document.querySelectorAll('.nav-item').forEach(item => {
-                    item.classList.remove('active');
-                    if (item.querySelector('i').classList.contains('fa-hammer')) {
-                        item.classList.add('active');
-                    }
-                });
-            } else if (section === 'levels') {
-                if (!currentUser) {
-                    showAuthPage();
-                    return;
-                }
-                document.getElementById('levelsSection').style.display = 'block';
-                updateLevelsDisplay();
-                
-                document.querySelectorAll('.nav-item').forEach(item => {
-                    item.classList.remove('active');
-                    if (item.querySelector('i').classList.contains('fa-chart-line')) {
-                        item.classList.add('active');
-                    }
-                });
-            } else if (section === 'referral') {
-                if (!currentUser) {
-                    showAuthPage();
-                    return;
-                }
-                document.getElementById('referralSection').style.display = 'block';
-                loadReferralInfo();
-                
-                document.querySelectorAll('.nav-item').forEach(item => {
-                    item.classList.remove('active');
-                    if (item.querySelector('i').classList.contains('fa-user-friends')) {
-                        item.classList.add('active');
-                    }
-                });
+        case 'conversion':
+            document.getElementById('conversionSection').style.display = 'block';
+            loadConversionHistory();
+            break;
+            
+        case 'hammers':
+            document.getElementById('mountainSection').style.display = 'block';
+            document.getElementById('hammersSection').style.display = 'block';
+            
+            if (!currentUser) {
+                document.getElementById('guestMessage').style.display = 'block';
+            } else {
+                document.getElementById('guestMessage').style.display = 'none';
             }
+            break;
+            
+        case 'levels':
+            document.getElementById('levelsSection').style.display = 'block';
+            updateLevelsDisplay();
+            break;
+            
+        case 'referral':
+            document.getElementById('referralSection').style.display = 'block';
+            loadReferralInfo();
+            break;
+    }
+    
+    // آپدیت نویگیشن پایین
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        
+        const icon = item.querySelector('i');
+        if (
+            (section === 'vip' && icon.classList.contains('fa-crown')) ||
+            (section === 'conversion' && icon.classList.contains('fa-exchange-alt')) ||
+            (section === 'hammers' && icon.classList.contains('fa-hammer')) ||
+            (section === 'levels' && icon.classList.contains('fa-chart-line')) ||
+            (section === 'referral' && icon.classList.contains('fa-user-friends')) ||
+            (section === 'profile' && icon.classList.contains('fa-user'))
+        ) {
+            item.classList.add('active');
         }
+    });
+}
 
         function hideAllSections() {
             document.getElementById('vipSection').style.display = 'none';
@@ -6773,7 +7307,7 @@ async function submitPayment() {
             button.disabled = isLoading;
             button.innerHTML = isLoading ? 
                 '<span class="loading"></span>در حال پردازش...' : 
-                button.id === 'registerBtn' ? 'ثبت نام و شروع بازی' : 'ورود به بازی';
+                button.id === 'registerBtn' ? 'ثبت نام و شروع استخراج' : 'ورود به معدن طلا';
         }
 
         function showMessage(message, type) {
